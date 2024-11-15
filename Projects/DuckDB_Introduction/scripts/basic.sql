@@ -19,3 +19,4 @@ COPY train FROM 'data/train.csv'; -- Using a very basic way
 -- Creating the test dataset for the Kaggle Titanic competition, using duckdb features
 CREATE TABLE test AS
     SELECT * FROM 'data/test.csv';
+
