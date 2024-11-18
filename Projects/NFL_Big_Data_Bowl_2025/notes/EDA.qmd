@@ -1,0 +1,57 @@
+---
+title: "Exploratory Data Analysis - NFL Big Data Bowl 2025"
+format:
+    html:
+        toc: true
+        toc-depth: 3
+        toc-expand: 3
+---
+
+# Initial Exploration: Relationship Between Record (W-L) and Play Data {#sec-init_explore}
+## Goal {#sec-goal}
+I want to run a simple cluster analysis to see if there is a relationship between team records and their mix of plays. I'll need the games table for the teams and game outcomes. I'll also need either the tracking data, player_play data, or both to get a data for what happens each play. I have the following query to sort NFL teams by their W-L record as of Week 9 in 2022 (the year the data is for).
+
+Prior to the larger analysis, I'll do an initial KNN analysis of the tracking data, by creating dummy variables for the teams.
+- One hot encoding did not provide much value, data was overfit when looking at one target variable
+- Next, I'll try a few different kinds of encoding
+  - Binary Encoding
+  - Frequency Encoding
+- For Frequency Encoding, I'm switching to a Linear Regression
+  - Continuous target variables aren't compatible with the KNN model
+
+```{sql}
+WITH game_results AS (
+    SELECT
+        homeTeamAbbr AS team,
+        CASE
+            WHEN homeFinalScore > visitorFinalScore THEN 1
+            ELSE 0
+        END AS win,
+        CASE
+            WHEN homeFinalScore < visitorFinalScore THEN 1
+            ELSE 0
+        END AS loss
+    FROM bronze.games
+    UNION ALL
+    SELECT
+        visitorTeamAbbr AS team,
+        CASE
+            WHEN visitorFinalScore > homeFinalScore THEN 1
+            ELSE 0
+        END AS win,
+        CASE
+            WHEN visitorFinalScore < homeFinalScore THEN 1
+            ELSE 0
+        END AS loss
+    FROM bronze.games
+    )
+    SELECT
+        team,
+        SUM(win) AS total_wins,
+        SUM(loss) AS total_losses
+    FROM game_results
+    GROUP BY team
+    ORDER BY total_wins DESC;
+```
+
+
