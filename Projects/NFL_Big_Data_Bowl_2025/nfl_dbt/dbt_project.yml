@@ -33,5 +33,4 @@ models:
     # Config indicated by + and applies to all files under models/extract/
     extract:
       +schema: bronze
-      +enabled: true
       +materialized: table
