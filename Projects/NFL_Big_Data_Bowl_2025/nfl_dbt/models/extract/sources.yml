@@ -4,39 +4,42 @@ sources:
   - name: nfl_data
     description: "Raw NFL data from CSV files"
     tables:
+      - name: games
+        description: "Games data"
+        path: "../../data/raw/games.csv"
       - name: player_play
         description: "Player play data"
-        path: "nfl_dbt/seeds/player_play.csv"  # Path to the CSV file
+        path: "../../data/raw/player_play.csv"  # Path to the CSV file
       - name: players
         description: "Players data"
-        path: "nfl_dbt/seeds/players.csv"
+        path: "../../data/raw/players.csv"
       - name: plays
         description: "Plays data"
-        path: "nfl_dbt/seeds/plays.csv"
+        path: "../../data/raw/plays.csv"
       - name: tracking_week_1
         description: "Tracking data for week 1"
-        path: "nfl_dbt/seeds/tracking_week_1.csv"
+        path: "../../data/raw/tracking_week_1.csv"
       - name: tracking_week_2
         description: "Tracking data for week 2"
-        path: "nfl_dbt/seeds/tracking_week_2.csv"
+        path: "../../data/raw/tracking_week_2.csv"
       - name: tracking_week_3
         description: "Tracking data for week 3"
-        path: "nfl_dbt/seeds/tracking_week_3.csv"
+        path: "../../data/raw/tracking_week_3.csv"
       - name: tracking_week_4
         description: "Tracking data for week 4"
-        path: "nfl_dbt/seeds/tracking_week_4.csv"
+        path: "../../data/raw/tracking_week_4.csv"
       - name: tracking_week_5
         description: "Tracking data for week 5"
-        path: "nfl_dbt/seeds/tracking_week_5.csv"
+        path: "../../data/raw/tracking_week_5.csv"
       - name: tracking_week_6
         description: "Tracking data for week 6"
-        path: "nfl_dbt/seeds/tracking_week_6.csv"
+        path: "../../data/raw/tracking_week_6.csv"
       - name: tracking_week_7
         description: "Tracking data for week 7"
-        path: "nfl_dbt/seeds/tracking_week_7.csv"
+        path: "../../data/raw/tracking_week_7.csv"
       - name: tracking_week_8
         description: "Tracking data for week 8"
-        path: "nfl_dbt/seeds/tracking_week_8.csv"
+        path: "../../data/raw/tracking_week_8.csv"
       - name: tracking_week_9
         description: "Tracking data for week 9"
-        path: "nfl_dbt/seeds/tracking_week_9.csv"
+        path: "../../data/raw/tracking_week_9.csv"
