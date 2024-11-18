@@ -1,0 +1,1 @@
+SELECT * FROM '../nfl_dbt/seeds/players.csv'

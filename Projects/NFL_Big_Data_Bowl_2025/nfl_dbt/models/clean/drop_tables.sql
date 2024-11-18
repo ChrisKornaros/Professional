@@ -1,0 +1,12 @@
+DROP TABLE player_play; 
+DROP TABLE players;
+DROP TABLE plays;
+DROP TABLE tracking_week_1;
+DROP TABLE tracking_week_2;
+DROP TABLE tracking_week_3;
+DROP TABLE tracking_week_4;
+DROP TABLE tracking_week_5;
+DROP TABLE tracking_week_6;
+DROP TABLE tracking_week_7;
+DROP TABLE tracking_week_8;
+DROP TABLE tracking_week_9;
