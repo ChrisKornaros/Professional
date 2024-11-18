@@ -1,1 +1,1 @@
-SELECT * FROM '../nfl_dbt/seeds/player_play.csv' -- Ensures the file is referenced correctly
+SELECT * FROM '../data/raw/player_play.csv' -- Ensures the file is referenced correctly

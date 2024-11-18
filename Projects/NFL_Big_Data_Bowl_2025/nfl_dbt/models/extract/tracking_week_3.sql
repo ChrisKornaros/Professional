@@ -1,1 +1,1 @@
-SELECT * FROM '../nfl_dbt/seeds/tracking_week_3.csv'
+SELECT * FROM '../data/raw/tracking_week_3.csv'
