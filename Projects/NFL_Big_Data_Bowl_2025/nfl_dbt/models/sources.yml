@@ -1,8 +1,19 @@
 version: 1
 
 sources:
-  - name: nfl_data
+  - name: silver
+    description: "Aggregated NFL data from Bronze tables"
+    database: nfl_data
+    schema: silver
+    tables:
+      - name: agg_play_summary
+        description: "Presnap offensive formation and alignment, play type, outcome event"
+
+
+  - name: bronze
     description: "Raw NFL data from CSV files"
+    database: nfl_data
+    schema: bronze
     tables:
       - name: games
         description: "Games data"
