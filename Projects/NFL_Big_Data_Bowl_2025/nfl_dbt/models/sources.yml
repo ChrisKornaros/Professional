@@ -1,6 +1,14 @@
 version: 1
 
 sources:
+  - name: gold
+    description: "Tables for a specific question or ML model"
+    database: nfl_data
+    schema: gold
+    tables:
+      - name: yards_by_formation
+        description: "Average total yards (rushing + receiving on a play) by offensive formation and receiver alignment"
+
   - name: silver
     description: "Aggregated NFL data from Bronze tables"
     database: nfl_data

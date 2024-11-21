@@ -39,3 +39,7 @@ models:
       +schema: silver
       +materialized: table
 
+    load:
+      +schema: gold
+      +materialized: table
+
