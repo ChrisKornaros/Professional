@@ -1,1 +1,0 @@
-SELECT * FROM '../data/raw/player_play.csv' -- Ensures the file is referenced correctly

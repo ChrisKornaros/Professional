@@ -1,1 +1,0 @@
-SELECT * FROM '../data/raw/tracking_week_5.csv'

@@ -1,5 +1,0 @@
-target/
-dbt_packages/
-logs/
-../data/raw/*.csv
-../.config/nfl.duckdb
