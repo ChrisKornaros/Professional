@@ -2,35 +2,6 @@
 ## LeetCode
 
 ### SQL 50 Study Plan
-#### Problem_Number. Problem Title
-**Description:**
-
-```plaintext
-Example 1:
-
-Example 2:
-
-Example N:
-
-```
-
-**Solution:**
-```sql
--- Code goes here
-
-```
-
-**Explanation:**
-- Explain the solution.
-  - Add details here
-  - Even use `inline code`
-- Add notes for optimizing the code
-  - Time considerations
-  - Memory considerations
-- The underlying principles
-  - Any added details
-  - General algorithm explanations (i.e. Binary search, if applicable)
-
 #### Template
 **Description:**
 
