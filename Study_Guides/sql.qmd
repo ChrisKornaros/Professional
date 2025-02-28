@@ -3165,10 +3165,28 @@ Note that if the number of students is odd, there is no need to change the last 
 
 **Solution:**
 ```sql
-
+-- Write your PostgreSQL query statement below
+SELECT CASE WHEN id % 2 = 1 AND id = (SELECT MAX(id) FROM seat) THEN id
+    WHEN id % 2 = 1 THEN id + 1 ELSE id - 1 END AS id
+    , student
+FROM Seat
+ORDER BY id ASC
 ```
 
 **Explanation:**
+- This query swaps the ID of every two consecutive students using a CASE expression to determine the new ID for each student.
+- The CASE expression handles three scenarios:
+  1. Odd-numbered IDs: Changes to ID+1 (moving the student to the next seat)
+  2. Even-numbered IDs: Changes to ID-1 (moving the student to the previous seat)
+  3. Special case for the last student if total count is odd: Keeps the original ID
+- The condition `id % 2 = 1 AND id = (SELECT MAX(id) FROM Seat)` identifies the last student with an odd ID number.
+- The query preserves the student names while changing only their IDs.
+- Results are ordered by the new ID to maintain the desired output sequence.
+- Time complexity: O(n) where n is the number of students.
+- Space complexity: O(n) for the result set.
+- The solution elegantly handles the seat swapping without requiring complex joins or temporary tables.
+- For large datasets, the subquery to find the maximum ID would benefit from an index on the id column.
+- This approach maintains a single pass through the data while implementing the logical swapping operation.
 
 #### 1341. Movie Rating
 **Description:**
@@ -3268,10 +3286,42 @@ Frozen 2 and Joker have a rating average of 3.5 in February but Frozen 2 is smal
 
 **Solution:**
 ```sql
-
+-- Write your PostgreSQL query statement below
+(SELECT u.name AS results--, COUNT(mr.rating)
+FROM MovieRating mr INNER JOIN Users u
+    ON mr.user_id = u.user_id
+GROUP BY u.name
+ORDER BY COUNT(mr.rating) DESC, u.name ASC
+LIMIT 1)
+UNION ALL
+(SELECT m.title AS results--, AVG(mr.rating)
+FROM MovieRating mr INNER JOIN Movies m
+    ON mr.movie_id = m.movie_id
+WHERE mr.created_at BETWEEN '2020-02-01' AND '2020-02-29'
+GROUP BY m.title
+ORDER BY AVG(mr.rating) DESC, m.title ASC
+LIMIT 1) 
 ```
 
 **Explanation:**
+- This query solves two separate problems and combines their results using UNION ALL:
+  1. Finding the user who has rated the most movies (with lexicographic tie-breaking)
+  2. Finding the movie with the highest average rating in February 2020 (with lexicographic tie-breaking)
+- For the first part:
+  - JOIN the MovieRating and Users tables to get user information
+  - GROUP BY user_id and name to count ratings per user
+  - ORDER BY count (descending) and then by name (ascending) for tie-breaking
+  - LIMIT 1 to get only the top result
+- For the second part:
+  - JOIN the MovieRating and Movies tables to get movie information
+  - Filter for ratings created in February 2020 using the BETWEEN clause
+  - GROUP BY movie_id and title to calculate average rating per movie
+  - ORDER BY average rating (descending) and then by title (ascending) for tie-breaking
+  - LIMIT 1 to get only the top result
+- Time complexity: O(n log n) where n is the number of ratings, due to the sorting operations.
+- Space complexity: O(n) for the intermediate joined results before grouping.
+- UNION ALL is used instead of UNION since we know the results will be distinct and we want to preserve the order.
+- The solution efficiently handles the tie-breaking requirements by incorporating the secondary sort criteria (name, title) in the ORDER BY clauses.
 
 #### 1321. Restaurant Growth
 **Description:**
@@ -3338,10 +3388,32 @@ Explanation:
 
 **Solution:**
 ```sql
-
+-- Write your PostgreSQL query statement below
+SELECT visited_on, SUM(cumount) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS amount, ROUND(SUM(cumount) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)::numeric/7, 2) AS average_amount
+FROM (
+    SELECT visited_on, SUM(amount) AS cumount
+    FROM Customer
+    GROUP BY visited_on
+    ORDER BY visited_on
+)
+OFFSET 6;
 ```
 
 **Explanation:**
+- This query calculates a 7-day moving sum and average of restaurant revenue using window functions.
+- The inner subquery first calculates the total daily revenue by grouping the Customer table by visited_on.
+- The main query then applies window functions to implement the 7-day moving window with `ROWS BETWEEN 6 PRECEDING AND CURRENT ROW`.
+- This window frame includes the current row and 6 rows before it, perfectly creating the 7-day window required.
+- Two window calculations are performed:
+  - `SUM(cumount) OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)` for the 7-day total amount
+  - The same sum divided by 7 and rounded to 2 decimal places for the average amount
+- The `OFFSET 6` clause skips the first 6 days in the result set, since these days don't have enough preceding days to form a complete 7-day window.
+- Time complexity: O(n log n) where n is the number of customer visit records, primarily due to the sorting operation.
+- Space complexity: O(d) where d is the number of unique visited dates.
+- This solution elegantly uses PostgreSQL's window functions, which are optimized for these types of sliding window calculations.
+- Window functions are typically more efficient than self-joins for moving window problems because they only require a single scan of the sorted data.
+- The query handles multiple visits on the same day by pre-aggregating daily amounts in the subquery.
+- For large datasets, an index on visited_on would improve the performance of both grouping and sorting operations.
 
 #### 602. Friend Requests II: Who Has The Most Friends
 **Description:**
@@ -3392,10 +3464,36 @@ Follow up: In the real world, multiple people could have the same most number of
 
 **Solution:**
 ```sql
+-- Write your PostgreSQL query statement below
+WITH full_count AS (
+    SELECT requester_id AS id, COUNT(*)
+    FROM RequestAccepted
+    GROUP BY requester_id
+    UNION ALL
+    SELECT accepter_id AS id, COUNT(*)
+    FROM RequestAccepted
+    GROUP BY accepter_id
+)
 
+SELECT id, SUM(count) AS num
+FROM full_count
+GROUP BY id
+ORDER BY SUM(count) DESC
+LIMIT 1;
 ```
 
 **Explanation:**
+- This query identifies the person with the most friends in the system.
+- The solution uses a Common Table Expression (CTE) called `full_count` that combines both requesters/counts and accepters/counts with UNION ALL.
+- This approach counts each person once for each friendship they're involved in, whether as a requester or accepter.
+- After grouping by id, SUM(count) gives the total number of friendships for each person.
+- Results are ordered by friend count in descending order, and LIMIT 1 retrieves only the person with the most friends.
+- Time complexity: O(n log n) where n is the number of accepted friend requests, due to the sorting operation.
+- Space complexity: O(n) for the CTE and intermediate results.
+- The UNION ALL approach efficiently combines both sides of each friendship relation.
+- Unlike UNION, UNION ALL preserves duplicates, which is necessary to count each friendship relation correctly.
+- The solution correctly handles the problem's definition of friendship count, which includes both outgoing and incoming accepted requests.
+- For large datasets, indexes on requester_id and accepter_id would improve the performance of the UNION ALL operation.
 
 #### 585. Investments in 2016
 **Description:**
@@ -3457,10 +3555,31 @@ So, the result is the sum of tiv_2016 of the first and last record, which is 45.
 
 **Solution:**
 ```sql
-
+-- Write your PostgreSQL query statement below
+SELECT ROUND(SUM(tiv_2016)::numeric, 2) AS tiv_2016
+FROM (
+   SELECT *,
+       COUNT(*)OVER(PARTITION BY tiv_2015) AS tiv_2015_cnt,
+       COUNT(*)OVER(PARTITION BY lat, lon) AS loc_cnt
+   FROM Insurance
+   )t0
+WHERE tiv_2015_cnt > 1
+AND loc_cnt = 1
 ```
 
 **Explanation:**
+- This query calculates the sum of insurance investments in 2016 for policyholders who meet two specific criteria.
+- The solution uses one subquery with two window functions to generate the condition test cases:
+  1. `tiv_2015_cnt` gets the count of the tiv_2015 values for policyholders.
+  2. `loc_cnt` get the count of the exact same location (lat, lon).
+- The main query then sums the tiv_2016 values for policies meeting both criteria.
+- The result is rounded to 2 decimal places using ROUND and the ::numeric type cast.
+- Time complexity: O(n²) due to the correlated subqueries, where n is the number of insurance policies.
+- Space complexity: O(1) as we're only calculating a single aggregate value.
+- The window function approach is easier to understand, but often less efficient than using solutions that leverage `EXISTS` for these types of conditions.
+  - For larger datasets, `EXISTS` is great because it stops the subquery execution once the condition is met
+- The solution correctly handles the combination of conditions where we need both a match (same tiv_2015) and non-match (unique location).
+- For large datasets, indexes on tiv_2015, lat, and lon would significantly improve the performance of the subqueries.
 
 #### 185. Department Top Three Salaries
 **Description:**
