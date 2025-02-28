@@ -1,1 +1,3324 @@
 # Study Guide for Python Technical Interviews
+## LeetCode
+### LeetCode 75 Study Plan
+#### 1768. Merge Strings Alternately
+**Description:** You are given two strings word1 and word2. Merge the strings by adding letters in alternating order, starting with word1. If a string is longer than the other, append the additional letters onto the end of the merged string.
+
+Return the merged string.
+
+```plaintext
+Example 1:
+
+Input: word1 = "abc", word2 = "pqr"
+Output: "apbqcr"
+Explanation: The merged string will be merged as so:
+word1:  a   b   c
+word2:    p   q   r
+merged: a p b q c r
+
+Example 2:
+
+Input: word1 = "ab", word2 = "pqrs"
+Output: "apbqrs"
+Explanation: Notice that as word2 is longer, "rs" is appended to the end.
+word1:  a   b 
+word2:    p   q   r   s
+merged: a p b q   r   s
+
+Example 3:
+
+Input: word1 = "abcd", word2 = "pq"
+Output: "apbqcd"
+Explanation: Notice that as word1 is longer, "cd" is appended to the end.
+word1:  a   b   c   d
+word2:    p   q 
+merged: a p b q c   d
+```
+
+**Solution:**
+
+```python
+class Solution:
+    def mergeAlternately(self, word1: str, word2: str) -> str:
+        res = ""
+        a = len(word1)
+        b = len(word2)
+
+        for i in range(max(a, b)):
+            if i < a:
+                res += word1[i]
+            if i < b:
+                res += word2[i]
+        
+        return res
+```
+
+**Explanation:**
+- This solution merges two strings by alternating their characters.
+- We create an empty result string `res` to store our merged output.
+- We determine the length of both input words: `a` for `word1` and `b` for `word2`.
+- We iterate through a range up to the maximum length between the two words using `max(a, b)`.
+- For each position `i`:
+  - If `i` is within the bounds of `word1` (i.e., `i < a`), we append the character at position `i` from `word1` to our result.
+  - If `i` is within the bounds of `word2` (i.e., `i < b`), we append the character at position `i` from `word2` to our result.
+- This approach handles cases where one string is longer than the other by continuing to append characters from the longer string after we've exhausted the shorter string.
+- Time Complexity: O(max(m,n)) where m and n are the lengths of the input strings
+- Space Complexity: O(m+n) for the result string
+
+#### 1071. Greatest Common Divisor of Strings
+
+For two strings s and t, we say "t divides s" if and only if `s = t + t + t + ... + t + t` (i.e., t is concatenated with itself one or more times).
+
+Given two strings str1 and str2, return the largest string x such that x divides both str1 and str2.
+
+```plaintext
+Example 1:
+
+Input: str1 = "ABCABC", str2 = "ABC"
+Output: "ABC"
+
+Example 2:
+
+Input: str1 = "ABABAB", str2 = "ABAB"
+Output: "AB"
+
+Example 3:
+
+Input: str1 = "LEET", str2 = "CODE"
+Output: ""
+```
+
+Constraints:
+
+- `1 <= str1.length, str2.length <= 1000`
+- `str1 and str2 consist of English uppercase letters.`
+
+**Solution:**
+
+```python
+class Solution:
+    def gcdOfStrings(self, str1: str, str2: str) -> str:
+        if str1 + str2 != str2 + str1:
+            return ""
+        if len(str1) == len(str2):
+            return str1
+        if len(str1) > len(str2):
+            return self.gcdOfStrings(str1[len(str2):], str2)
+        return self.gcdOfStrings(str1, str2[len(str1):])
+```
+
+**Explanation:**
+**Explanation:**
+- This problem asks us to find the largest string that divides both input strings.
+- The solution uses principles similar to the Euclidean algorithm for finding the greatest common divisor of numbers.
+- First key insight: If string X is a common divisor of strings A and B, then A+B must equal B+A.
+  - If this property doesn't hold, we return an empty string immediately.
+- The algorithm then follows a recursive approach:
+  - If both strings have the same length and are equal, that string is the GCD.
+  - If `str1` is longer than `str2`, we remove one copy of `str2` from the beginning of `str1` and recursively find the GCD.
+  - If `str2` is longer than `str1`, we remove one copy of `str1` from the beginning of `str2` and recursively find the GCD.
+- This recursive approach continues until we find the GCD or determine that no common divisor exists.
+- Time Complexity: O(m+n) where m and n are the lengths of the input strings
+- Space Complexity: O(min(m,n)) due to the recursive stack
+
+#### 1431. Kids with the Greatest Number of Candies
+There are n kids with candies. You are given an integer array candies, where each candies[i] represents the number of candies the ith kid has, and an integer extraCandies, denoting the number of extra candies that you have.
+
+Return a boolean array result of length n, where result[i] is true if, after giving the ith kid all the extraCandies, they will have the greatest number of candies among all the kids, or false otherwise.
+
+Note that multiple kids can have the greatest number of candies.
+
+```plaintext
+Example 1:
+
+Input: candies = [2,3,5,1,3], extraCandies = 3
+Output: [true,true,true,false,true] 
+Explanation: If you give all extraCandies to:
+- Kid 1, they will have 2 + 3 = 5 candies, which is the greatest among the kids.
+- Kid 2, they will have 3 + 3 = 6 candies, which is the greatest among the kids.
+- Kid 3, they will have 5 + 3 = 8 candies, which is the greatest among the kids.
+- Kid 4, they will have 1 + 3 = 4 candies, which is not the greatest among the kids.
+- Kid 5, they will have 3 + 3 = 6 candies, which is the greatest among the kids.
+
+Example 2:
+
+Input: candies = [4,2,1,1,2], extraCandies = 1
+Output: [true,false,false,false,false] 
+Explanation: There is only 1 extra candy.
+Kid 1 will always have the greatest number of candies, even if a different kid is given the extra candy.
+
+Example 3:
+
+Input: candies = [12,1,12], extraCandies = 10
+Output: [true,false,true]
+```
+ 
+
+Constraints:
+
+- `n == candies.length`
+- `2 <= n <= 100`
+- `1 <= candies[i] <= 100`
+- `1 <= extraCandies <= 50~`
+
+**Solution:**
+```python
+class Solution:
+    def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
+        max_candies = max(candies)
+        return [candy + extraCandies >= max_candies for candy in candies]
+```
+
+**Explanation:**
+- This problem asks us to determine, for each kid, whether they would have the most candies if given extra candies.
+- The solution follows a straightforward approach:
+  - First, find the maximum number of candies any kid currently has (`max_candies`).
+  - For each kid, check if their current number of candies plus the extra candies would be at least as much as the current maximum.
+  - Return a list of boolean values where `True` indicates the kid would have the most candies after receiving extra candies.
+- The solution uses a list comprehension for conciseness and readability.
+- Time Complexity: O(n) where n is the number of kids (we iterate through the array once)
+- Space Complexity: O(n) for the result list
+- This approach handles all edge cases in the problem description, including the note that multiple kids can have the greatest number of candies.
+
+#### 605. Can Place Flowers
+
+**Description:** You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+
+Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule.
+
+```plaintext
+Example 1:
+Input: flowerbed = [1,0,0,0,1], n = 1
+Output: true
+
+Example 2:
+Input: flowerbed = [1,0,0,0,1], n = 2
+Output: false
+```
+
+Constraints:
+- `1 <= flowerbed.length <= 2 * 10^4`
+- `flowerbed[i]` is 0 or 1
+- There are no two adjacent flowers in `flowerbed`
+- `0 <= n <= flowerbed.length`
+
+**Solution:**
+```python
+class Solution:
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+        count = 0
+        length = len(flowerbed)
+        
+        for i in range(length):
+            # Check if current plot is empty
+            if flowerbed[i] == 0:
+                # Check if left and right plots are empty (or out of bounds)
+                is_left_empty = (i == 0) or (flowerbed[i - 1] == 0)
+                is_right_empty = (i == length - 1) or (flowerbed[i + 1] == 0)
+                
+                # If both adjacent plots are empty, we can plant a flower
+                if is_left_empty and is_right_empty:
+                    flowerbed[i] = 1  # Plant a flower
+                    count += 1
+                    
+                    if count >= n:
+                        return True
+        
+        return count >= n
+```
+
+**Explanation:**
+- This problem asks us to determine if we can plant n flowers in an existing flowerbed without violating the rule that no two flowers can be adjacent.
+- The solution uses a greedy approach, where we try to plant flowers as soon as we find a valid spot.
+- We iterate through each position in the flowerbed array and for each empty plot (value 0):
+  - We check if both its left and right adjacent plots are also empty (or out of bounds).
+  - If both adjacent plots are empty, we can plant a flower at the current position.
+  - After planting a flower, we increment our counter and check if we've reached our target.
+- The check for left and right plots considers edge cases:
+  - For leftmost position (i=0), there's no left plot, so we consider it empty.
+  - For rightmost position (i=length-1), there's no right plot, so we consider it empty.
+- We modify the flowerbed array in-place to keep track of newly planted flowers.
+- Time Complexity: O(n) where n is the length of the flowerbed array
+- Space Complexity: O(1) as we only use a constant amount of extra space
+
+#### 345. Reverse Vowels of a String
+
+**Description:** Given a string s, reverse only all the vowels in the string and return it.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases.
+
+```plaintext
+Example 1:
+Input: s = "hello"
+Output: "holle"
+
+Example 2:
+Input: s = "leetcode"
+Output: "leotcede"
+```
+
+Constraints:
+- `1 <= s.length <= 3 * 10^5`
+- `s` consists of printable ASCII characters
+
+**Solution:**
+```python
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        vowels = set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'])
+        s_list = list(s)  # Convert to list for easier character manipulation
+        
+        left, right = 0, len(s) - 1
+        
+        while left < right:
+            # Find the leftmost vowel
+            while left < right and s_list[left] not in vowels:
+                left += 1
+            
+            # Find the rightmost vowel
+            while left < right and s_list[right] not in vowels:
+                right -= 1
+            
+            # Swap the vowels
+            s_list[left], s_list[right] = s_list[right], s_list[left]
+            
+            # Move pointers
+            left += 1
+            right -= 1
+        
+        return ''.join(s_list)
+```
+
+**Explanation:**
+- This problem asks us to reverse only the vowels in a string, leaving all other characters in their original positions.
+- The solution uses a two-pointer approach:
+  - We define a set of vowels (both lowercase and uppercase).
+  - We convert the input string to a list for easier character manipulation.
+  - We use two pointers, `left` starting from the beginning and `right` starting from the end.
+  - We move the left pointer forward until we find a vowel.
+  - We move the right pointer backward until we find a vowel.
+  - We swap these vowels and continue the process.
+  - Finally, we convert the list back to a string and return it.
+- This approach efficiently reverses only the vowels while keeping all other characters in place.
+- Time Complexity: O(n) where n is the length of the string
+- Space Complexity: O(n) for the character list and output string
+- The solution correctly handles both lowercase and uppercase vowels as specified in the problem.
+
+Let me continue with the next 5 problems from the LeetCode 75 Study Plan:
+
+#### 151. Reverse Words in a String
+
+**Description:** Given an input string `s`, reverse the order of the words.
+
+A word is defined as a sequence of non-space characters. The words in `s` will be separated by at least one space.
+
+Return a string of the words in reverse order concatenated by a single space.
+
+Note that `s` may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
+
+```plaintext
+Example 1:
+Input: s = "the sky is blue"
+Output: "blue is sky the"
+
+Example 2:
+Input: s = "  hello world  "
+Output: "world hello"
+Explanation: Your reversed string should not contain leading or trailing spaces.
+
+Example 3:
+Input: s = "a good   example"
+Output: "example good a"
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+```
+
+Constraints:
+- `1 <= s.length <= 10^4`
+- `s` contains English letters (upper-case and lower-case), digits, and spaces `' '`.
+- There is at least one word in `s`.
+
+**Solution:**
+```python
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        # Split the string by spaces and filter out empty strings
+        words = [word for word in s.split() if word]
+        
+        # Reverse the list of words
+        words.reverse()  # Alternative: words = words[::-1]
+        
+        # Join the words with a single space
+        return ' '.join(words)
+```
+
+**Explanation:**
+- This problem requires us to reverse the order of words in a string, handling multiple spaces and leading/trailing spaces appropriately.
+- The solution uses Python's built-in string manipulation functions for a concise approach:
+  - First, we use `s.split()` to split the string by whitespace. This automatically handles multiple spaces, leading spaces, and trailing spaces.
+  - The list comprehension with filtering (`[word for word in s.split() if word]`) ensures we only keep non-empty words, though `split()` without arguments already removes empty strings.
+  - We reverse the list of words using the built-in `reverse()` method (alternatively, we could use slicing with `words[::-1]`).
+  - Finally, we join the reversed words with a single space using `' '.join(words)`.
+- This approach correctly handles all the requirements of the problem:
+  - Words are reversed in order
+  - Only a single space separates words
+  - No leading or trailing spaces in the result
+  - Multiple spaces between words are reduced to a single space
+- Time Complexity: O(n) where n is the length of the string
+- Space Complexity: O(n) for storing the words and the result string
+- This solution is both efficient and readable, making good use of Python's string handling capabilities.
+
+#### 238. Product of Array Except Self
+
+**Description:** Given an integer array `nums`, return an array `answer` such that `answer[i]` is equal to the product of all the elements of `nums` except `nums[i]`.
+
+The product of any prefix or suffix of `nums` is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+```plaintext
+Example 1:
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+
+Example 2:
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+```
+
+Constraints:
+- `2 <= nums.length <= 10^5`
+- `-30 <= nums[i] <= 30`
+- The product of any prefix or suffix of `nums` is guaranteed to fit in a 32-bit integer.
+
+**Solution:**
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        answer = [1] * n
+        
+        # Calculate prefix products
+        prefix = 1
+        for i in range(n):
+            answer[i] = prefix
+            prefix *= nums[i]
+        
+        # Calculate suffix products and multiply with prefix products
+        suffix = 1
+        for i in range(n-1, -1, -1):
+            answer[i] *= suffix
+            suffix *= nums[i]
+        
+        return answer
+```
+
+**Explanation:**
+- This problem asks us to calculate, for each position, the product of all other elements except the current one, without using division.
+- The solution uses a two-pass approach:
+  - First pass (left to right): We calculate the product of all elements to the left of each position.
+  - Second pass (right to left): We calculate the product of all elements to the right of each position and multiply it with the previously calculated left product.
+- Step-by-step:
+  1. Initialize an `answer` array filled with 1s (the neutral element for multiplication).
+  2. First pass: For each position `i`, store the product of all elements before it in `answer[i]`, and update a running `prefix` product.
+  3. Second pass: For each position `i` (going right to left), multiply `answer[i]` by the product of all elements after it (stored in a running `suffix` product), then update the `suffix`.
+- This approach avoids using division, as required by the problem.
+- Time Complexity: O(n) with exactly two passes through the array.
+- Space Complexity: O(1) extra space besides the output array (which doesn't count toward space complexity).
+- The solution handles edge cases like arrays with zeros and negative numbers correctly.
+- This algorithm is particularly elegant because it uses the output array to store intermediate results, avoiding the need for additional memory.
+
+#### 334. Increasing Triplet Subsequence
+
+**Description:** Given an integer array `nums`, return `true` if there exists a triple of indices `(i, j, k)` such that `i < j < k` and `nums[i] < nums[j] < nums[k]`. If no such indices exists, return `false`.
+
+```plaintext
+Example 1:
+Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: Any triplet where i < j < k is valid.
+
+Example 2:
+Input: nums = [5,4,3,2,1]
+Output: false
+Explanation: No triplet exists.
+
+Example 3:
+Input: nums = [2,1,5,0,4,6]
+Output: true
+Explanation: The triplet (0, 4, 5) is valid because nums[0] = 2 < nums[4] = 4 < nums[5] = 6.
+```
+
+Constraints:
+- `1 <= nums.length <= 5 * 10^5`
+- `-2^31 <= nums[i] <= 2^31 - 1`
+
+**Solution:**
+```python
+class Solution:
+    def increasingTriplet(self, nums: List[int]) -> bool:
+        first = second = float('inf')
+        
+        for num in nums:
+            if num <= first:
+                first = num
+            elif num <= second:
+                second = num
+            else:
+                # Found a number larger than both first and second
+                return True
+        
+        return False
+```
+
+**Explanation:**
+- This problem asks us to determine if there's an increasing subsequence of length 3 in the array.
+- The solution uses a greedy approach with two variables:
+  - `first`: keeps track of the smallest element seen so far
+  - `second`: keeps track of the second smallest element seen so far that comes after an element smaller than itself
+- As we iterate through the array:
+  - If we find a number smaller than or equal to `first`, we update `first`.
+  - If we find a number greater than `first` but smaller than or equal to `second`, we update `second`.
+  - If we find a number greater than both `first` and `second`, we've found our increasing triplet subsequence.
+- The key insight is that if we update `first`, the old value of `first` is still valid for forming a triplet with the current `second` and a future third element.
+- The algorithm might look simple, but it's quite clever:
+  - If we find a third element larger than `second`, we know it must also be larger than `first` (since `second` > `first`).
+  - Even if we update `first` during iteration, as long as we've already set a valid `second`, any future element larger than `second` will form a valid triplet.
+- Time Complexity: O(n) where n is the length of the array (one-pass algorithm)
+- Space Complexity: O(1) as we only use two variables regardless of input size
+- This solution handles all edge cases, including duplicate elements and negative numbers.
+
+#### 443. String Compression
+
+**Description:** Given an array of characters `chars`, compress it using the following algorithm:
+
+Begin with an empty string `s`. For each group of consecutive repeating characters in `chars`:
+- If the group's length is 1, append the character to `s`.
+- Otherwise, append the character followed by the group's length.
+
+The compressed string `s` should not be returned separately, but instead, be stored in the input character array `chars`. Note that group lengths that are 10 or longer will be split into multiple characters in `chars`.
+
+After you are done modifying the input array, return the new length of the array.
+
+You must write an algorithm that uses only constant extra space.
+
+```plaintext
+Example 1:
+Input: chars = ["a","a","b","b","c","c","c"]
+Output: Return 6, and the first 6 characters of the input array should be: ["a","2","b","2","c","3"]
+Explanation: "aa" is replaced by "a2", "bb" is replaced by "b2", and "ccc" is replaced by "c3".
+
+Example 2:
+Input: chars = ["a"]
+Output: Return 1, and the first character of the input array should be: ["a"]
+Explanation: Nothing is replaced.
+
+Example 3:
+Input: chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
+Output: Return 4, and the first 4 characters of the input array should be: ["a","b","1","2"]
+Explanation: "a" is not replaced because it occurs only once. "bbbbbbbbbbbb" is replaced by "b12".
+```
+
+Constraints:
+- `1 <= chars.length <= 2000`
+- `chars[i]` is a lowercase English letter, uppercase English letter, digit, or symbol.
+
+**Solution:**
+```python
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        write_pos = 0  # Position to write the next character
+        read_pos = 0   # Current read position
+        
+        while read_pos < len(chars):
+            current_char = chars[read_pos]
+            count = 0
+            
+            # Count consecutive occurrences of the current character
+            while read_pos < len(chars) and chars[read_pos] == current_char:
+                read_pos += 1
+                count += 1
+            
+            # Write the character
+            chars[write_pos] = current_char
+            write_pos += 1
+            
+            # Write the count if it's greater than 1
+            if count > 1:
+                # Convert the count to string and write each digit
+                for digit in str(count):
+                    chars[write_pos] = digit
+                    write_pos += 1
+        
+        return write_pos
+```
+
+**Explanation:**
+- This problem asks us to compress a character array in-place by replacing consecutive repeating characters with the character followed by its count.
+- The solution uses a two-pointer approach:
+  - `write_pos`: indicates where to write the next character in the compressed result
+  - `read_pos`: indicates which character we're currently reading/processing
+- The algorithm works as follows:
+  1. Start with both pointers at position 0.
+  2. For each unique character, count how many consecutive occurrences it has.
+  3. Write the character at `write_pos` and increment `write_pos`.
+  4. If the character appears more than once, write its count (as individual digits) starting at `write_pos`.
+  5. Continue until we've processed all characters.
+- This is an in-place algorithm that modifies the original array and returns the new length.
+- A few important details:
+  - If a character appears only once, we don't write its count.
+  - For counts with multiple digits (10 or more), we write each digit separately.
+  - The function returns the length of the compressed array, not the array itself.
+- Time Complexity: O(n) where n is the length of the input array
+- Space Complexity: O(1) as required by the problem (we only use a constant amount of extra space)
+- The algorithm handles all edge cases, including empty arrays and arrays with no repeating characters.
+
+#### 283. Move Zeroes
+
+**Description:** Given an integer array `nums`, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+```plaintext
+Example 1:
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+
+Example 2:
+Input: nums = [0]
+Output: [0]
+```
+
+Constraints:
+- `1 <= nums.length <= 10^4`
+- `-2^31 <= nums[i] <= 2^31 - 1`
+
+**Solution:**
+```python
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        pos = 0  # Position to place the next non-zero element
+        
+        # Move all non-zero elements to the front
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[pos] = nums[i]
+                pos += 1
+        
+        # Fill the rest with zeroes
+        for i in range(pos, len(nums)):
+            nums[i] = 0
+```
+
+**Explanation:**
+- This problem asks us to move all zeros to the end of an array while maintaining the order of non-zero elements, and to do so in-place.
+- The solution uses a two-pass approach:
+  - First pass: Move all non-zero elements to the front of the array, keeping their original order.
+  - Second pass: Fill the remaining positions with zeros.
+- The algorithm uses a pointer `pos` to keep track of where the next non-zero element should be placed.
+- In the first pass:
+  - We iterate through the array.
+  - Whenever we encounter a non-zero element, we place it at position `pos` and increment `pos`.
+  - This effectively compacts all non-zero elements at the beginning of the array.
+- In the second pass:
+  - We fill all positions from `pos` to the end of the array with zeros.
+- This approach is elegant because:
+  - It maintains the original order of non-zero elements
+  - It handles arrays with no zeros efficiently
+  - It's truly in-place with O(1) extra space
+  - It minimizes the number of operations (each element is written at most once)
+- Time Complexity: O(n) where n is the length of the array
+- Space Complexity: O(1) as we only use a single pointer
+
+The solution can be optimized to a single-pass approach by swapping non-zero elements with zeros instead of doing two separate passes, but the current solution is very readable and still optimal in terms of time complexity.
+
+Let me continue with the next 5 problems from the LeetCode 75 Study Plan:
+
+#### 392. Is Subsequence
+
+**Description:** Given two strings `s` and `t`, return `true` if `s` is a subsequence of `t`, or `false` otherwise.
+
+A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., `"ace"` is a subsequence of `"abcde"` while `"aec"` is not).
+
+```plaintext
+Example 1:
+Input: s = "abc", t = "ahbgdc"
+Output: true
+
+Example 2:
+Input: s = "axc", t = "ahbgdc"
+Output: false
+```
+
+Constraints:
+- `0 <= s.length <= 100`
+- `0 <= t.length <= 10^4`
+- `s` and `t` consist only of lowercase English letters.
+
+**Solution:**
+```python
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        if not s:
+            return True
+            
+        s_pointer = 0
+        
+        for char in t:
+            if char == s[s_pointer]:
+                s_pointer += 1
+                if s_pointer == len(s):
+                    return True
+        
+        return False
+```
+
+**Explanation:**
+- This problem asks us to determine if string `s` is a subsequence of string `t`.
+- A subsequence means we can derive `s` from `t` by deleting some characters from `t` without changing the order of the remaining characters.
+- The solution uses a two-pointer approach, though we only need to explicitly track one pointer for `s`:
+  - We start with a pointer `s_pointer` at the beginning of string `s`.
+  - We iterate through each character in string `t`.
+  - When we find a character in `t` that matches the current character of `s` (pointed to by `s_pointer`), we advance `s_pointer`.
+  - If `s_pointer` reaches the end of string `s`, it means we've found all characters of `s` in the correct order within `t`, so we return `True`.
+  - If we finish iterating through `t` without matching all characters in `s`, we return `False`.
+- We handle an edge case: if `s` is an empty string, it's considered a subsequence of any string, so we return `True`.
+- Time Complexity: O(n) where n is the length of string `t` (we iterate through `t` once)
+- Space Complexity: O(1) as we only use a single pointer
+- This approach is efficient because it only requires a single pass through the string `t`.
+
+#### 11. Container With Most Water
+
+**Description:** You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the `i`th line are `(i, 0)` and `(i, height[i])`.
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+```plaintext
+Example 1:
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+Example 2:
+Input: height = [1,1]
+Output: 1
+```
+
+Constraints:
+- `n == height.length`
+- `2 <= n <= 10^5`
+- `0 <= height[i] <= 10^4`
+
+**Solution:**
+```python
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        left = 0
+        right = len(height) - 1
+        max_water = 0
+        
+        while left < right:
+            # Calculate current water area
+            width = right - left
+            current_height = min(height[left], height[right])
+            current_water = width * current_height
+            
+            # Update max water found
+            max_water = max(max_water, current_water)
+            
+            # Move the pointer with smaller height inward
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
+        
+        return max_water
+```
+
+**Explanation:**
+- This problem asks us to find the maximum amount of water that can be held between two vertical lines, with the amount being determined by the width between the lines and the height of the shorter line.
+- The solution uses a two-pointer approach, starting from the outermost lines and moving inward:
+  - Initialize two pointers, `left` at index 0 and `right` at the last index.
+  - Calculate the area of water that can be held between these two lines:
+    - Width = right - left
+    - Height = minimum of height[left] and height[right]
+    - Area = width × height
+  - Update the maximum area if the current area is larger.
+  - Move the pointer that points to the shorter line inward (since keeping the shorter line and decreasing the width would only result in a smaller area).
+  - Repeat until the pointers meet.
+- The key insight is that we should always move the pointer with the smaller height because:
+  - The amount of water is limited by the shorter line
+  - By moving the pointer with the shorter height, we have a chance to find a taller line that could potentially hold more water
+  - Moving the pointer with the taller height would only decrease the width without any chance of increasing the height (which is already limited by the shorter line)
+- Time Complexity: O(n) where n is the length of the height array (we process each element at most once)
+- Space Complexity: O(1) as we only use two pointers and a variable to track the maximum area
+- This approach is optimal both in terms of time and space complexity.
+
+#### 1679. Max Number of K-Sum Pairs
+
+**Description:** You are given an integer array `nums` and an integer `k`.
+
+In one operation, you can pick two numbers from the array whose sum equals `k` and remove them from the array.
+
+Return the maximum number of operations you can perform on the array.
+
+```plaintext
+Example 1:
+Input: nums = [1,2,3,4], k = 5
+Output: 2
+Explanation: Starting with nums = [1,2,3,4]:
+- Remove numbers 1 and 4, then nums = [2,3]
+- Remove numbers 2 and 3, then nums = []
+There are no more pairs that sum up to 5, hence a total of 2 operations.
+
+Example 2:
+Input: nums = [3,1,3,4,3], k = 6
+Output: 1
+Explanation: Starting with nums = [3,1,3,4,3]:
+- Remove the first two 3's, then nums = [1,4,3]
+There are no more pairs that sum up to 6, hence a total of 1 operation.
+```
+
+Constraints:
+- `1 <= nums.length <= 10^5`
+- `1 <= nums[i] <= 10^9`
+- `1 <= k <= 10^9`
+
+**Solution:**
+```python
+class Solution:
+    def maxOperations(self, nums: List[int], k: int) -> int:
+        # Use a frequency counter
+        frequency = {}
+        operations = 0
+        
+        for num in nums:
+            # Calculate the complement needed to reach k
+            complement = k - num
+            
+            # If the complement exists in our frequency map, use it
+            if frequency.get(complement, 0) > 0:
+                frequency[complement] -= 1
+                operations += 1
+            else:
+                # Otherwise, increment the frequency of the current number
+                frequency[num] = frequency.get(num, 0) + 1
+        
+        return operations
+```
+
+**Explanation:**
+- This problem asks us to find the maximum number of pairs in the array that sum to `k`, removing each pair as we go.
+- The solution uses a hash map (dictionary) approach:
+  - We maintain a frequency counter of numbers we've seen but haven't paired yet.
+  - For each number `num` in the array, we calculate its complement `k - num`.
+  - If the complement exists in our frequency map, we've found a pair that sums to `k`:
+    - Decrement the frequency of the complement (effectively "using" it)
+    - Increment our operations counter
+  - If the complement doesn't exist, we add the current number to our frequency map.
+- This approach efficiently finds all possible pairs that sum to `k` in a single pass through the array.
+- Time Complexity: O(n) where n is the length of the array
+- Space Complexity: O(n) in the worst case if all numbers are distinct
+- The solution handles all edge cases:
+  - It works with negative numbers
+  - It correctly handles duplicates in the array
+  - It handles the case where no valid pairs exist
+
+An alternative solution could use sorting and two pointers, which would have O(n log n) time complexity due to the sorting step, but would use less memory (O(1) extra space if we're allowed to modify the input array).
+
+#### 643. Maximum Average Subarray I
+
+**Description:** You are given an integer array `nums` consisting of `n` elements, and an integer `k`.
+
+Find a contiguous subarray whose length is equal to `k` that has the maximum average value and return this value. Any answer with a calculation error less than 10^-5 will be accepted.
+
+```plaintext
+Example 1:
+Input: nums = [1,12,-5,-6,50,3], k = 4
+Output: 12.75000
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+
+Example 2:
+Input: nums = [5], k = 1
+Output: 5.00000
+```
+
+Constraints:
+- `n == nums.length`
+- `1 <= k <= n <= 10^5`
+- `-10^4 <= nums[i] <= 10^4`
+
+**Solution:**
+```python
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        # Initialize the sum of the first k elements
+        current_sum = sum(nums[:k])
+        max_sum = current_sum
+        
+        # Slide the window and update max_sum
+        for i in range(k, len(nums)):
+            # Add the new element and remove the oldest element
+            current_sum += nums[i] - nums[i-k]
+            max_sum = max(max_sum, current_sum)
+        
+        # Return the maximum average
+        return max_sum / k
+```
+
+**Explanation:**
+- This problem asks us to find the maximum average value of a contiguous subarray of length `k`.
+- The solution uses a sliding window approach:
+  1. First, we calculate the sum of the first `k` elements in the array.
+  2. Then, we slide the window one element at a time:
+     - Add the next element to the sum
+     - Remove the oldest element from the sum
+     - Update the maximum sum if the current sum is larger
+  3. Finally, we convert the maximum sum to an average by dividing by `k`.
+- The sliding window approach is efficient because:
+  - It avoids recomputing the sum of overlapping elements
+  - Each element is processed at most twice (once when it enters the window and once when it leaves)
+  - We only need to keep track of the current sum, not the entire window
+- Time Complexity: O(n) where n is the length of the array
+  - The initial sum calculation is O(k)
+  - The sliding window operation is O(n-k)
+  - Overall, this simplifies to O(n)
+- Space Complexity: O(1) as we only use a constant amount of extra space
+- This approach is optimal for the problem and handles all edge cases, including when `k` equals the length of the array.
+
+#### 1456. Maximum Number of Vowels in a Substring of Given Length
+
+**Description:** Given a string `s` and an integer `k`, return the maximum number of vowel letters in any substring of `s` with length `k`.
+
+Vowel letters in English are 'a', 'e', 'i', 'o', and 'u'.
+
+```plaintext
+Example 1:
+Input: s = "abciiidef", k = 3
+Output: 3
+Explanation: The substring "iii" contains 3 vowel letters.
+
+Example 2:
+Input: s = "aeiou", k = 2
+Output: 2
+Explanation: Any substring of length 2 contains 2 vowels.
+
+Example 3:
+Input: s = "leetcode", k = 3
+Output: 2
+Explanation: "lee", "eet" and "tco" contain 2 vowels.
+```
+
+Constraints:
+- `1 <= s.length <= 10^5`
+- `s` consists of lowercase English letters.
+- `1 <= k <= s.length`
+
+**Solution:**
+```python
+class Solution:
+    def maxVowels(self, s: str, k: int) -> int:
+        vowels = set(['a', 'e', 'i', 'o', 'u'])
+        
+        # Count vowels in the first window of length k
+        current_count = sum(1 for char in s[:k] if char in vowels)
+        max_count = current_count
+        
+        # Slide the window and update the count
+        for i in range(k, len(s)):
+            # Remove the contribution of the character going out of the window
+            if s[i-k] in vowels:
+                current_count -= 1
+                
+            # Add the contribution of the character coming into the window
+            if s[i] in vowels:
+                current_count += 1
+                
+            max_count = max(max_count, current_count)
+            
+            # Early termination if we've reached the maximum possible count
+            if max_count == k:
+                break
+        
+        return max_count
+```
+
+**Explanation:**
+- This problem asks us to find the maximum number of vowels in any substring of length `k`.
+- The solution uses a sliding window approach to efficiently count vowels:
+  1. First, we define our set of vowels for quick lookups.
+  2. We count the number of vowels in the first window of length `k`.
+  3. Then, we slide the window one character at a time:
+     - If the character leaving the window is a vowel, decrement the count
+     - If the character entering the window is a vowel, increment the count
+     - Update the maximum count if the current count is larger
+  4. We include an optimization: if we ever reach `k` vowels (the maximum possible), we can stop early.
+- This approach is efficient because:
+  - We count vowels in each window incrementally, avoiding repeated work
+  - Each character is processed exactly once when it enters the window and once when it leaves
+  - We maintain a running count rather than recounting for each window
+- Time Complexity: O(n) where n is the length of the string
+- Space Complexity: O(1) as we only use a fixed-size set for vowels and a few variables
+- The solution handles all constraints and edge cases, including when `k` equals the length of the string.
+
+Let me continue with the next set of 5 problems from the LeetCode 75 Study Plan:
+
+#### 1004. Max Consecutive Ones III
+
+**Description:** Given a binary array `nums` and an integer `k`, return the maximum number of consecutive 1's in the array if you can flip at most `k` 0's.
+
+```plaintext
+Example 1:
+Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+Output: 6
+Explanation: [1,1,1,0,0,1,1,1,1,1,1]
+Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
+
+Example 2:
+Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
+Output: 10
+Explanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]
+Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
+```
+
+Constraints:
+- `1 <= nums.length <= 10^5`
+- `nums[i]` is either `0` or `1`
+- `0 <= k <= nums.length`
+
+**Solution:**
+```python
+class Solution:
+    def longestOnes(self, nums: List[int], k: int) -> int:
+        left = 0
+        max_length = 0
+        zero_count = 0
+        
+        for right in range(len(nums)):
+            # If we encounter a zero, increment the counter
+            if nums[right] == 0:
+                zero_count += 1
+            
+            # If we have too many zeros, shrink the window from the left
+            while zero_count > k:
+                if nums[left] == 0:
+                    zero_count -= 1
+                left += 1
+            
+            # Update the maximum length
+            max_length = max(max_length, right - left + 1)
+        
+        return max_length
+```
+
+**Explanation:**
+- This problem asks us to find the longest subarray containing consecutive 1's, where we can flip at most `k` zeros to ones.
+- The solution uses a sliding window approach with two pointers:
+  - `left`: marks the start of our current window
+  - `right`: marks the end of our current window and iterates through the array
+- As we move the `right` pointer:
+  - If the current element is a 0, we increment our `zero_count`
+  - If our `zero_count` exceeds `k`, we need to shrink the window from the left until we have at most `k` zeros
+  - After adjusting the window, we update the maximum length if the current window is longer
+- The key insight is that we don't need to explicitly track which zeros we're flipping. We just need to ensure our window contains at most `k` zeros, and the remaining elements are all ones.
+- This approach is efficient because:
+  - We process each element at most twice (once when it enters the window via the right pointer, and potentially once when it exits the window via the left pointer)
+  - We maintain a running count of zeros rather than recounting for each window
+- Time Complexity: O(n) where n is the length of the array
+- Space Complexity: O(1) as we only use a few variables regardless of input size
+- The algorithm handles all edge cases:
+  - When `k = 0`: We find the longest subarray of consecutive ones without flipping any zeros
+  - When all elements are zeros: The result will be `k` (as we can flip at most `k` zeros)
+  - When all elements are ones: The result will be the length of the array
+
+#### 1493. Longest Subarray of 1's After Deleting One Element
+
+**Description:** Given a binary array `nums`, you should delete one element from it.
+
+Return the size of the longest non-empty subarray containing only 1's in the resulting array. Return 0 if there is no such subarray.
+
+```plaintext
+Example 1:
+Input: nums = [1,1,0,1]
+Output: 3
+Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.
+
+Example 2:
+Input: nums = [0,1,1,1,0,1,1,0,1]
+Output: 5
+Explanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] contains 5 numbers with value of 1's.
+
+Example 3:
+Input: nums = [1,1,1]
+Output: 2
+Explanation: You must delete one element.
+```
+
+Constraints:
+- `1 <= nums.length <= 10^5`
+- `nums[i]` is either `0` or `1`
+
+**Solution:**
+```python
+class Solution:
+    def longestSubarray(self, nums: List[int]) -> int:
+        left = 0
+        max_length = 0
+        zero_count = 0
+        
+        for right in range(len(nums)):
+            # If we encounter a zero, increment the counter
+            if nums[right] == 0:
+                zero_count += 1
+            
+            # If we have more than one zero, shrink the window from the left
+            while zero_count > 1:
+                if nums[left] == 0:
+                    zero_count -= 1
+                left += 1
+            
+            # Update the maximum length (note we must delete one element)
+            max_length = max(max_length, right - left)
+        
+        # If we never encountered a zero, we must delete one element
+        if zero_count == 0 and len(nums) > 0:
+            return len(nums) - 1
+            
+        return max_length
+```
+
+**Explanation:**
+- This problem asks us to find the longest subarray of consecutive 1's after deleting exactly one element from the array.
+- The solution uses a sliding window approach very similar to the previous problem, but with a few key differences:
+  - We allow at most one zero in our window (since we can delete it)
+  - We subtract 1 from our window size when updating the maximum length (`right - left` instead of `right - left + 1`) because we must delete one element
+- As we iterate through the array:
+  - If the current element is a zero, we increment our `zero_count`
+  - If our `zero_count` exceeds 1, we shrink the window from the left until we have at most 1 zero
+  - We update our maximum length based on the current window size (minus 1 to account for the deletion)
+- A special case: if the entire array consists of ones, we must still delete one element, so we return `len(nums) - 1`
+- This approach is efficient for the same reasons as the previous problem:
+  - Each element is processed at most twice
+  - We maintain a running count of zeros
+- Time Complexity: O(n) where n is the length of the array
+- Space Complexity: O(1) as we only use a few variables
+- The algorithm handles all edge cases:
+  - When all elements are ones: We must delete one, so return `len(nums) - 1`
+  - When array has no ones: Return 0
+  - When there's a mix of zeros and ones: We find the longest subarray with at most one zero, and subtract 1 to account for the required deletion
+
+#### 1732. Find the Highest Altitude
+
+**Description:** There is a biker going on a road trip. The road trip consists of `n + 1` points at different altitudes. The biker starts his trip on point 0 with altitude equal to 0.
+
+You are given an integer array `gain` of length `n` where `gain[i]` is the net gain in altitude between points `i` and `i + 1` for all (`0 <= i < n`). Return the highest altitude of a point.
+
+```plaintext
+Example 1:
+Input: gain = [-5,1,5,0,-7]
+Output: 1
+Explanation: The altitudes are [0,-5,-4,1,1,-6]. The highest is 1.
+
+Example 2:
+Input: gain = [-4,-3,-2,-1,4,3,2]
+Output: 0
+Explanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.
+```
+
+Constraints:
+- `n == gain.length`
+- `1 <= n <= 100`
+- `-100 <= gain[i] <= 100`
+
+**Solution:**
+```python
+class Solution:
+    def largestAltitude(self, gain: List[int]) -> int:
+        current_altitude = 0
+        max_altitude = 0
+        
+        for change in gain:
+            current_altitude += change
+            max_altitude = max(max_altitude, current_altitude)
+        
+        return max_altitude
+```
+
+**Explanation:**
+- This problem asks us to find the highest altitude reached during a trip, given an array of altitude changes between consecutive points.
+- The solution uses a simple prefix sum approach:
+  - We start at altitude 0
+  - We iterate through the array of altitude changes, keeping track of our current altitude
+  - After each change, we update the maximum altitude if our current altitude is higher
+- The key insight is that we need to track both the current altitude and the maximum altitude seen so far:
+  - Current altitude changes with each step
+  - Maximum altitude only updates when we reach a new peak
+- This approach is straightforward and efficient:
+  - We process each element exactly once
+  - We use constant extra space
+- Time Complexity: O(n) where n is the length of the gain array
+- Space Complexity: O(1) as we only use two variables
+- The algorithm handles all edge cases:
+  - When all changes are negative: The maximum altitude will be 0 (the starting point)
+  - When all changes are positive: The maximum altitude will be the sum of all changes
+  - When there's a mix of positive and negative changes: We correctly track the highest point
+
+#### 724. Find Pivot Index
+
+**Description:** Given an array of integers `nums`, calculate the pivot index of this array.
+
+The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the right of the index.
+
+If the index is on the left edge of the array, then the left sum is 0 because there are no elements to the left. This also applies to the right edge of the array.
+
+Return the leftmost pivot index. If no such index exists, return -1.
+
+```plaintext
+Example 1:
+Input: nums = [1,7,3,6,5,6]
+Output: 3
+Explanation:
+The pivot index is 3.
+Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11
+Right sum = nums[4] + nums[5] = 5 + 6 = 11
+
+Example 2:
+Input: nums = [1,2,3]
+Output: -1
+Explanation:
+There is no index that satisfies the conditions in the problem statement.
+
+Example 3:
+Input: nums = [2,1,-1]
+Output: 0
+Explanation:
+The pivot index is 0.
+Left sum = 0 (no elements to the left of index 0)
+Right sum = nums[1] + nums[2] = 1 + -1 = 0
+```
+
+Constraints:
+- `1 <= nums.length <= 10^4`
+- `-1000 <= nums[i] <= 1000`
+
+**Solution:**
+```python
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        total_sum = sum(nums)
+        left_sum = 0
+        
+        for i, num in enumerate(nums):
+            # The right sum is the total sum minus the current number and the left sum
+            right_sum = total_sum - num - left_sum
+            
+            # Check if this is a pivot index
+            if left_sum == right_sum:
+                return i
+                
+            # Update the left sum for the next iteration
+            left_sum += num
+        
+        return -1
+```
+
+**Explanation:**
+- This problem asks us to find the first index where the sum of elements to its left equals the sum of elements to its right.
+- The solution uses a prefix sum approach with an optimization:
+  - First, we calculate the total sum of all elements in the array
+  - Then, we iterate through the array, maintaining a running sum of elements to the left of the current index
+  - For each index, we calculate the right sum by subtracting the current element and the left sum from the total sum
+  - If the left sum equals the right sum, we've found our pivot index
+- This approach is more efficient than calculating the left and right sums separately for each index:
+  - We avoid redundant calculations by using the total sum and the running left sum
+  - We only need to iterate through the array twice (once for the initial total sum, and once to find the pivot)
+- Time Complexity: O(n) where n is the length of the array
+- Space Complexity: O(1) as we only use a few variables
+- The algorithm handles all edge cases:
+  - When the pivot is at the beginning (left sum = 0)
+  - When the pivot is at the end (right sum = 0)
+  - When there's no valid pivot index (return -1)
+  - When there are negative numbers in the array
+
+#### 2215. Find the Difference of Two Arrays
+
+**Description:** Given two 0-indexed integer arrays `nums1` and `nums2`, return a list `answer` of size 2 where:
+- `answer[0]` is a list of all distinct integers in `nums1` which are not present in `nums2`.
+- `answer[1]` is a list of all distinct integers in `nums2` which are not present in `nums1`.
+
+Note that the integers in the lists may be returned in any order.
+
+```plaintext
+Example 1:
+Input: nums1 = [1,2,3], nums2 = [2,4,6]
+Output: [[1,3],[4,6]]
+Explanation:
+For nums1, nums1[1] = 2 is present at index 0 of nums2, whereas nums1[0] = 1 and nums1[2] = 3 are not present in nums2. Therefore, answer[0] = [1,3].
+For nums2, nums2[0] = 2 is present at index 1 of nums1, whereas nums2[1] = 4 and nums2[2] = 6 are not present in nums1. Therefore, answer[1] = [4,6].
+
+Example 2:
+Input: nums1 = [1,2,3,3], nums2 = [1,1,2,2]
+Output: [[3],[]]
+Explanation:
+For nums1, nums1[2] = 3 and nums1[3] = 3 are not present in nums2. Since nums1[2] = nums1[3], their value is only included once in answer[0] = [3].
+For nums2, there are no elements that are not present in nums1. Therefore, answer[1] = [].
+```
+
+Constraints:
+- `1 <= nums1.length, nums2.length <= 1000`
+- `-1000 <= nums1[i], nums2[i] <= 1000`
+
+**Solution:**
+```python
+class Solution:
+    def findDifference(self, nums1: List[int], nums2: List[int]) -> List[List[int]]:
+        # Convert arrays to sets for efficient lookup
+        set1 = set(nums1)
+        set2 = set(nums2)
+        
+        # Find elements in set1 that are not in set2
+        diff1 = list(set1 - set2)
+        
+        # Find elements in set2 that are not in set1
+        diff2 = list(set2 - set1)
+        
+        return [diff1, diff2]
+```
+
+**Explanation:**
+- This problem asks us to find the elements that are unique to each of two arrays.
+- The solution leverages Python's set operations for an elegant and efficient approach:
+  - First, we convert both arrays to sets to remove duplicates and enable efficient lookups
+  - Then, we use the set difference operation (`-`) to find elements that are in one set but not the other
+  - We convert the results back to lists as required by the problem
+- The key insights of this approach are:
+  - Sets provide O(1) lookup time, making membership tests efficient
+  - Set operations like difference are optimized and much faster than manual comparisons
+  - Converting to sets automatically handles the requirement to include distinct integers only once
+- Time Complexity: O(n + m) where n and m are the lengths of the input arrays
+  - Converting arrays to sets takes O(n) and O(m) time
+  - Set difference operations take O(min(n, m)) time
+  - Overall, the dominant factor is the initial conversion
+- Space Complexity: O(n + m) for storing the sets and result lists
+- The algorithm efficiently handles all constraints:
+  - It works with positive, negative, and zero values
+  - It properly handles duplicates within each array
+  - It returns empty lists when appropriate
+
+Let me continue with the next 5 problems from the LeetCode 75 Study Plan:
+
+#### 1207. Unique Number of Occurrences
+
+**Description:** Given an array of integers `arr`, return `true` if the number of occurrences of each value in the array is unique, or `false` otherwise.
+
+```plaintext
+Example 1:
+Input: arr = [1,2,2,1,1,3]
+Output: true
+Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.
+
+Example 2:
+Input: arr = [1,2]
+Output: false
+
+Example 3:
+Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
+Output: true
+```
+
+Constraints:
+- `1 <= arr.length <= 1000`
+- `-1000 <= arr[i] <= 1000`
+
+**Solution:**
+```python
+class Solution:
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        # Count occurrences of each value
+        count_map = {}
+        for num in arr:
+            count_map[num] = count_map.get(num, 0) + 1
+        
+        # Check if the counts are unique
+        occurrence_set = set()
+        for count in count_map.values():
+            if count in occurrence_set:
+                return False
+            occurrence_set.add(count)
+        
+        return True
+```
+
+**Explanation:**
+- This problem asks us to determine if each number in the array appears a unique number of times.
+- The solution uses a two-step approach:
+  1. First, we count how many times each number appears in the array using a hash map (dictionary):
+     - We iterate through the array and increment the count for each number
+     - This gives us a mapping from each unique number to its frequency
+  2. Then, we check if all frequencies are unique:
+     - We create a set to track which frequencies we've seen
+     - We iterate through the frequency values in our hash map
+     - If we encounter a frequency we've seen before, we return False
+     - Otherwise, we add the frequency to our set and continue
+     - If we make it through all frequencies without finding a duplicate, we return True
+
+- The key insight is separating the problem into two parts: counting occurrences, then checking uniqueness of those counts.
+- This approach is efficient because:
+  - Hash maps provide O(1) lookup and insertion
+  - Sets allow us to quickly check if we've seen a frequency before
+  - We only need to iterate through the array and the unique elements once each
+
+- Time Complexity: O(n) where n is the length of the array, as we iterate through it once
+- Space Complexity: O(k) where k is the number of unique elements in the array (which is at most n)
+
+- The solution handles all cases correctly, including when there are negative numbers, when all elements are the same, and when there are no duplicates.
+
+#### 1657. Determine if Two Strings Are Close
+
+**Description:** Two strings are considered close if you can attain one from the other using the following operations:
+
+1. Operation 1: Swap any two existing characters.
+   - For example, `abcde -> aecdb`
+2. Operation 2: Transform every occurrence of one existing character into another existing character, and do the same with the other character.
+   - For example, `aacabb -> bbcbaa` (all 'a's are transformed to 'b's, and all 'b's are transformed to 'a's)
+
+You can use the operations on either string as many times as necessary.
+
+Given two strings, `word1` and `word2`, return `true` if `word1` and `word2` are close, and `false` otherwise.
+
+```plaintext
+Example 1:
+Input: word1 = "abc", word2 = "bca"
+Output: true
+Explanation: You can attain word2 from word1 in 2 operations.
+Apply Operation 1: "abc" -> "acb"
+Apply Operation 1: "acb" -> "bca"
+
+Example 2:
+Input: word1 = "a", word2 = "aa"
+Output: false
+Explanation: It is impossible to attain word2 from word1, or vice versa, in any number of operations.
+
+Example 3:
+Input: word1 = "cabbba", word2 = "abbccc"
+Output: true
+Explanation: You can attain word2 from word1 in 3 operations.
+Apply Operation 1: "cabbba" -> "caabbb"
+Apply Operation 2: "caabbb" -> "baaccc"
+Apply Operation 2: "baaccc" -> "abbccc"
+```
+
+Constraints:
+- `1 <= word1.length, word2.length <= 10^5`
+- `word1` and `word2` contain only lowercase English letters.
+
+**Solution:**
+```python
+class Solution:
+    def closeStrings(self, word1: str, word2: str) -> bool:
+        # If the lengths are different, they can't be close
+        if len(word1) != len(word2):
+            return False
+        
+        # Count frequencies of each character in both words
+        count1 = {}
+        count2 = {}
+        
+        for char in word1:
+            count1[char] = count1.get(char, 0) + 1
+        
+        for char in word2:
+            count2[char] = count2.get(char, 0) + 1
+        
+        # Check if both words have the same set of characters
+        if set(count1.keys()) != set(count2.keys()):
+            return False
+        
+        # Check if the frequency distributions are the same
+        # (after sorting to account for transformations)
+        return sorted(count1.values()) == sorted(count2.values())
+```
+
+**Explanation:**
+- This problem asks us to determine if two strings can be made identical using specific operations: swapping characters and transforming pairs of characters.
+- The key insights about these operations:
+  1. Operation 1 (swapping) means we can rearrange the characters however we want
+  2. Operation 2 (transforming) means we can change the identity of characters, but their frequency pattern must remain the same
+  3. We can only transform existing characters - we can't add or remove characters
+
+- These insights lead to two necessary conditions for strings to be "close":
+  1. Both strings must contain exactly the same set of characters (since we can't add or remove characters)
+  2. The frequency distributions must be identical (since we can rearrange frequencies through transformations)
+
+- The solution implements these checks:
+  1. First, we verify that both strings have the same length
+  2. Then, we count the frequency of each character in both strings
+  3. We check if both strings have the same set of unique characters
+  4. Finally, we check if the sorted frequency arrays are identical
+
+- This approach elegantly captures the essence of the operations without having to simulate them:
+  - The ability to swap characters means order doesn't matter
+  - The ability to transform characters means the actual characters don't matter, only their frequency pattern
+
+- Time Complexity: O(n log n) due to sorting the frequency arrays, where n is the length of the strings
+- Space Complexity: O(k) where k is the number of unique characters (which is at most 26 for lowercase English letters)
+
+- The solution correctly handles all edge cases, including when strings contain the same characters with different frequencies or different characters with the same frequencies.
+
+#### 2352. Equal Row and Column Pairs
+
+**Description:** Given an n x n integer matrix `grid`, return the number of pairs `(r, c)` such that row `r` and column `c` are equal.
+
+A row and column pair is considered equal if they contain the same elements in the same order (i.e., an equal array).
+
+```plaintext
+Example 1:
+Input: grid = [[3,2,1],[1,7,6],[2,7,7]]
+Output: 1
+Explanation: There is 1 equal row and column pair:
+- (Row 2, Column 1): [2,7,7]
+
+Example 2:
+Input: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]
+Output: 3
+Explanation: There are 3 equal row and column pairs:
+- (Row 0, Column 0): [3,1,2,2]
+- (Row 2, Column 2): [2,4,2,2]
+- (Row 3, Column 2): [2,4,2,2]
+```
+
+Constraints:
+- `n == grid.length == grid[i].length`
+- `1 <= n <= 200`
+- `1 <= grid[i][j] <= 10^5`
+
+**Solution:**
+```python
+class Solution:
+    def equalPairs(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        
+        # Convert rows to tuples for hashability and efficient comparison
+        row_counter = {}
+        for row in grid:
+            row_tuple = tuple(row)
+            row_counter[row_tuple] = row_counter.get(row_tuple, 0) + 1
+        
+        # Check columns and compare with rows
+        count = 0
+        for col_idx in range(n):
+            # Extract the column as a tuple
+            column = tuple(grid[row_idx][col_idx] for row_idx in range(n))
+            
+            # Add the count of matching rows
+            if column in row_counter:
+                count += row_counter[column]
+        
+        return count
+```
+
+**Explanation:**
+- This problem asks us to find the number of row-column pairs where the row and column contain the same elements in the same order.
+- The solution uses a hash map approach to efficiently count rows and check columns:
+  1. First, we convert each row to a tuple (so it can be used as a key in a dictionary) and count its occurrences.
+  2. Then, for each column, we create a similar tuple representation and check if it exists in our row counter.
+  3. If it exists, we add the count of matching rows to our total.
+
+- The key insight is that we can preprocess the rows and store their frequencies in a hash map, then check each column against this map, rather than comparing every row-column pair directly.
+
+- Converting rows and columns to tuples serves two purposes:
+  1. Tuples are hashable, so they can be used as dictionary keys (unlike lists)
+  2. Tuples support efficient equality comparison, exactly what we need to check if a row equals a column
+
+- This approach is efficient because:
+  - Hash map lookups are O(1) on average
+  - We only need to iterate through the rows and columns once each
+  - We avoid redundant comparisons when multiple rows or columns are identical
+
+- Time Complexity: O(n²) where n is the side length of the grid
+  - We iterate through n rows and n columns, and each iteration takes O(n) time to create the tuple
+  - This gives us O(n² + n²) = O(n²)
+
+- Space Complexity: O(n²) for storing the row tuples in the worst case (if all rows are unique)
+
+- The solution handles all cases correctly, including when multiple rows or columns are identical, and when there are no matching pairs.
+
+#### 2390. Removing Stars From a String
+
+**Description:** You are given a string `s`, which contains stars `*`.
+
+In one operation, you can:
+- Choose a star in `s`.
+- Remove the closest non-star character to its left, as well as remove the star itself.
+
+Return the string after all stars have been removed.
+
+Note:
+- The input will be generated such that the operation is always possible.
+- It can be shown that the resulting string will always be unique.
+
+```plaintext
+Example 1:
+Input: s = "leet**cod*e"
+Output: "lecoe"
+Explanation: 
+Performing the removals from left to right:
+- The closest character to the 1st star is 't' in "leet**cod*e". s becomes "lee*cod*e".
+- The closest character to the 2nd star is 'e' in "lee*cod*e". s becomes "lecod*e".
+- The closest character to the 3rd star is 'd' in "lecod*e". s becomes "lecoe".
+There are no more stars, so we return "lecoe".
+
+Example 2:
+Input: s = "erase*****"
+Output: ""
+Explanation: 
+The entire string is removed, so we return an empty string.
+```
+
+Constraints:
+- `1 <= s.length <= 10^5`
+- `s` consists of lowercase English letters and stars `*`.
+- The operation above can be performed on `s`.
+
+**Solution:**
+```python
+class Solution:
+    def removeStars(self, s: str) -> str:
+        stack = []
+        
+        for char in s:
+            if char == '*':
+                if stack:  # Make sure stack is not empty
+                    stack.pop()  # Remove the closest character to the left
+            else:
+                stack.append(char)
+        
+        return ''.join(stack)
+```
+
+**Explanation:**
+- This problem asks us to process a string with stars, where each star removes both itself and the closest non-star character to its left.
+- The solution uses a stack data structure, which is perfect for this "last-in, first-out" removal pattern:
+  1. We iterate through each character in the string
+  2. If the character is a regular letter, we push it onto the stack
+  3. If the character is a star (*), we pop the top element from the stack (if the stack is not empty)
+  4. After processing all characters, what remains in the stack is our result
+
+- The key insight is recognizing that "remove the closest non-star character to its left" translates perfectly to a stack operation:
+  - The top of the stack always contains the most recently processed character, which is exactly the "closest to the left"
+  - When we encounter a star, we simply pop the top element off the stack
+
+- This approach is efficient and elegant:
+  - We only need to iterate through the string once
+  - Each character is either pushed or popped at most once
+  - The stack naturally maintains the order of characters
+
+- The problem has a nice property that ensures the operation is always possible, meaning we'll never encounter a star when our stack is empty (though our solution handles this edge case safely).
+
+- Time Complexity: O(n) where n is the length of the string
+  - We iterate through each character once
+  - Stack operations (push and pop) are O(1)
+  - Building the final string using join is also O(n)
+
+- Space Complexity: O(n) for the stack in the worst case (if there are no stars)
+
+- The solution handles the given constraints correctly, including the edge case where all characters are removed (resulting in an empty string).
+
+#### 735. Asteroid Collision
+
+**Description:** We are given an array `asteroids` of integers representing asteroids in a row.
+
+For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
+
+Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+
+```plaintext
+Example 1:
+Input: asteroids = [5,10,-5]
+Output: [5,10]
+Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
+
+Example 2:
+Input: asteroids = [8,-8]
+Output: []
+Explanation: The 8 and -8 collide exploding each other.
+
+Example 3:
+Input: asteroids = [10,2,-5]
+Output: [10]
+Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
+```
+
+Constraints:
+- `2 <= asteroids.length <= 10^4`
+- `-1000 <= asteroids[i] <= 1000`
+- `asteroids[i] != 0`
+
+**Solution:**
+```python
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        stack = []
+        
+        for asteroid in asteroids:
+            # Flag to determine if current asteroid survives
+            will_survive = True
+            
+            # Check for collisions (happens when top of stack goes right and current goes left)
+            while stack and stack[-1] > 0 and asteroid < 0 and will_survive:
+                # Current asteroid is moving left, top of stack is moving right
+                # Compare their sizes to see what happens in the collision
+                
+                if abs(stack[-1]) < abs(asteroid):
+                    # Stack top explodes, current asteroid continues
+                    stack.pop()
+                elif abs(stack[-1]) > abs(asteroid):
+                    # Current asteroid explodes, stack remains unchanged
+                    will_survive = False
+                else:  # Equal sizes
+                    # Both explode
+                    stack.pop()
+                    will_survive = False
+            
+            # If asteroid survives all collisions, add it to stack
+            if will_survive:
+                stack.append(asteroid)
+        
+        return stack
+```
+
+**Explanation:**
+- This problem asks us to simulate collisions between asteroids moving in opposite directions, with larger asteroids destroying smaller ones.
+- The solution uses a stack to track asteroids that haven't been destroyed:
+  - We process asteroids one by one from left to right
+  - For each asteroid, we check if it will collide with any previous asteroids
+  - A collision occurs when the top asteroid on the stack is moving right (positive) and the current asteroid is moving left (negative)
+
+- Step-by-step breakdown of the algorithm:
+  1. Initialize an empty stack to store surviving asteroids
+  2. Iterate through each asteroid in the input array
+  3. For each asteroid, check for potential collisions with asteroids at the top of the stack
+  4. A collision can only happen when:
+     - The stack is not empty
+     - The top asteroid in the stack is moving right (positive value)
+     - The current asteroid is moving left (negative value)
+  5. When a collision occurs, compare the sizes:
+     - If the stack top is smaller, it explodes and we continue checking the current asteroid against the next stack element
+     - If the current asteroid is smaller, it explodes and we don't add it to the stack
+     - If they're the same size, both explode
+  6. If the current asteroid survives all collisions, add it to the stack
+  7. The final stack contains all surviving asteroids in their correct order
+
+- Important insights about the problem:
+  - Asteroids moving in the same direction never collide
+  - Right-moving (positive) asteroids never collide with anything to their left
+  - Left-moving (negative) asteroids only collide with right-moving asteroids to their left
+  - Multiple collisions can occur for a single asteroid (it can destroy multiple asteroids in the stack)
+
+- The stack is an ideal data structure because:
+  - It naturally maintains the order of asteroids
+  - It gives us easy access to the most recent asteroid (potential collision target)
+  - We can efficiently remove destroyed asteroids
+
+- Time Complexity: O(n) where n is the number of asteroids
+  - Although we have nested loops, each asteroid can only be pushed and popped from the stack once
+  - This means the overall number of operations is still linear
+
+- Space Complexity: O(n) for the stack in the worst case (if no collisions occur)
+
+- The solution correctly handles all edge cases:
+  - When all asteroids move in the same direction (no collisions)
+  - When all asteroids get destroyed
+  - When asteroids of equal size collide
+  - When a large asteroid destroys multiple smaller ones
+
+This solution effectively simulates the collision process by using the stack to model the state of asteroids after each collision, resulting in the final state of the system.
+
+Let me continue with the next 5 problems from the LeetCode 75 Study Plan:
+
+#### 394. Decode String
+
+**Description:** Given an encoded string, return its decoded string.
+
+The encoding rule is: `k[encoded_string]`, where the `encoded_string` inside the square brackets is being repeated exactly `k` times. Note that `k` is guaranteed to be a positive integer.
+
+You may assume that the input string is always valid; there are no extra white spaces, square brackets are well-formed, etc. Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, `k`. For example, there will not be input like `3a` or `2[4]`.
+
+The test cases are generated so that the length of the output will never exceed 10^5.
+
+```plaintext
+Example 1:
+Input: s = "3[a]2[bc]"
+Output: "aaabcbc"
+
+Example 2:
+Input: s = "3[a2[c]]"
+Output: "accaccacc"
+
+Example 3:
+Input: s = "2[abc]3[cd]ef"
+Output: "abcabccdcdcdef"
+```
+
+Constraints:
+- `1 <= s.length <= 30`
+- `s` consists of lowercase English letters, digits, and square brackets `'[]'`.
+- `s` is guaranteed to be a valid input.
+- All the integers in `s` are in the range `[1, 300]`.
+
+**Solution:**
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        stack = []
+        current_num = 0
+        current_string = ""
+        
+        for char in s:
+            if char.isdigit():
+                current_num = current_num * 10 + int(char)
+            elif char == '[':
+                # Push the current number and string to the stack
+                stack.append((current_string, current_num))
+                # Reset current_string and current_num
+                current_string = ""
+                current_num = 0
+            elif char == ']':
+                # Pop the last saved string and number
+                prev_string, num = stack.pop()
+                # Expand the current string and add it to the previous string
+                current_string = prev_string + current_string * num
+            else:
+                # Regular character, add to current string
+                current_string += char
+        
+        return current_string
+```
+
+**Explanation:**
+- This problem asks us to decode a string that uses a specific encoding format where `k[encoded_string]` means the enclosed string is repeated k times.
+- The solution uses a stack-based approach to handle nested brackets:
+  1. We iterate through each character in the input string.
+  2. If the character is a digit, we build up our multiplier number.
+  3. If the character is an opening bracket '[', we push the current state (current string and number) onto the stack and reset our current state.
+  4. If the character is a closing bracket ']', we pop the previous state, apply the repetition to our current string, and combine it with the previous string.
+  5. For regular characters, we simply append them to our current string.
+
+- The key insights in this solution:
+  - Using a stack helps us handle nested brackets naturally. Each time we encounter an opening bracket, we save the context and start a new "scope".
+  - When we see a closing bracket, we pop the most recent context and apply the repetition.
+  - For multi-digit numbers, we build them digit by digit using the formula `current_num = current_num * 10 + int(char)`.
+
+- This approach handles all the complex cases elegantly:
+  - Nested brackets (like "3[a2[c]]")
+  - Multiple consecutive encoded parts (like "2[abc]3[cd]ef")
+  - Multi-digit repeat numbers
+
+- Time Complexity: O(n), where n is the maximum length of the expanded string. Each character in the final decoded string is processed exactly once.
+- Space Complexity: O(m), where m is the length of the input string. The stack stores at most one entry per '[' character.
+
+- The solution works correctly because it carefully maintains the state at each nesting level and properly applies the repetition as brackets are closed.
+
+#### 933. Number of Recent Calls
+
+**Description:** You have a `RecentCounter` class which counts the number of recent requests within a certain time frame.
+
+Implement the `RecentCounter` class:
+- `RecentCounter()` Initializes the counter with zero recent requests.
+- `ping(int t)` Adds a new request at time `t`, where `t` represents some time in milliseconds, and returns the number of requests that has happened in the past 3000 milliseconds (including the new request). Specifically, return the number of requests that have happened in the inclusive range `[t - 3000, t]`.
+
+It is guaranteed that every call to `ping` uses a strictly larger value of `t` than the previous call.
+
+```plaintext
+Example 1:
+Input:
+["RecentCounter", "ping", "ping", "ping", "ping"]
+[[], [1], [100], [3001], [3002]]
+Output:
+[null, 1, 2, 3, 3]
+
+Explanation:
+RecentCounter recentCounter = new RecentCounter();
+recentCounter.ping(1);     // requests = [1], range is [-2999,1], return 1
+recentCounter.ping(100);   // requests = [1, 100], range is [-2900,100], return 2
+recentCounter.ping(3001);  // requests = [1, 100, 3001], range is [1,3001], return 3
+recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002], range is [2,3002], return 3
+```
+
+Constraints:
+- `1 <= t <= 10^9`
+- Each test case will call `ping` with strictly increasing values of `t`.
+- At most `10^4` calls will be made to `ping`.
+
+**Solution:**
+```python
+class RecentCounter:
+    def __init__(self):
+        self.requests = []  # Queue to store timestamps of requests
+
+    def ping(self, t: int) -> int:
+        # Add the new request timestamp
+        self.requests.append(t)
+        
+        # Remove timestamps that are outside the time window [t-3000, t]
+        while self.requests[0] < t - 3000:
+            self.requests.pop(0)
+        
+        # Return the number of requests in the current time window
+        return len(self.requests)
+```
+
+**Explanation:**
+- This problem asks us to implement a counter that keeps track of recent requests within a 3000 millisecond window.
+- The solution uses a queue-like structure (implemented with a list) to track request timestamps:
+  1. When a new request comes in (`ping`), we add its timestamp to our queue.
+  2. We then remove all older timestamps that fall outside the 3000ms window.
+  3. The number of remaining timestamps is our answer.
+
+- The key insights in this solution:
+  - Since timestamps arrive in strictly increasing order, we can easily maintain a sliding window by removing elements from the front of the queue.
+  - We only need to store timestamps that are within the current time window.
+  - The length of our queue after processing gives us exactly the count we need.
+
+- Why a queue is perfect for this problem:
+  - We only care about requests within a fixed time window.
+  - Older requests fall out of the window first (FIFO - First In, First Out).
+  - Adding and removing from the ends of a queue are efficient operations.
+
+- Time Complexity:
+  - Each `ping` operation is O(n) in the worst case, where n is the number of requests in the current window.
+  - However, each timestamp is only added and removed once, so the amortized time complexity is O(1) per `ping`.
+
+- Space Complexity: O(k), where k is the maximum number of requests that can occur in a 3000ms window.
+
+- The solution efficiently handles the sliding window nature of the problem, maintaining only the necessary information to answer each query.
+
+#### 649. Dota2 Senate
+
+**Description:** In the world of Dota2, there are two parties: the Radiant and the Dire.
+
+The Dota2 senate consists of senators coming from two parties. Now the Senate wants to decide on a change in the Dota2 game. The voting for this change is a round-based procedure. In each round, each senator can exercise one of the two rights:
+
+1. Ban one senator's right: A senator can make another senator lose all his rights in this and all the following rounds.
+2. Announce the victory: If this senator found the senators who still have rights to vote are all from the same party, he can announce the victory and decide on the change in the game.
+
+Given a string `senate` representing each senator's party belonging. The character 'R' and 'D' represent the Radiant party and the Dire party. Then if there are `n` senators, the size of the given string will be `n`.
+
+The round-based procedure starts from the first senator to the last senator in the given order. This procedure will last until the end of voting. All the senators who have lost their rights will be skipped during the procedure.
+
+Suppose every senator is smart enough and will play the best strategy for his own party. Predict which party will finally announce the victory and change the Dota2 game. The output should be "Radiant" or "Dire".
+
+```plaintext
+Example 1:
+Input: senate = "RD"
+Output: "Radiant"
+Explanation: 
+The first senator comes from Radiant and he can just ban the next senator's right in round 1. 
+And the second senator can't exercise any rights anymore since his right has been banned. 
+And in round 2, the first senator can just announce the victory since he is the only guy in the senate who can vote.
+
+Example 2:
+Input: senate = "RDD"
+Output: "Dire"
+Explanation: 
+The first senator comes from Radiant and he can just ban the next senator's right in round 1. 
+And the second senator can't exercise any rights anymore since his right has been banned. 
+And the third senator comes from Dire and he can ban the first senator's right in round 1. 
+And in round 2, the third senator can just announce the victory since he is the only guy in the senate who can vote.
+```
+
+Constraints:
+- `n == senate.length`
+- `1 <= n <= 10^4`
+- `senate[i]` is either 'R' or 'D'.
+
+**Solution:**
+```python
+from collections import deque
+
+class Solution:
+    def predictPartyVictory(self, senate: str) -> str:
+        # Create queues for each party, storing the positions
+        radiant = deque()
+        dire = deque()
+        
+        # Initialize the queues with the positions of each senator
+        for i, senator in enumerate(senate):
+            if senator == 'R':
+                radiant.append(i)
+            else:
+                dire.append(i)
+        
+        # Total number of senators
+        n = len(senate)
+        
+        # Continue until one party has no senators left
+        while radiant and dire:
+            # Get the front senators from each queue
+            r_idx = radiant.popleft()
+            d_idx = dire.popleft()
+            
+            # The senator with the lower index bans the other
+            if r_idx < d_idx:
+                # Radiant senator gets to act again in the next round (n positions later)
+                radiant.append(r_idx + n)
+            else:
+                # Dire senator gets to act again in the next round
+                dire.append(d_idx + n)
+        
+        # Return the winning party
+        return "Radiant" if radiant else "Dire"
+```
+
+**Explanation:**
+- This problem asks us to simulate a voting process where senators can ban others, and to determine which party will win if everyone plays optimally.
+- The solution uses two queues to track the senators from each party:
+  1. We create two queues: one for Radiant senators and one for Dire senators.
+  2. We initialize these queues with the positions (indices) of each senator in the original string.
+  3. We then simulate the rounds of voting:
+     - In each step, we take the front senator from each queue.
+     - The senator with the smaller index gets to act first and bans the other.
+     - The senator who acted gets to participate again in the next round, so we add them back to their queue with an updated position (original position + n).
+  4. We continue until one party has no senators left, at which point the other party wins.
+
+- The key insights in this solution:
+  - The optimal strategy is for each senator to ban the next opposing senator in the voting order.
+  - Using queues helps us keep track of the order in which senators get to act.
+  - By adding n to the position when a senator acts again, we maintain the correct relative ordering across rounds.
+
+- This approach elegantly handles the complex game mechanics:
+  - It correctly simulates the round-based procedure.
+  - It implements the optimal strategy for each party (banning the earliest opposing senator).
+  - It efficiently tracks which senators still have rights to vote.
+
+- Time Complexity: O(n), where n is the number of senators. In the worst case, we process each senator a constant number of times before one party wins.
+- Space Complexity: O(n) for storing the two queues.
+
+- The solution correctly determines the winning party by simulating the game until one party has no senators left with voting rights.
+
+#### 2095. Delete the Middle Node of a Linked List
+
+**Description:** You are given the `head` of a linked list. Delete the **middle node**, and return the `head` of the modified linked list.
+
+The **middle node** of a linked list of size `n` is the `⌊n / 2⌋th` node from the **start** using **0-based indexing**, where `⌊x⌋` denotes the largest integer less than or equal to `x`.
+
+- For `n = 1, 2, 3, 4, and 5`, the middle nodes are `0, 1, 1, 2, and 2`, respectively.
+
+```plaintext
+Example 1:
+Input: head = [1,3,4,7,1,2,6]
+Output: [1,3,4,1,2,6]
+Explanation:
+The above figure represents the given linked list. The indices of the nodes are written below.
+Since n = 7, the middle node is the node with index = ⌊7 / 2⌋ = 3. The value of the middle node is 7, so we delete it.
+
+Example 2:
+Input: head = [1,2,3,4]
+Output: [1,2,4]
+Explanation:
+The above figure represents the given linked list.
+For n = 4, the middle node is the node with index = ⌊4 / 2⌋ = 2. The value of the middle node is 3, so we delete it.
+
+Example 3:
+Input: head = [2,1]
+Output: [2]
+Explanation:
+The above figure represents the given linked list.
+For n = 2, the middle node is the node with index = ⌊2 / 2⌋ = 1. The value of the middle node is 1, so we delete it.
+```
+
+Constraints:
+- The number of nodes in the list is in the range `[1, 10^5]`.
+- `1 <= Node.val <= 10^5`
+
+**Solution:**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # Handle edge case: empty list or single node
+        if not head or not head.next:
+            return None
+        
+        # Use two pointers: slow and fast
+        slow = head
+        fast = head
+        prev = None
+        
+        # Move fast pointer twice as fast as slow pointer
+        while fast and fast.next:
+            fast = fast.next.next
+            prev = slow
+            slow = slow.next
+        
+        # Now slow points to the middle node
+        # prev points to the node before middle
+        # Delete the middle node
+        prev.next = slow.next
+        
+        return head
+```
+
+**Explanation:**
+- This problem asks us to delete the middle node of a linked list.
+- The solution uses the classic fast and slow pointer technique:
+  1. We initialize two pointers, `slow` and `fast`, both starting at the head.
+  2. We also keep track of a `prev` pointer, which trails behind `slow`.
+  3. We move `fast` twice as fast as `slow` (two nodes at a time vs. one node).
+  4. When `fast` reaches the end of the list, `slow` will be at the middle node.
+  5. We use `prev` to delete the middle node by setting `prev.next = slow.next`.
+
+- The key insights in this solution:
+  - Using fast and slow pointers is an elegant way to find the middle of a linked list in one pass.
+  - By keeping track of the previous node, we can easily remove the middle node.
+  - We handle the edge case where the list is empty or has only one node, in which case we return null.
+
+- Why this works:
+  - When `fast` moves twice as fast as `slow`, it will reach the end when `slow` is at the middle.
+  - This is because if the list has n nodes, `fast` will move 2n/2 = n nodes while `slow` moves n/2 nodes.
+  - The previous pointer helps us perform the deletion, as we need to connect the node before the middle to the node after the middle.
+
+- Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once.
+- Space Complexity: O(1), as we only use a constant amount of extra space.
+
+- This solution efficiently finds and deletes the middle node in a single pass through the linked list, handling all edge cases correctly.
+
+#### 328. Odd Even Linked List
+
+**Description:** Given the `head` of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.
+
+The **first** node is considered **odd**, and the **second** node is **even**, and so on.
+
+Note that the relative order inside both the even and odd groups should remain as it was in the input.
+
+You must solve the problem in `O(1)` extra space complexity and `O(n)` time complexity.
+
+```plaintext
+Example 1:
+Input: head = [1,2,3,4,5]
+Output: [1,3,5,2,4]
+
+Example 2:
+Input: head = [2,1,3,5,6,4,7]
+Output: [2,3,6,7,1,5,4]
+```
+
+Constraints:
+- The number of nodes in the linked list is in the range `[0, 10^4]`.
+- `-10^6 <= Node.val <= 10^6`
+
+**Solution:**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # Handle edge cases: empty list or single node
+        if not head or not head.next:
+            return head
+        
+        # Initialize pointers for odd and even nodes
+        odd = head
+        even = head.next
+        even_head = even  # Remember the head of even list to connect later
+        
+        # Traverse the list and group odd and even indexed nodes
+        while even and even.next:
+            # Connect odd nodes: 1->3->5->...
+            odd.next = even.next
+            odd = odd.next
+            
+            # Connect even nodes: 2->4->6->...
+            even.next = odd.next
+            even = even.next
+        
+        # Connect the end of odd list to the start of even list
+        odd.next = even_head
+        
+        return head
+```
+
+**Explanation:**
+- This problem asks us to reorder a linked list by grouping all odd-indexed nodes followed by all even-indexed nodes.
+- The solution uses a two-pointer approach to separate the list into odd and even parts:
+  1. We maintain two pointers, `odd` and `even`, starting at the first and second nodes.
+  2. We also remember the head of the even list (`even_head`) to connect at the end.
+  3. We iterate through the list, connecting odd nodes together and even nodes together.
+  4. Finally, we connect the end of the odd list to the start of the even list.
+
+- The key insights in this solution:
+  - We can build two separate lists (odd and even) in a single pass through the original list.
+  - By maintaining pointers to the current odd and even nodes, we can efficiently reorder the list.
+  - The connections are made in-place, satisfying the O(1) extra space requirement.
+
+- How the node connections work:
+  - Consider a list `1->2->3->4->5`:
+  - Initially, `odd = 1`, `even = 2`, `even_head = 2`
+  - First iteration:
+    - `odd.next = even.next`: `1->3`
+    - `odd = odd.next`: `odd` now points to `3`
+    - `even.next = odd.next`: `2->4`
+    - `even = even.next`: `even` now points to `4`
+  - Second iteration:
+    - `odd.next = even.next`: `3->5`
+    - `odd = odd.next`: `odd` now points to `5`
+    - `even.next = odd.next`: `4->null`
+    - `even = even.next`: `even` now points to `null`
+  - Loop ends, and we connect `odd.next = even_head`: `5->2`
+  - Final list: `1->3->5->2->4`
+
+- Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once.
+- Space Complexity: O(1), as we only use a constant amount of extra space.
+
+- This solution efficiently reorders the list in a single pass while maintaining the relative order within odd and even groups, meeting all the requirements of the problem.
+
+Let me continue with the next 5 problems from the LeetCode 75 Study Plan:
+
+#### 206. Reverse Linked List
+
+**Description:** Given the `head` of a singly linked list, reverse the list, and return the reversed list.
+
+```plaintext
+Example 1:
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+Example 2:
+Input: head = [1,2]
+Output: [2,1]
+
+Example 3:
+Input: head = []
+Output: []
+```
+
+Constraints:
+- The number of nodes in the list is the range `[0, 5000]`.
+- `-5000 <= Node.val <= 5000`
+
+**Solution:**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # Initialize pointers
+        prev = None
+        current = head
+        
+        # Iterate through the list and reverse each pointer
+        while current:
+            # Store next node before we change the pointer
+            next_temp = current.next
+            
+            # Reverse the pointer of current node
+            current.next = prev
+            
+            # Move prev and current one step forward
+            prev = current
+            current = next_temp
+        
+        # prev will point to the new head (original last node)
+        return prev
+```
+
+**Explanation:**
+- This problem asks us to reverse a linked list, changing the direction of all the pointers.
+- The solution uses an iterative approach with three pointers:
+  - `prev`: Points to the node that will come after the current node in the reversed list
+  - `current`: Points to the node we're currently processing
+  - `next_temp`: Temporarily stores the next node before we change the current node's pointer
+  
+- The reversal process works as follows:
+  1. We start with `prev` as null and `current` at the head of the list.
+  2. For each node, we follow these steps:
+     - Save the next node (`next_temp = current.next`) to avoid losing it when we reverse the pointer
+     - Reverse the current node's pointer (`current.next = prev`)
+     - Move `prev` to the current node (`prev = current`)
+     - Move `current` to the next node (`current = next_temp`)
+  3. When `current` becomes null, the reversal is complete, and `prev` points to the new head.
+
+- Let's trace through the algorithm with a simple example: `1->2->3->null`
+  - Initially: `prev = null`, `current = 1`
+  - First iteration:
+    - `next_temp = 2` (saving the next node)
+    - `1->null` (reversing the pointer)
+    - `prev = 1`, `current = 2`
+  - Second iteration:
+    - `next_temp = 3`
+    - `2->1->null`
+    - `prev = 2`, `current = 3`
+  - Third iteration:
+    - `next_temp = null`
+    - `3->2->1->null`
+    - `prev = 3`, `current = null`
+  - The loop ends, and we return `prev`, which is the new head: `3->2->1->null`
+
+- The in-place reversal avoids using extra space for a new list.
+- Time Complexity: O(n), where n is the number of nodes in the list. We process each node exactly once.
+- Space Complexity: O(1), as we only use a constant amount of extra space for the three pointers.
+
+- This algorithm handles all edge cases elegantly:
+  - Empty list: Returns null
+  - Single node: The node points to null, no change needed
+  - Multiple nodes: Correctly reverses all pointers
+
+#### 2130. Maximum Twin Sum of a Linked List
+
+**Description:** In a linked list of size n, where n is even, the ith node (0-indexed) of the linked list is known as the twin of the (n-1-i)th node, if 0 <= i <= (n / 2) - 1.
+
+For example, if n = 4, then node 0 is the twin of node 3, and node 1 is the twin of node 2. These are the only nodes with twins for n = 4.
+The twin sum is defined as the sum of a node and its twin.
+
+Given the head of a linked list with even length, return the maximum twin sum of the linked list.
+
+```plaintext
+Example 1:
+Input: head = [5,4,2,1]
+Output: 6
+Explanation:
+Nodes 0 and 3 are the twins of nodes 3 and 0. All have twin sum = 6.
+There are no other nodes with twins in the linked list.
+Thus, the maximum twin sum is 6. 
+
+Example 2:
+Input: head = [4,2,2,3]
+Output: 7
+Explanation:
+The nodes with twins present in this linked list are:
+- Node 0 is the twin of node 3 having a twin sum of 4 + 3 = 7.
+- Node 1 is the twin of node 2 having a twin sum of 2 + 2 = 4.
+Thus, the maximum twin sum is max(7, 4) = 7. 
+
+Example 3:
+Input: head = [1,100000]
+Output: 100001
+Explanation:
+There is only one node with a twin in the linked list having twin sum of 1 + 100000 = 100001.
+```
+
+Constraints:
+- The number of nodes in the list is an even integer in the range `[2, 10^5]`.
+- `1 <= Node.val <= 10^5`
+
+**Solution:**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def pairSum(self, head: Optional[ListNode]) -> int:
+        # Find the middle of the linked list using slow/fast pointers
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        # Reverse the second half of the linked list
+        prev = None
+        current = slow
+        while current:
+            next_temp = current.next
+            current.next = prev
+            prev = current
+            current = next_temp
+            
+        # Calculate twin sums and find the maximum
+        max_sum = 0
+        first_half = head
+        second_half = prev  # Now pointing to the head of the reversed second half
+        
+        while second_half:
+            # Calculate twin sum
+            twin_sum = first_half.val + second_half.val
+            max_sum = max(max_sum, twin_sum)
+            
+            # Move to the next pair
+            first_half = first_half.next
+            second_half = second_half.next
+            
+        return max_sum
+```
+
+**Explanation:**
+- This problem asks us to find the maximum sum of twin nodes in a linked list, where twins are nodes that are equidistant from the beginning and end.
+- The solution uses a three-step approach:
+  1. Find the middle of the linked list using the slow/fast pointer technique.
+  2. Reverse the second half of the linked list.
+  3. Iterate through both halves simultaneously to calculate twin sums.
+
+- Step 1: Finding the middle
+  - We use the classic slow/fast pointer technique where the slow pointer moves one step at a time, and the fast pointer moves two steps.
+  - When the fast pointer reaches the end, the slow pointer will be at the middle.
+
+- Step 2: Reversing the second half
+  - Once we have the slow pointer at the middle, we reverse the list from that point onward.
+  - This reversal allows us to traverse from the middle toward the end and from the beginning toward the middle simultaneously.
+
+- Step 3: Calculating twin sums
+  - We set up two pointers: one at the head of the original list and one at the head of the reversed second half.
+  - As we move both pointers forward, they point to twin nodes.
+  - We calculate the sum for each pair and keep track of the maximum sum.
+
+- Let's trace this with an example: `[5,4,2,1]`
+  - After finding the middle: `slow` points to node with value `2`
+  - After reversing the second half: List becomes `[5,4,2<-1]`
+  - Twin traversal:
+    - `first_half = 5`, `second_half = 1`, sum = 6
+    - `first_half = 4`, `second_half = 2`, sum = 6
+    - Maximum sum = 6
+
+- The key insight is transforming the problem into a more manageable form by restructuring the linked list.
+- Time Complexity: O(n), where n is the number of nodes. We traverse the list three times: once to find the middle, once to reverse the second half, and once to calculate the sums.
+- Space Complexity: O(1), as we only use a constant amount of extra space.
+
+- This solution efficiently handles all the constraints and edge cases, including the minimum case of just two nodes.
+
+#### 104. Maximum Depth of Binary Tree
+
+**Description:** Given the `root` of a binary tree, return its maximum depth.
+
+A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+```plaintext
+Example 1:
+Input: root = [3,9,20,null,null,15,7]
+Output: 3
+
+Example 2:
+Input: root = [1,null,2]
+Output: 2
+```
+
+Constraints:
+- The number of nodes in the tree is in the range `[0, 10^4]`.
+- `-100 <= Node.val <= 100`
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        # Base case: If the node is null, the depth is 0
+        if not root:
+            return 0
+        
+        # Recursive case: The depth is 1 (current node) plus the max depth of children
+        left_depth = self.maxDepth(root.left)
+        right_depth = self.maxDepth(root.right)
+        
+        # Return the larger of the two depths
+        return max(left_depth, right_depth) + 1
+```
+
+**Explanation:**
+- This problem asks us to find the maximum depth of a binary tree, which is the length of the longest path from the root to a leaf node.
+- The solution uses a recursive approach based on a fundamental property of trees: the depth of a tree is 1 (for the root) plus the maximum depth of its subtrees.
+
+- The recursion works as follows:
+  1. Base case: If we reach a null node, the depth at that point is 0.
+  2. Recursive case: For any non-null node, we:
+     - Recursively find the maximum depth of the left subtree
+     - Recursively find the maximum depth of the right subtree
+     - Take the maximum of these two depths
+     - Add 1 to account for the current node
+     - Return this value as the depth of the tree rooted at this node
+
+- This recursive formulation directly translates the definition of tree depth into code.
+
+- Let's trace through a simple example: 
+  ```
+      3
+     / \
+    9  20
+       / \
+      15  7
+  ```
+  - For node 3: 
+    - Left depth (node 9) = 1 (as node 9 has no children)
+    - Right depth (node 20) = 2 (calculated below)
+    - Max depth = max(1, 2) + 1 = 3
+  - For node 20:
+    - Left depth (node 15) = 1 (as node 15 has no children)
+    - Right depth (node 7) = 1 (as node 7 has no children)
+    - Max depth = max(1, 1) + 1 = 2
+
+- The recursive solution is elegant and concise, directly modeling the problem statement.
+- Time Complexity: O(n), where n is the number of nodes. We visit each node exactly once.
+- Space Complexity: O(h), where h is the height of the tree. This is the maximum depth of the recursive call stack.
+
+- The solution handles all edge cases correctly:
+  - Empty tree: Returns 0
+  - Single node: Returns 1
+  - Unbalanced trees: Correctly finds the maximum depth by exploring all paths
+
+#### 872. Leaf-Similar Trees
+
+**Description:** Consider all the leaves of a binary tree, from left to right order, the values of those leaves form a leaf value sequence.
+
+For example, in the given tree `[3,5,1,6,2,9,8,null,null,7,4]`, the leaf value sequence is `(6, 7, 4, 9, 8)`.
+
+Two binary trees are considered leaf-similar if their leaf value sequence is the same.
+
+Return `true` if and only if the two given trees with head nodes `root1` and `root2` are leaf-similar.
+
+```plaintext
+Example 1:
+Input: root1 = [3,5,1,6,2,9,8,null,null,7,4], root2 = [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]
+Output: true
+
+Example 2:
+Input: root1 = [1,2,3], root2 = [1,3,2]
+Output: false
+```
+
+Constraints:
+- The number of nodes in each tree will be in the range `[1, 200]`.
+- Both of the given trees will have values in the range `[0, 200]`.
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+        # Helper function to collect leaf values in order
+        def collectLeaves(root, leaves):
+            if not root:
+                return
+            
+            # If it's a leaf node, add its value to the list
+            if not root.left and not root.right:
+                leaves.append(root.val)
+                return
+            
+            # Recursively collect leaves from left to right
+            collectLeaves(root.left, leaves)
+            collectLeaves(root.right, leaves)
+        
+        # Collect leaves from both trees
+        leaves1 = []
+        leaves2 = []
+        
+        collectLeaves(root1, leaves1)
+        collectLeaves(root2, leaves2)
+        
+        # Compare the leaf sequences
+        return leaves1 == leaves2
+```
+
+**Explanation:**
+- This problem asks us to determine if two binary trees have the same sequence of leaf values when traversed in order.
+- The solution uses a two-step approach:
+  1. Collect all leaf values from each tree in left-to-right order.
+  2. Compare the resulting sequences to check if they are identical.
+
+- The leaf collection is done using depth-first traversal (specifically, a variation of in-order traversal):
+  - We recursively explore the tree, first the left subtree, then the right subtree.
+  - Whenever we encounter a leaf node (a node with no children), we add its value to our list.
+  - This ensures that leaves are collected in the correct left-to-right order.
+
+- The comparison is straightforward: we simply check if the two collected sequences are equal.
+
+- Let's understand the process for a simpler example:
+  Tree 1:
+  ```
+      3
+     / \
+    5   1
+   /\   /\
+  6  2 9  8
+    /\
+   7  4
+  ```
+  - Leaves would be: [6, 7, 4, 9, 8]
+  
+  Tree 2:
+  ```
+      3
+     / \
+    5   1
+   /\   /\
+  6  7 4  2
+           /\
+          9  8
+  ```
+  - Leaves would be: [6, 7, 4, 9, 8]
+  
+  These are the same, so the trees are leaf-similar.
+
+- The key insight is separating the problem into two parts: collection and comparison.
+- Time Complexity: O(n + m), where n and m are the number of nodes in the two trees. We need to visit each node in both trees.
+- Space Complexity: O(L1 + L2), where L1 and L2 are the number of leaves in each tree. This accounts for storing the leaf sequences. The recursion also uses O(h) stack space where h is the height of the tree.
+
+- This solution elegantly handles the comparison of tree structures by focusing only on the leaf values and their order, which is the essence of the problem.
+
+#### 1448. Count Good Nodes in Binary Tree
+
+**Description:** Given a binary tree `root`, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+
+Return the number of good nodes in the binary tree.
+
+```plaintext
+Example 1:
+Input: root = [3,1,4,3,null,1,5]
+Output: 4
+Explanation: Nodes in blue are good.
+Root Node (3) is always a good node.
+Node 4 -> (3,4) is the maximum value in the path starting from the root.
+Node 5 -> (3,4,5) is the maximum value in the path
+Node 3 -> (3,1,3) is the maximum value in the path.
+
+Example 2:
+Input: root = [3,3,null,4,2]
+Output: 3
+Explanation: Node 2 -> (3,3,2) is not good, because "3" is higher than it.
+
+Example 3:
+Input: root = [1]
+Output: 1
+Explanation: Root is considered as good.
+```
+
+Constraints:
+- The number of nodes in the binary tree is in the range `[1, 10^5]`.
+- Each node's value is between `[-10^4, 10^4]`.
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        # Helper function for DFS traversal
+        def dfs(node, max_so_far):
+            if not node:
+                return 0
+            
+            # Current node is good if its value is >= the maximum value seen so far
+            is_good = 1 if node.val >= max_so_far else 0
+            
+            # Update maximum value seen for the children
+            max_so_far = max(max_so_far, node.val)
+            
+            # Recursively count good nodes in left and right subtrees
+            left_count = dfs(node.left, max_so_far)
+            right_count = dfs(node.right, max_so_far)
+            
+            # Return the total count
+            return is_good + left_count + right_count
+        
+        # Start DFS from the root with negative infinity as initial maximum
+        return dfs(root, float('-inf'))
+```
+
+**Explanation:**
+- This problem asks us to count nodes where the value of the node is greater than or equal to all values in the path from the root to that node.
+- The solution uses a depth-first search (DFS) approach, keeping track of the maximum value seen so far along each path:
+  1. For each node, we check if its value is greater than or equal to the maximum value seen in the path so far. If it is, it's a "good" node.
+  2. We update the maximum value to include the current node's value.
+  3. We recursively explore both subtrees, passing along the updated maximum value.
+  4. We count the total number of good nodes by adding the results from the current node and its subtrees.
+
+- The key insight is maintaining the "maximum so far" value as we traverse down each path:
+  - We start with negative infinity as the initial maximum, ensuring the root is always counted as good.
+  - For each node, we compare its value with the current maximum to determine if it's good.
+  - When we move to children, we update the maximum to include the current node's value.
+
+- Let's trace through a simple example:
+  ```
+      3
+     / \
+    1   4
+   /   / \
+  3   1   5
+  ```
+  - For root (3): 
+    - 3 > -∞, it's good
+    - max_so_far becomes 3
+  - For node 1 (left child of 3):
+    - 1 < 3, not good
+    - max_so_far remains 3
+  - For node 3 (left child of 1):
+    - 3 == 3, it's good
+    - max_so_far remains 3
+  - For node 4 (right child of 3):
+    - 4 > 3, it's good
+    - max_so_far becomes 4
+  - For node 1 (left child of 4):
+    - 1 < 4, not good
+    - max_so_far remains 4
+  - For node 5 (right child of 4):
+    - 5 > 4, it's good
+    - max_so_far becomes 5
+  - Total good nodes: 4 (nodes with values 3, 3, 4, and 5)
+
+- This recursive DFS approach effectively traverses every path from root to leaf, keeping track of the relevant information.
+- Time Complexity: O(n), where n is the number of nodes in the tree. We visit each node exactly once.
+- Space Complexity: O(h), where h is the height of the tree, for the recursive call stack.
+
+- This solution elegantly handles all scenarios, including when nodes have negative values or when there are duplicate values in the tree.
+
+Let me continue with the next 5 problems from the LeetCode 75 Study Plan:
+
+#### 437. Path Sum III
+
+**Description:** Given the `root` of a binary tree and an integer `targetSum`, return the number of paths where the sum of the values along the path equals `targetSum`.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+
+```plaintext
+Example 1:
+Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+Output: 3
+Explanation: The paths that sum to 8 are shown.
+
+Example 2:
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: 3
+```
+
+Constraints:
+- The number of nodes in the tree is in the range `[0, 1000]`.
+- `-10^9 <= Node.val <= 10^9`
+- `-1000 <= targetSum <= 1000`
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        # Helper function to find paths starting from a specific node
+        def dfs(node, current_sum):
+            if not node:
+                return 0
+            
+            # Update current sum with this node's value
+            current_sum += node.val
+            
+            # Check if we've found a path that sums to targetSum
+            count = prefix_sums[current_sum - targetSum]
+            
+            # Update prefix sum count
+            prefix_sums[current_sum] += 1
+            
+            # Recursively explore left and right subtrees
+            count += dfs(node.left, current_sum)
+            count += dfs(node.right, current_sum)
+            
+            # Backtrack: remove current path's contribution before returning
+            prefix_sums[current_sum] -= 1
+            
+            return count
+        
+        # Map to store prefix sums and their counts
+        prefix_sums = defaultdict(int)
+        # Empty path has sum 0
+        prefix_sums[0] = 1
+        
+        return dfs(root, 0)
+```
+
+**Explanation:**
+- This problem asks us to count all downward paths in a binary tree that sum to a target value, with paths allowed to start and end at any node.
+- The solution uses the prefix sum technique, a powerful approach for array sum problems that we adapt for trees:
+  1. We maintain a dictionary of prefix sums seen so far along the current path.
+  2. As we traverse the tree using DFS, we keep track of the cumulative sum from the root to the current node.
+  3. At each node, we check how many prefix sums of value `current_sum - targetSum` we've seen, as these represent paths ending at the current node with sum equal to `targetSum`.
+
+- The key insight is understanding what a prefix sum represents in a tree context:
+  - If the sum from root to current node is `current_sum` and we've previously seen a prefix sum of `current_sum - targetSum`, then the sum from that previous node to the current node must be exactly `targetSum`.
+  - By keeping track of all prefix sums seen so far, we can efficiently count valid paths ending at each node.
+
+- Let's walk through a simpler example: 
+  ```
+       10
+      /  \
+     5   -3
+    / \    \
+   3   2   11
+  ```
+  With targetSum = 8:
+  
+  1. Start at root (10):
+     - current_sum = 10
+     - Check if (10 - 8 = 2) exists in prefix_sums: No paths found
+     - Add 10 to prefix_sums: {0:1, 10:1}
+  
+  2. Move to left child (5):
+     - current_sum = 15
+     - Check if (15 - 8 = 7) exists in prefix_sums: No paths found
+     - Add 15 to prefix_sums: {0:1, 10:1, 15:1}
+  
+  3. Move to left-left child (3):
+     - current_sum = 18
+     - Check if (18 - 8 = 10) exists in prefix_sums: Found 1 path
+     - Add 18 to prefix_sums: {0:1, 10:1, 15:1, 18:1}
+     - Backtrack and remove 18: {0:1, 10:1, 15:1}
+  
+  4. Move to left-right child (2):
+     - current_sum = 17
+     - Check if (17 - 8 = 9) exists in prefix_sums: No paths found
+     - Add 17 to prefix_sums: {0:1, 10:1, 15:1, 17:1}
+     - Backtrack and remove 17: {0:1, 10:1, 15:1}
+     - Backtrack and remove 15: {0:1, 10:1}
+  
+  5. Move to right child (-3):
+     - current_sum = 7
+     - Check if (7 - 8 = -1) exists in prefix_sums: No paths found
+     - Add 7 to prefix_sums: {0:1, 10:1, 7:1}
+  
+  6. Move to right-right child (11):
+     - current_sum = 18
+     - Check if (18 - 8 = 10) exists in prefix_sums: Found 1 path
+     - Add 18 to prefix_sums: {0:1, 10:1, 7:1, 18:1}
+     - Backtrack and remove 18: {0:1, 10:1, 7:1}
+     - Backtrack and remove 7: {0:1, 10:1}
+     - Backtrack and remove 10: {0:1}
+
+  Total paths found: 2
+
+- The backtracking step is crucial to ensure we only count paths along a single downward branch; when we move from one branch to another, we need to remove the prefix sums associated with the previous branch.
+
+- Time Complexity: O(n), where n is the number of nodes. We visit each node once during the DFS traversal.
+- Space Complexity: O(h + n), where h is the height of the tree (for the recursion stack) and n in the worst case for the prefix sums dictionary.
+
+- This solution efficiently handles all cases, including paths that start at the root, paths that end at leaves, and paths that are in the middle of the tree.
+
+#### 1372. Longest ZigZag Path in a Binary Tree
+
+**Description:** You are given the `root` of a binary tree.
+
+A ZigZag path for a binary tree is defined as follows:
+- Choose any node in the binary tree and a direction (right or left).
+- If the current direction is right, move to the right child of the current node; otherwise, move to the left child.
+- Change the direction from right to left or from left to right.
+- Repeat the second and third steps until you can't move in the tree.
+
+Zigzag length is defined as the number of nodes visited - 1. (A single node has a length of 0).
+
+Return the longest ZigZag path contained in that tree.
+
+```plaintext
+Example 1:
+Input: root = [1,null,1,1,1,null,null,1,1,null,1,null,null,null,1]
+Output: 3
+Explanation: Longest ZigZag path in blue nodes: 1 -> 1 -> 1 -> 1.
+
+Example 2:
+Input: root = [1,1,1,null,1,null,null,1,1,null,1]
+Output: 4
+Explanation: Longest ZigZag path in blue nodes: 1 -> 1 -> 1 -> 1 -> 1.
+
+Example 3:
+Input: root = [1]
+Output: 0
+```
+
+Constraints:
+- The number of nodes in the tree is in the range `[1, 5 * 10^4]`.
+- `1 <= Node.val <= 100`
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def longestZigZag(self, root: Optional[TreeNode]) -> int:
+        # Track the global maximum zigzag path length
+        self.max_length = 0
+        
+        # Helper function to perform DFS
+        def dfs(node, is_left, length):
+            if not node:
+                return
+            
+            # Update the maximum zigzag path length
+            self.max_length = max(self.max_length, length)
+            
+            # If current direction is left, the next direction could be right
+            if is_left:
+                # Continue zigzag path by going right
+                dfs(node.right, False, length + 1)
+                # Start a new zigzag path going left
+                dfs(node.left, True, 1)
+            else:
+                # Continue zigzag path by going left
+                dfs(node.left, True, length + 1)
+                # Start a new zigzag path going right
+                dfs(node.right, False, 1)
+        
+        # Start DFS from both left and right directions
+        dfs(root.left, True, 1)   # Start by going left
+        dfs(root.right, False, 1)  # Start by going right
+        
+        return self.max_length
+```
+
+**Explanation:**
+- This problem asks us to find the longest zigzag path in a binary tree, where a zigzag path alternates between left and right child nodes.
+- The solution uses a depth-first search (DFS) approach with three key parameters:
+  1. `node`: The current node we're processing
+  2. `is_left`: A boolean indicating whether we reached this node by going left (true) or right (false)
+  3. `length`: The length of the zigzag path so far
+
+- The DFS traversal works as follows:
+  1. If the current node is null, we've reached the end of a path, so we return.
+  2. We update our global maximum length if the current path is longer.
+  3. Based on the current direction (`is_left`), we:
+     - Continue the zigzag path by going in the opposite direction, incrementing the length
+     - Start a new potential zigzag path by going in the same direction, resetting the length to 1
+
+- The key insight is that at each node, we need to consider two possibilities:
+  1. Continue the current zigzag path by alternating direction
+  2. Start a new zigzag path from the current node
+
+- We initialize two DFS calls from the root - one starting by going left, and one starting by going right - to ensure we consider all possible zigzag paths.
+
+- Let's trace through a simpler example:
+  ```
+      1
+     / \
+    2   3
+   / \   \
+  4   5   6
+  ```
+  
+  1. Start with root(1)'s left child(2) with is_left=true, length=1:
+     - Update max_length to 1
+     - Continue zigzag to the right (node 5) with is_left=false, length=2
+     - Start new zigzag to the left (node 4) with is_left=true, length=1
+  
+  2. For node 5:
+     - Update max_length to 2
+     - No further children to continue
+  
+  3. For node 4:
+     - Update max_length to 1 (not greater than current max)
+     - No further children to continue
+  
+  4. Start with root(1)'s right child(3) with is_left=false, length=1:
+     - Update max_length to 1 (not greater than current max)
+     - Continue zigzag to the left (no left child) with is_left=true
+     - Start new zigzag to the right (node 6) with is_left=false, length=1
+  
+  5. For node 6:
+     - Update max_length to 1 (not greater than current max)
+     - No further children to continue
+  
+  The longest zigzag path is 2 (nodes 1 -> 2 -> 5).
+
+- Time Complexity: O(n), where n is the number of nodes in the tree. We visit each node at most twice during the traversal.
+- Space Complexity: O(h), where h is the height of the tree, for the recursion stack.
+
+- This solution efficiently handles all cases, including trees with only a single node (which have a zigzag length of 0), and finds the maximum zigzag path length regardless of where the path starts in the tree.
+
+#### 236. Lowest Common Ancestor of a Binary Tree
+
+**Description:** Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: "The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in T that has both `p` and `q` as descendants (where we allow a node to be a descendant of itself)."
+
+```plaintext
+Example 1:
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+
+Example 2:
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+
+Example 3:
+Input: root = [1,2], p = 1, q = 2
+Output: 1
+```
+
+Constraints:
+- The number of nodes in the tree is in the range `[2, 10^5]`.
+- `-10^9 <= Node.val <= 10^9`
+- All `Node.val` are unique.
+- `p != q`
+- `p` and `q` will exist in the tree.
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        # Base cases
+        if not root or root == p or root == q:
+            return root
+        
+        # Look for p and q in left and right subtrees
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        
+        # If both p and q were found in different subtrees, root is the LCA
+        if left and right:
+            return root
+        
+        # If only one of p or q was found, return that node
+        # If neither was found, return None
+        return left if left else right
+```
+
+**Explanation:**
+- This problem asks us to find the lowest common ancestor (LCA) of two nodes in a binary tree, which is the deepest node that has both nodes as descendants.
+- The solution uses a recursive approach based on the following observations:
+  1. If the current node is null or is one of the target nodes (p or q), it's potentially part of the answer.
+  2. We recursively search for p and q in the left and right subtrees.
+  3. Based on the results from both subtrees, we determine the LCA:
+     - If both subtrees return a non-null result, the current node is the LCA.
+     - If only one subtree returns a non-null result, that result is the LCA.
+     - If both subtrees return null, no LCA exists in this branch.
+
+- The recursion works as follows:
+  1. Base case: If the current node is null or matches one of the target nodes, return it.
+  2. Recursively search the left and right subtrees.
+  3. If both recursive calls return a non-null value, the current node is the LCA (as it has p in one subtree and q in the other).
+  4. If only one recursive call returns a non-null value, that value is the LCA (as both p and q are in that subtree).
+  5. If both recursive calls return null, return null (neither p nor q is in this subtree).
+
+- Let's trace through a simple example:
+  ```
+      3
+     / \
+    5   1
+   / \  / \
+  6  2 0   8
+    / \
+   7   4
+  ```
+  Let's find the LCA of nodes 5 and 1:
+  
+  1. Start at node 3:
+     - Recursively check left subtree (rooted at 5)
+     - Recursively check right subtree (rooted at 1)
+  
+  2. For node 5:
+     - Node 5 is one of our targets, so return 5
+  
+  3. For node 1:
+     - Node 1 is one of our targets, so return 1
+  
+  4. Back at node 3:
+     - Left returned 5, right returned 1
+     - Since both are non-null, node 3 is the LCA
+  
+  Let's find the LCA of nodes 5 and 4:
+  
+  1. Start at node 3:
+     - Recursively check left subtree (rooted at 5)
+     - Recursively check right subtree (rooted at 1)
+  
+  2. For node 5:
+     - Node 5 is one of our targets, so return 5
+  
+  3. For node 1:
+     - Recursively check left subtree (rooted at 0): Returns null
+     - Recursively check right subtree (rooted at 8): Returns null
+     - Both are null, so return null
+  
+  4. Back at node 3:
+     - Left returned 5, right returned null
+     - Return the non-null result: node 5 is the LCA
+
+- This elegant recursive solution correctly handles all cases, including when one node is a descendant of the other.
+- Time Complexity: O(n), where n is the number of nodes in the tree. In the worst case, we might have to visit all nodes.
+- Space Complexity: O(h), where h is the height of the tree, for the recursion stack.
+
+- The solution efficiently finds the LCA in a single pass through the tree, leveraging the properties of the binary tree structure.
+
+#### 199. Binary Tree Right Side View
+
+**Description:** Given the `root` of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+```plaintext
+Example 1:
+Input: root = [1,2,3,null,5,null,4]
+Output: [1,3,4]
+
+Example 2:
+Input: root = [1,null,3]
+Output: [1,3]
+
+Example 3:
+Input: root = []
+Output: []
+```
+
+Constraints:
+- The number of nodes in the tree is in the range `[0, 100]`.
+- `-100 <= Node.val <= 100`
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        
+        result = []
+        queue = deque([root])
+        
+        # Perform level-order traversal
+        while queue:
+            level_size = len(queue)
+            
+            # Process all nodes at the current level
+            for i in range(level_size):
+                node = queue.popleft()
+                
+                # If this is the rightmost node at this level, add to result
+                if i == level_size - 1:
+                    result.append(node.val)
+                
+                # Add children to the queue
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        
+        return result
+```
+
+**Explanation:**
+- This problem asks us to return the values of the nodes visible when viewing the binary tree from the right side.
+- The solution uses a level-order traversal approach (breadth-first search):
+  1. We process the tree level by level using a queue.
+  2. At each level, we only add the value of the rightmost node to our result.
+  3. When processing a node, we add its children to the queue for the next level.
+
+- The key insight is that the rightmost node at each level is the one visible from the right side of the tree.
+
+- Step-by-step explanation of the algorithm:
+  1. Initialize an empty result list and a queue with the root node.
+  2. While the queue is not empty:
+     - Get the number of nodes at the current level.
+     - Process all nodes at the current level, keeping track of their position.
+     - Add only the rightmost node's value to the result.
+     - Add the children of all nodes to the queue for the next level.
+  3. Return the result list.
+
+- Let's trace through the example:
+  ```
+      1
+     / \
+    2   3
+     \   \
+      5   4
+  ```
+  
+  1. Initialize: result = [], queue = [1]
+  2. First level:
+     - level_size = 1
+     - Process node 1: It's the rightmost, so add to result: [1]
+     - Add children: queue = [2, 3]
+  3. Second level:
+     - level_size = 2
+     - Process node 2: Not rightmost, don't add to result
+     - Process node 3: It's the rightmost, so add to result: [1, 3]
+     - Add children: queue = [5, 4]
+  4. Third level:
+     - level_size = 2
+     - Process node 5: Not rightmost, don't add to result
+     - Process node 4: It's the rightmost, so add to result: [1, 3, 4]
+     - Add children: queue = [] (empty now)
+  5. Queue is empty, so return result: [1, 3, 4]
+
+- Time Complexity: O(n), where n is the number of nodes in the tree. We visit each node exactly once.
+- Space Complexity: O(w), where w is the maximum width of the tree. In the worst case, the queue could contain all nodes at the level with the maximum width.
+
+- The level-order traversal approach is particularly well-suited for this problem because it naturally processes the tree level by level, making it easy to identify the rightmost node at each level.
+
+#### 1161. Maximum Level Sum of a Binary Tree
+
+**Description:** Given the `root` of a binary tree, the level of its root is 1, the level of its children is 2, and so on.
+
+Return the smallest level `x` such that the sum of all the values of nodes at level `x` is maximal.
+
+```plaintext
+Example 1:
+Input: root = [1,7,0,7,-8,null,null]
+Output: 2
+Explanation: 
+Level 1 sum = 1.
+Level 2 sum = 7 + 0 = 7.
+Level 3 sum = 7 + (-8) = -1.
+So we return the level with the maximum sum which is level 2.
+
+Example 2:
+Input: root = [989,null,10250,98693,-89388,null,null,null,-32127]
+Output: 2
+```
+
+Constraints:
+- The number of nodes in the tree is in the range `[1, 10^4]`.
+- `-10^5 <= Node.val <= 10^5`
+
+**Solution:**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        
+        max_sum = float('-inf')
+        max_level = 1
+        current_level = 1
+        
+        queue = deque([root])
+        
+        # Perform level-order traversal
+        while queue:
+            level_size = len(queue)
+            level_sum = 0
+            
+            # Process all nodes at the current level
+            for _ in range(level_size):
+                node = queue.popleft()
+                level_sum += node.val
+                
+                # Add children to the queue
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            # Update max_sum and max_level if current level has higher sum
+            if level_sum > max_sum:
+                max_sum = level_sum
+                max_level = current_level
+            
+            current_level += 1
+        
+        return max_level
+```
+
+**Explanation:**
+- This problem asks us to find the level with the maximum sum, returning the smallest level in case of a tie.
+- The solution uses a level-order traversal (breadth-first search) approach:
+  1. We process the tree level by level using a queue.
+  2. For each level, we calculate the sum of all node values.
+  3. We keep track of the maximum sum seen so far and the level at which it occurred.
+  4. We return the level with the maximum sum (or the smallest such level in case of a tie).
+
+- The level-order traversal ensures we process the tree systematically, one level at a time:
+  1. Initialize a queue with the root node and set the current level to 1.
+  2. While the queue is not empty:
+     - Get the number of nodes at the current level.
+     - Calculate the sum of all node values at this level.
+     - If this sum is greater than the maximum seen so far, update the maximum sum and the corresponding level.
+     - Add all children to the queue for the next level.
+     - Increment the current level.
+  3. Return the level with the maximum sum.
+
+- Let's trace through the example:
+  ```
+      1
+     / \
+    7   0
+   /     
+  7     
+ /
+-8
+  ```
+  
+  1. Initialize: max_sum = -inf, max_level = 1, current_level = 1, queue = [1]
+  2. Level 1:
+     - level_size = 1, level_sum = 1
+     - Update max_sum = 1, max_level = 1
+     - Add children: queue = [7, 0]
+     - Increment current_level to 2
+  3. Level 2:
+     - level_size = 2, level_sum = 7 + 0 = 7
+     - This is greater than max_sum, so update max_sum = 7, max_level = 2
+     - Add children: queue = [7]
+     - Increment current_level to 3
+  4. Level 3:
+     - level_size = 1, level_sum = 7
+     - This is equal to max_sum, but we keep the smaller level, so max_level remains 2
+     - Add children: queue = [-8]
+     - Increment current_level to 4
+  5. Level 4:
+     - level_size = 1, level_sum = -8
+     - This is less than max_sum, so no update
+     - Add children: queue = [] (empty now)
+     - Increment current_level to 5
+  6. Queue is empty, so return max_level = 2
+
+- Time Complexity: O(n), where n is the number of nodes in the tree. We visit each node exactly once.
+- Space Complexity: O(w), where w is the maximum width of the tree. In the worst case, the queue could contain all nodes at the level with the maximum width.
+
+- This solution efficiently finds the level with the maximum sum, handling all edge cases, including negative values and ties between levels.
