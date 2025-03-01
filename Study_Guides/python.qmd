@@ -3285,7 +3285,8 @@ class Solution:
   3. Return the level with the maximum sum.
 
 - Let's trace through the example:
-  ```
+  
+```
       1
      / \
     7   0
@@ -3293,7 +3294,7 @@ class Solution:
   7     
  /
 -8
-  ```
+```
   
   1. Initialize: max_sum = -inf, max_level = 1, current_level = 1, queue = [1]
   2. Level 1:
@@ -3322,3 +3323,5 @@ class Solution:
 - Space Complexity: O(w), where w is the maximum width of the tree. In the worst case, the queue could contain all nodes at the level with the maximum width.
 
 - This solution efficiently finds the level with the maximum sum, handling all edge cases, including negative values and ties between levels.
+
+#### Binary Search Tree > Search in a Binary Search Tree

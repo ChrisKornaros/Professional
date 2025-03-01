@@ -3672,10 +3672,32 @@ Constraints:
 
 **Solution:**
 ```sql
+-- Write your PostgreSQL query statement below
+WITH base AS (
+    SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary, DENSE_RANK() OVER (PARTITION BY d.name ORDER BY e.salary DESC) AS rank
+    FROM Employee e INNER JOIN Department d
+        ON e.departmentId = d.id
+    GROUP BY d.name, e.name, e.salary
+)
 
+SELECT Department, Employee, Salary
+FROM base
+WHERE rank <= 3;
 ```
 
 **Explanation:**
+- This query identifies the highest-paid employees in each department, specifically those with salaries in the top three within their department.
+- The solution uses a Common Table Expression (CTE) with a window function to rank employees within each department based on salary.
+- `DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC)` assigns a rank to each employee's salary within their department, with 1 being the highest.
+- Unlike regular RANK(), DENSE_RANK() doesn't skip ranks for ties, which is important when multiple employees have the same salary.
+- The main query then filters for employees with a rank of 3 or less, capturing the top three salary tiers in each department.
+- The solution joins the Employee and Department tables to include department names in the output.
+- Time complexity: O(n log n) where n is the number of employees, due to the sorting operations in the window function.
+- Space complexity: O(n) for the CTE and result set.
+- The DENSE_RANK() function ensures that if multiple employees have the same salary, they get the same rank and all count toward the top three.
+- For example, if two employees have the highest salary in a department, both get rank 1, and the employee with the next highest salary gets rank 2.
+- This approach efficiently handles departments of different sizes without requiring complex subqueries.
+- For large datasets, indexes on departmentId and salary would improve join and sorting performance.
 
 #### 1667. Fix Names in a Table
 **Description:**
@@ -3720,10 +3742,28 @@ Output:
 
 **Solution:**
 ```sql
-
+-- Write your PostgreSQL query statement below
+SELECT user_id, CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2))) AS name
+FROM Users 
+ORDER BY user_id
 ```
 
 **Explanation:**
+- This query modifies each name to have only the first character uppercase and the rest lowercase.
+- The solution uses several string manipulation functions to achieve this:
+  - `SUBSTRING(name, 1, 1)` extracts the first character of the name
+  - `UPPER()` converts this first character to uppercase
+  - `SUBSTRING(name, 2)` extracts the rest of the name (all characters from position 2 onward)
+  - `LOWER()` converts these remaining characters to lowercase
+  - `CONCAT()` combines the uppercase first character with the lowercase remainder
+- Results are ordered by user_id as required by the problem.
+- Time complexity: O(n log n) where n is the number of users, due to the sorting operation.
+- Space complexity: O(n) for the result set.
+- The string manipulation approach efficiently handles names of any length in a single pass.
+- PostgreSQL's rich string functions make this transformation straightforward, requiring just one SQL statement.
+- The solution correctly handles edge cases such as empty names or names that are already in the desired format.
+- For large user tables, an index on user_id would improve sorting performance.
+- This string manipulation pattern is very common in database applications for standardizing text formats.
 
 #### 1527. Patients With a Condition
 **Description:**
@@ -3774,10 +3814,24 @@ Explanation: Bob and George both have a condition that starts with DIAB1.
 
 **Solution:**
 ```sql
-
+-- Write your PostgreSQL query statement below
+SELECT patient_id, patient_name, conditions
+FROM Patients
+WHERE conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%'
 ```
 
 **Explanation:**
+- This query identifies patients who have Type I Diabetes, which is indicated by the 'DIAB1' prefix in their conditions.
+- The solution uses the LIKE operator with pattern matching to find the 'DIAB1' prefix in two possible positions:
+  1. `conditions LIKE 'DIAB1%'` checks if 'DIAB1' appears at the start of the conditions string
+  2. `conditions LIKE '% DIAB1%'` checks if 'DIAB1' appears after a space elsewhere in the string
+- These two patterns together cover all cases where 'DIAB1' appears as a separate code in the conditions list.
+- Time complexity: O(n) where n is the number of patients, as each patient's conditions need to be checked against the patterns.
+- Space complexity: O(m) where m is the number of patients with Type I Diabetes.
+- The two-part pattern matching is crucial to correctly handle the problem's requirement that DIAB1 must appear as a distinct code.
+- For example, this approach correctly identifies 'DIAB100' as a Type I Diabetes code, but would not match 'ADIAB1' since it's not a separate code.
+- The solution efficiently filters patients in a single pass through the data.
+- For large patient databases, a full-text search index on the conditions column would improve pattern matching performance.
 
 #### 196. Delete Duplicate Emails
 **Description:**
@@ -3828,10 +3882,27 @@ Explanation: john@example.com is repeated two times. We keep the row with the sm
 
 **Solution:**
 ```sql
-
+-- Write your PostgreSQL query statement below
+DELETE FROM Person
+WHERE id IN (
+    SELECT p1.id
+    FROM Person p1
+    JOIN Person p2 ON p1.email = p2.email AND p1.id > p2.id
+);
 ```
 
 **Explanation:**
+- This query deletes duplicate emails from the Person table, keeping only the one with the smallest id for each email.
+- The solution uses a self-join to identify pairs of rows with the same email.
+- The condition `p1.id > p2.id` ensures we're only selecting the rows with higher IDs for each email (the duplicates we want to delete).
+- The DELETE statement removes all rows whose IDs are in the result set of the subquery.
+- Time complexity: O(n²) in the worst case due to the self-join, where n is the number of person records.
+- Space complexity: O(n) for the intermediate result set from the join.
+- This approach correctly preserves the row with the smallest ID for each email while removing all duplicates.
+- The self-join pattern is a common technique for identifying duplicate values in SQL.
+- Note that PostgreSQL supports using DELETE with a FROM clause, but the syntax above is more standard across different SQL implementations.
+- For large tables, an index on the email column would significantly improve the performance of the join operation.
+- Some database systems might not allow selecting from the same table being modified in a subquery, but PostgreSQL handles this correctly.
 
 #### 176. Second Highest Salary
 **Description:**
