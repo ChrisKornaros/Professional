@@ -3,7 +3,9 @@
 ### SQL 50 Study Plan
 #### 1757. Recyclable and Low Fat Products
 **Description:**
+
 Table: Product
+
 +-------------+---------+
 | Column Name | Type    |
 +-------------+---------+
@@ -11,6 +13,7 @@ Table: Product
 | low_fats    | enum    |
 | recyclable  | enum    |
 +-------------+---------+
+
 product_id is the primary key (column with unique values) for this table.
 low_fats is an ENUM (category) of type ('Y', 'N') where 'Y' means this product is low fat and 'N' means it is not.
 recyclable is an ENUM (category) of types ('Y', 'N') where 'Y' means this product is recyclable and 'N' means it is not.
@@ -22,7 +25,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Products table:
+
 +-------------+----------+------------+
 | product_id  | low_fats | recyclable |
 +-------------+----------+------------+
@@ -32,15 +37,17 @@ Products table:
 | 3           | Y        | Y          |
 | 4           | N        | N          |
 +-------------+----------+------------+
+
 Output: 
+
 +-------------+
 | product_id  |
 +-------------+
 | 1           |
 | 3           |
 +-------------+
-Explanation: Only products 1 and 3 are both low fat and recyclable.
 
+Explanation: Only products 1 and 3 are both low fat and recyclable.
 
 **Solution:**
 ```sql
@@ -51,6 +58,7 @@ WHERE low_fats = 'Y' AND recyclable = 'Y';
 ```
 
 **Explanation:**
+
 - This query uses a simple `SELECT` statement to filter products that meet two conditions.
 - The `WHERE` clause with `low_fats = 'Y' AND recyclable = 'Y'` filters records where both conditions are true.
 - Since both fields are ENUM types with 'Y' or 'N' values, we directly compare them to 'Y'.
@@ -61,6 +69,7 @@ WHERE low_fats = 'Y' AND recyclable = 'Y';
 
 #### 584. Find Customer Referee
 **Description:**
+
 Table: Customer
 
 +-------------+---------+
@@ -70,6 +79,7 @@ Table: Customer
 | name        | varchar |
 | referee_id  | int     |
 +-------------+---------+
+
 In SQL, id is the primary key column for this table.
 Each row of this table indicates the id of a customer, their name, and the id of the customer who referred them.
 
@@ -86,7 +96,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Customer table:
+
 +----+------+------------+
 | id | name | referee_id |
 +----+------+------------+
@@ -97,7 +109,9 @@ Customer table:
 | 5  | Zack | 1          |
 | 6  | Mark | 2          |
 +----+------+------------+
+
 Output: 
+
 +------+
 | name |
 +------+
@@ -116,6 +130,7 @@ WHERE referee_id IS NULL OR referee_id != 2;
 ```
 
 **Explanation:**
+
 - The query selects customer names where the `referee_id` is either NULL or not equal to 2.
 - The condition `referee_id IS NULL OR referee_id != 2` handles both cases:
   - `referee_id IS NULL` catches customers with no referee (NULL values)
@@ -127,6 +142,7 @@ WHERE referee_id IS NULL OR referee_id != 2;
 
 #### 595. Big Countries
 **Description:**
+
 Table: World
 
 +-------------+---------+
@@ -138,6 +154,7 @@ Table: World
 | population  | int     |
 | gdp         | bigint  |
 +-------------+---------+
+
 name is the primary key (column with unique values) for this table.
 Each row of this table gives information about the name of a country, the continent to which it belongs, its area, the population, and its GDP value.
 
@@ -159,7 +176,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 World table:
+
 +-------------+-----------+---------+------------+--------------+
 | name        | continent | area    | population | gdp          |
 +-------------+-----------+---------+------------+--------------+
@@ -169,7 +188,9 @@ World table:
 | Andorra     | Europe    | 468     | 78115      | 3712000000   |
 | Angola      | Africa    | 1246700 | 20609294   | 100990000000 |
 +-------------+-----------+---------+------------+--------------+
+
 Output: 
+
 +-------------+------------+---------+
 | name        | population | area    |
 +-------------+------------+---------+
@@ -186,6 +207,7 @@ WHERE area >= 3000000 OR population >= 25000000;
 ```
 
 **Explanation:**
+
 - This query selects the name, population, and area of countries that meet either of two conditions:
   - Countries with an area at least 3,000,000 sq km (`area >= 3000000`)
   - Countries with a population of at least 25,000,000 (`population >= 25000000`)
@@ -197,6 +219,7 @@ WHERE area >= 3000000 OR population >= 25000000;
   
 #### 1148. Article Views I
 **Description:**
+
 Table: Views
 
 +---------------+---------+
@@ -207,6 +230,7 @@ Table: Views
 | viewer_id     | int     |
 | view_date     | date    |
 +---------------+---------+
+
 There is no primary key (column with unique values) for this table, the table may have duplicate rows.
 Each row of this table indicates that some viewer viewed an article (written by some author) on some date. 
 Note that equal author_id and viewer_id indicate the same person.
@@ -224,7 +248,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Views table:
+
 +------------+-----------+-----------+------------+
 | article_id | author_id | viewer_id | view_date  |
 +------------+-----------+-----------+------------+
@@ -236,7 +262,9 @@ Views table:
 | 3          | 4         | 4         | 2019-07-21 |
 | 3          | 4         | 4         | 2019-07-21 |
 +------------+-----------+-----------+------------+
+
 Output: 
+
 +------+
 | id   |
 +------+
@@ -254,6 +282,7 @@ ORDER BY author_id ASC;
 ```
 
 **Explanation:**
+
 - This query finds authors who have viewed their own articles.
 - The condition `author_id = viewer_id` identifies records where the author and viewer are the same person.
 - We use `DISTINCT` to ensure each author is only listed once, regardless of how many of their own articles they viewed.
@@ -265,6 +294,7 @@ ORDER BY author_id ASC;
 
 #### 1683. Invalid Tweets
 **Description:**
+
 Table: Tweets
 
 +----------------+---------+
@@ -273,6 +303,7 @@ Table: Tweets
 | tweet_id       | int     |
 | content        | varchar |
 +----------------+---------+
+
 tweet_id is the primary key (column with unique values) for this table.
 content consists of characters on an American Keyboard, and no other special characters.
 This table contains all the tweets in a social media app.
@@ -290,19 +321,25 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Tweets table:
+
 +----------+-----------------------------------+
 | tweet_id | content                           |
 +----------+-----------------------------------+
 | 1        | Let us Code                       |
 | 2        | More than fifteen chars are here! |
 +----------+-----------------------------------+
+
 Output: 
+
+
 +----------+
 | tweet_id |
 +----------+
 | 2        |
 +----------+
+
 Explanation: 
 Tweet 1 has length = 11. It is a valid tweet.
 Tweet 2 has length = 33. It is an invalid tweet.
@@ -316,6 +353,7 @@ WHERE LENGTH(content) > 15;
 ```
 
 **Explanation:**
+
 - This query identifies tweets with content longer than 15 characters.
 - The `LENGTH(content)` function calculates the number of characters in the content column.
 - The `WHERE LENGTH(content) > 15` condition filters for tweets where the content length exceeds 15 characters.
@@ -327,6 +365,7 @@ WHERE LENGTH(content) > 15;
 
 #### 1378. Replace Employee ID With The Unique Identifier
 **Description:**
+
 Table: Employees
 
 +---------------+---------+
@@ -335,6 +374,7 @@ Table: Employees
 | id            | int     |
 | name          | varchar |
 +---------------+---------+
+
 id is the primary key (column with unique values) for this table.
 Each row of this table contains the id and the name of an employee in a company.
 
@@ -348,6 +388,7 @@ Table: EmployeeUNI
 | id            | int     |
 | unique_id     | int     |
 +---------------+---------+
+
 (id, unique_id) is the primary key (combination of columns with unique values) for this table.
 Each row of this table contains the id and the corresponding unique id of an employee in the company.
 
@@ -364,7 +405,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Employees table:
+
 +----+----------+
 | id | name     |
 +----+----------+
@@ -374,7 +417,10 @@ Employees table:
 | 90 | Winston  |
 | 3  | Jonathan |
 +----+----------+
+
+
 EmployeeUNI table:
+
 +----+-----------+
 | id | unique_id |
 +----+-----------+
@@ -382,7 +428,10 @@ EmployeeUNI table:
 | 11 | 2         |
 | 90 | 3         |
 +----+-----------+
+
+
 Output: 
+
 +-----------+----------+
 | unique_id | name     |
 +-----------+----------+
@@ -392,6 +441,7 @@ Output:
 | 3         | Winston  |
 | 1         | Jonathan |
 +-----------+----------+
+
 Explanation: 
 Alice and Bob do not have a unique ID, We will show null instead.
 The unique ID of Meir is 2.
@@ -407,6 +457,7 @@ FROM Employees e LEFT JOIN EmployeeUNI u
 ```
 
 **Explanation:**
+
 - This query uses a LEFT JOIN to combine data from the Employees table and EmployeeUNI table.
 - The LEFT JOIN ensures all employees from the Employees table are included in the result, regardless of whether they have a unique ID.
 - The join condition `ON u.id = e.id` matches employee records between the two tables.
@@ -419,6 +470,7 @@ FROM Employees e LEFT JOIN EmployeeUNI u
 
 #### 1068. Product Sales Analysis I
 **Description:**
+
 Table: Sales
 
 +-------------+-------+
@@ -430,6 +482,7 @@ Table: Sales
 | quantity    | int   |
 | price       | int   |
 +-------------+-------+
+
 (sale_id, year) is the primary key (combination of columns with unique values) of this table.
 product_id is a foreign key (reference column) to Product table.
 Each row of this table shows a sale on the product product_id in a certain year.
@@ -445,6 +498,7 @@ Table: Product
 | product_id   | int     |
 | product_name | varchar |
 +--------------+---------+
+
 product_id is the primary key (column with unique values) of this table.
 Each row of this table indicates the product name of each product.
 
@@ -461,7 +515,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Sales table:
+
 +---------+------------+------+----------+-------+
 | sale_id | product_id | year | quantity | price |
 +---------+------------+------+----------+-------+ 
@@ -469,7 +525,9 @@ Sales table:
 | 2       | 100        | 2009 | 12       | 5000  |
 | 7       | 200        | 2011 | 15       | 9000  |
 +---------+------------+------+----------+-------+
+
 Product table:
+
 +------------+--------------+
 | product_id | product_name |
 +------------+--------------+
@@ -477,7 +535,9 @@ Product table:
 | 200        | Apple        |
 | 300        | Samsung      |
 +------------+--------------+
+
 Output: 
+
 +--------------+-------+-------+
 | product_name | year  | price |
 +--------------+-------+-------+
@@ -485,6 +545,7 @@ Output:
 | Nokia        | 2009  | 5000  |
 | Apple        | 2011  | 9000  |
 +--------------+-------+-------+
+
 Explanation: 
 From sale_id = 1, we can conclude that Nokia was sold for 5000 in the year 2008.
 From sale_id = 2, we can conclude that Nokia was sold for 5000 in the year 2009.
@@ -499,6 +560,7 @@ FROM Sales s INNER JOIN Product p
 ```
 
 **Explanation:**
+
 - This query uses an INNER JOIN to combine sales data with product information.
 - The join condition `ON s.product_id = p.product_id` connects sales records to their corresponding product details.
 - We select only the three required columns: `p.product_name`, `s.year`, and `s.price`.
@@ -510,6 +572,7 @@ FROM Sales s INNER JOIN Product p
 
 #### 1581. Customer Who Visited but Did Not Make Any Transactions
 **Description:**
+
 Table: Visits
 
 +-------------+---------+
@@ -518,6 +581,7 @@ Table: Visits
 | visit_id    | int     |
 | customer_id | int     |
 +-------------+---------+
+
 visit_id is the column with unique values for this table.
 This table contains information about the customers who visited the mall.
 
@@ -532,6 +596,7 @@ Table: Transactions
 | visit_id       | int     |
 | amount         | int     |
 +----------------+---------+
+
 transaction_id is column with unique values for this table.
 This table contains information about the transactions made during the visit_id.
 
@@ -548,7 +613,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Visits
+
 +----------+-------------+
 | visit_id | customer_id |
 +----------+-------------+
@@ -560,7 +627,9 @@ Visits
 | 7        | 54          |
 | 8        | 54          |
 +----------+-------------+
+
 Transactions
+
 +----------------+----------+--------+
 | transaction_id | visit_id | amount |
 +----------------+----------+--------+
@@ -570,7 +639,9 @@ Transactions
 | 12             | 1        | 910    |
 | 13             | 2        | 970    |
 +----------------+----------+--------+
+
 Output: 
+
 +-------------+----------------+
 | customer_id | count_no_trans |
 +-------------+----------------+
@@ -578,6 +649,7 @@ Output:
 | 30          | 1              |
 | 96          | 1              |
 +-------------+----------------+
+
 Explanation: 
 Customer with id = 23 visited the mall once and made one transaction during the visit with id = 12.
 Customer with id = 9 visited the mall once and made one transaction during the visit with id = 13.
@@ -597,6 +669,7 @@ GROUP BY v.customer_id;
 ```
 
 **Explanation:**
+
 - This query identifies customers who visited but didn't make any transactions during their visit.
 - A LEFT JOIN is used between Visits and Transactions on the `visit_id` column.
 - The `WHERE t.visit_id IS NULL` condition filters for visits that don't have corresponding transactions.
@@ -609,6 +682,7 @@ GROUP BY v.customer_id;
 
 #### 197. Rising Temperature
 **Description:**
+
 Table: Weather
 
 +---------------+---------+
@@ -618,6 +692,7 @@ Table: Weather
 | recordDate    | date    |
 | temperature   | int     |
 +---------------+---------+
+
 id is the column with unique values for this table.
 There are no different rows with the same recordDate.
 This table contains information about the temperature on a certain day.
@@ -635,7 +710,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Weather table:
+
 +----+------------+-------------+
 | id | recordDate | temperature |
 +----+------------+-------------+
@@ -644,13 +721,16 @@ Weather table:
 | 3  | 2015-01-03 | 20          |
 | 4  | 2015-01-04 | 30          |
 +----+------------+-------------+
+
 Output: 
+
 +----+
 | id |
 +----+
 | 2  |
 | 4  |
 +----+
+
 Explanation: 
 In 2015-01-02, the temperature was higher than the previous day (10 -> 25).
 In 2015-01-04, the temperature was higher than the previous day (20 -> 30).
@@ -665,6 +745,7 @@ WHERE a.temperature > b. temperature;
 ```
 
 **Explanation:**
+
 - This query finds days when the temperature was higher than the previous day.
 - It uses a self-join on the Weather table, joining records with records from the previous day.
 - The join condition `(a.recordDate - b.recordDate) = 1` matches each date with the date exactly one day before it.
@@ -678,6 +759,7 @@ WHERE a.temperature > b. temperature;
 
 #### 1661. Average Time of Process Per Machine
 **Description:**
+
 Table: Activity
 
 +----------------+---------+
@@ -688,6 +770,7 @@ Table: Activity
 | activity_type  | enum    |
 | timestamp      | float   |
 +----------------+---------+
+
 The table shows the user activities for a factory website.
 (machine_id, process_id, activity_type) is the primary key (combination of columns with unique values) of this table.
 machine_id is the ID of a machine.
@@ -715,7 +798,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Activity table:
+
 +------------+------------+---------------+-----------+
 | machine_id | process_id | activity_type | timestamp |
 +------------+------------+---------------+-----------+
@@ -732,7 +817,9 @@ Activity table:
 | 2          | 1          | start         | 2.500     |
 | 2          | 1          | end           | 5.000     |
 +------------+------------+---------------+-----------+
+
 Output: 
+
 +------------+-----------------+
 | machine_id | processing_time |
 +------------+-----------------+
@@ -740,6 +827,7 @@ Output:
 | 1          | 0.995           |
 | 2          | 1.456           |
 +------------+-----------------+
+
 Explanation: 
 There are 3 machines running 2 processes each.
 Machine 0's average time is ((1.520 - 0.712) + (4.120 - 3.140)) / 2 = 0.894
@@ -755,6 +843,7 @@ GROUP BY machine_id
 ```
 
 **Explanation:**
+
 - This query calculates the average processing time for each machine.
 - The CASE expression `CASE WHEN activity_type = 'start' THEN timestamp*-1 ELSE timestamp END` converts start timestamps to negative values.
 - When grouped by machine_id, summing these values effectively subtracts start times from end times.
@@ -769,6 +858,7 @@ GROUP BY machine_id
 
 #### 577. Employee Bonus
 **Description:**
+
 Table: Employee
 
 +-------------+---------+
@@ -779,6 +869,7 @@ Table: Employee
 | supervisor  | int     |
 | salary      | int     |
 +-------------+---------+
+
 empId is the column with unique values for this table.
 Each row of this table indicates the name and the ID of an employee in addition to their salary and the id of their manager.
 
@@ -792,6 +883,7 @@ Table: Bonus
 | empId       | int  |
 | bonus       | int  |
 +-------------+------+
+
 empId is the column of unique values for this table.
 empId is a foreign key (reference column) to empId from the Employee table.
 Each row of this table contains the id of an employee and their respective bonus.
@@ -809,7 +901,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Employee table:
+
 +-------+--------+------------+--------+
 | empId | name   | supervisor | salary |
 +-------+--------+------------+--------+
@@ -818,14 +912,18 @@ Employee table:
 | 2     | Dan    | 3          | 2000   |
 | 4     | Thomas | 3          | 4000   |
 +-------+--------+------------+--------+
+
 Bonus table:
+
 +-------+-------+
 | empId | bonus |
 +-------+-------+
 | 2     | 500   |
 | 4     | 2000  |
 +-------+-------+
+
 Output: 
+
 +------+-------+
 | name | bonus |
 +------+-------+
@@ -844,6 +942,7 @@ WHERE b.bonus < 1000 OR b.bonus IS NULL;
 ```
 
 **Explanation:**
+
 - This query identifies employees with a bonus less than 1000 or no bonus at all.
 - A LEFT JOIN is used to combine the Employee and Bonus tables, ensuring all employees are included regardless of whether they have a bonus.
 - The join condition `ON e.empID = b.empID` matches employees with their bonus records.
@@ -858,6 +957,7 @@ WHERE b.bonus < 1000 OR b.bonus IS NULL;
 
 #### 1280. Students and Examinations
 **Description:**
+
 Table: Students
 
 +---------------+---------+
@@ -866,6 +966,7 @@ Table: Students
 | student_id    | int     |
 | student_name  | varchar |
 +---------------+---------+
+
 student_id is the primary key (column with unique values) for this table.
 Each row of this table contains the ID and the name of one student in the school.
 
@@ -878,6 +979,7 @@ Table: Subjects
 +--------------+---------+
 | subject_name | varchar |
 +--------------+---------+
+
 subject_name is the primary key (column with unique values) for this table.
 Each row of this table contains the name of one subject in the school.
 
@@ -891,6 +993,7 @@ Table: Examinations
 | student_id   | int     |
 | subject_name | varchar |
 +--------------+---------+
+
 There is no primary key (column with unique values) for this table. It may contain duplicates.
 Each student from the Students table takes every course from the Subjects table.
 Each row of this table indicates that a student with ID student_id attended the exam of subject_name.
@@ -908,7 +1011,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Students table:
+
 +------------+--------------+
 | student_id | student_name |
 +------------+--------------+
@@ -917,7 +1022,9 @@ Students table:
 | 13         | John         |
 | 6          | Alex         |
 +------------+--------------+
+
 Subjects table:
+
 +--------------+
 | subject_name |
 +--------------+
@@ -925,7 +1032,9 @@ Subjects table:
 | Physics      |
 | Programming  |
 +--------------+
+
 Examinations table:
+
 +------------+--------------+
 | student_id | subject_name |
 +------------+--------------+
@@ -941,7 +1050,9 @@ Examinations table:
 | 2          | Math         |
 | 1          | Math         |
 +------------+--------------+
+
 Output: 
+
 +------------+--------------+--------------+----------------+
 | student_id | student_name | subject_name | attended_exams |
 +------------+--------------+--------------+----------------+
@@ -958,6 +1069,7 @@ Output:
 | 13         | John         | Physics      | 1              |
 | 13         | John         | Programming  | 1              |
 +------------+--------------+--------------+----------------+
+
 Explanation: 
 The result table should contain all students and all subjects.
 Alice attended the Math exam 3 times, the Physics exam 2 times, and the Programming exam 1 time.
@@ -977,6 +1089,7 @@ ORDER BY s.student_id, sb.subject_name
 ```
 
 **Explanation:**
+
 - This query finds the number of times each student attended each exam for every possible student-subject combination.
 - A CROSS JOIN between Students and Subjects creates a cartesian product, generating all possible student-subject pairs.
 - Then a LEFT JOIN with Examinations adds actual attendance data, matching on both student_id and subject_name.
@@ -990,6 +1103,7 @@ ORDER BY s.student_id, sb.subject_name
 
 #### 570. Managers With Atleast 5 Direct Reports
 **Description:**
+
 Table: Employee
 
 +-------------+---------+
@@ -1018,7 +1132,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Employee table:
+
 +-----+-------+------------+-----------+
 | id  | name  | department | managerId |
 +-----+-------+------------+-----------+
@@ -1029,7 +1145,9 @@ Employee table:
 | 105 | Anne  | A          | 101       |
 | 106 | Ron   | B          | 101       |
 +-----+-------+------------+-----------+
+
 Output: 
+
 +------+
 | name |
 +------+
@@ -1047,6 +1165,7 @@ HAVING COUNT(e2.managerID) > 4
 ```
 
 **Explanation:**
+
 - This query identifies managers who have at least 5 employees reporting directly to them.
 - It uses a self-join on the Employee table where `e1.id = e2.managerID` connects managers (e1) with their direct reports (e2).
 - The GROUP BY clause groups results by manager (using both name and id to handle potential name duplicates).
@@ -1059,6 +1178,7 @@ HAVING COUNT(e2.managerID) > 4
 
 #### 1934. Confirmation Rate
 **Description:**
+
 Table: Signups
 
 +----------------+----------+
@@ -1067,6 +1187,7 @@ Table: Signups
 | user_id        | int      |
 | time_stamp     | datetime |
 +----------------+----------+
+
 user_id is the column of unique values for this table.
 Each row contains information about the signup time for the user with ID user_id.
 
@@ -1081,6 +1202,7 @@ Table: Confirmations
 | time_stamp     | datetime |
 | action         | ENUM     |
 +----------------+----------+
+
 (user_id, time_stamp) is the primary key (combination of columns with unique values) for this table.
 user_id is a foreign key (reference column) to the Signups table.
 action is an ENUM (category) of the type ('confirmed', 'timeout')
@@ -1101,7 +1223,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Signups table:
+
 +---------+---------------------+
 | user_id | time_stamp          |
 +---------+---------------------+
@@ -1110,7 +1234,9 @@ Signups table:
 | 2       | 2020-07-29 23:09:44 |
 | 6       | 2020-12-09 10:39:37 |
 +---------+---------------------+
+
 Confirmations table:
+
 +---------+---------------------+-----------+
 | user_id | time_stamp          | action    |
 +---------+---------------------+-----------+
@@ -1122,7 +1248,9 @@ Confirmations table:
 | 2       | 2021-01-22 00:00:00 | confirmed |
 | 2       | 2021-02-28 23:59:59 | timeout   |
 +---------+---------------------+-----------+
+
 Output: 
+
 +---------+-------------------+
 | user_id | confirmation_rate |
 +---------+-------------------+
@@ -1131,6 +1259,7 @@ Output:
 | 7       | 1.00              |
 | 2       | 0.50              |
 +---------+-------------------+
+
 Explanation: 
 User 6 did not request any confirmation messages. The confirmation rate is 0.
 User 3 made 2 requests and both timed out. The confirmation rate is 0.
@@ -1147,6 +1276,7 @@ GROUP BY s.user_id
 ```
 
 **Explanation:**
+
 - This query calculates the confirmation rate for each user who signed up.
 - The confirmation rate is the proportion of confirmation messages that were confirmed (vs. timed out).
 - A LEFT JOIN ensures all signup users are included, even those with no confirmation attempts.
@@ -1160,6 +1290,7 @@ GROUP BY s.user_id
 
 #### 620. Not Boring Movies
 **Description:**
+
 Table: Cinema
 
 +----------------+----------+
@@ -1170,6 +1301,7 @@ Table: Cinema
 | description    | varchar  |
 | rating         | float    |
 +----------------+----------+
+
 id is the primary key (column with unique values) for this table.
 Each row contains information about the name of a movie, its genre, and its rating.
 rating is a 2 decimal places float in the range [0, 10]
@@ -1187,7 +1319,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Cinema table:
+
 +----+------------+-------------+--------+
 | id | movie      | description | rating |
 +----+------------+-------------+--------+
@@ -1197,13 +1331,16 @@ Cinema table:
 | 4  | Ice song   | Fantacy     | 8.6    |
 | 5  | House card | Interesting | 9.1    |
 +----+------------+-------------+--------+
+
 Output: 
+
 +----+------------+-------------+--------+
 | id | movie      | description | rating |
 +----+------------+-------------+--------+
 | 5  | House card | Interesting | 9.1    |
 | 1  | War        | great 3D    | 8.9    |
 +----+------------+-------------+--------+
+
 Explanation: 
 We have three movies with odd-numbered IDs: 1, 3, and 5. The movie with ID = 3 is boring so we do not include it in the answer.
 
@@ -1217,6 +1354,7 @@ ORDER BY rating DESC;
 ```
 
 **Explanation:**
+
 - This query finds movies that have both an odd-numbered ID and a non-boring description.
 - The condition `id % 2 != 0` uses the modulo operator to check if the ID is odd (not divisible by 2).
 - The second condition `description != 'boring'` filters out movies with "boring" descriptions.
@@ -1230,6 +1368,7 @@ ORDER BY rating DESC;
 
 #### 1251. Average Selling Price
 **Description:**
+
 Table: Prices
 
 +---------------+---------+
@@ -1240,6 +1379,7 @@ Table: Prices
 | end_date      | date    |
 | price         | int     |
 +---------------+---------+
+
 (product_id, start_date, end_date) is the primary key (combination of columns with unique values) for this table.
 Each row of this table indicates the price of the product_id in the period from start_date to end_date.
 For each product_id there will be no two overlapping periods. That means there will be no two intersecting periods for the same product_id.
@@ -1255,6 +1395,7 @@ Table: UnitsSold
 | purchase_date | date    |
 | units         | int     |
 +---------------+---------+
+
 This table may contain duplicate rows.
 Each row of this table indicates the date, units, and product_id of each product sold. 
 
@@ -1271,7 +1412,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Prices table:
+
 +------------+------------+------------+--------+
 | product_id | start_date | end_date   | price  |
 +------------+------------+------------+--------+
@@ -1280,7 +1423,9 @@ Prices table:
 | 2          | 2019-02-01 | 2019-02-20 | 15     |
 | 2          | 2019-02-21 | 2019-03-31 | 30     |
 +------------+------------+------------+--------+
+
 UnitsSold table:
+
 +------------+---------------+-------+
 | product_id | purchase_date | units |
 +------------+---------------+-------+
@@ -1289,13 +1434,16 @@ UnitsSold table:
 | 2          | 2019-02-10    | 200   |
 | 2          | 2019-03-22    | 30    |
 +------------+---------------+-------+
+
 Output: 
+
 +------------+---------------+
 | product_id | average_price |
 +------------+---------------+
 | 1          | 6.96          |
 | 2          | 16.96         |
 +------------+---------------+
+
 Explanation: 
 Average selling price = Total Price of Product / Number of products sold.
 Average selling price for product 1 = ((100 * 5) + (15 * 20)) / 115 = 6.96
@@ -1313,6 +1461,7 @@ GROUP BY p.product_id
 ```
 
 **Explanation:**
+
 - This query calculates the average selling price for each product by considering the units sold during specific price periods.
 - A LEFT JOIN connects the Prices table with the UnitsSold table, with a complex join condition that ensures:
   - The product IDs match (`p.product_id = u.product_id`)
@@ -1328,6 +1477,7 @@ GROUP BY p.product_id
 
 #### 1075. Project Employees I
 **Description:**
+
 Table: Project
 
 +-------------+---------+
@@ -1336,6 +1486,7 @@ Table: Project
 | project_id  | int     |
 | employee_id | int     |
 +-------------+---------+
+
 (project_id, employee_id) is the primary key of this table.
 employee_id is a foreign key to Employee table.
 Each row of this table indicates that the employee with employee_id is working on the project with project_id.
@@ -1351,6 +1502,7 @@ Table: Employee
 | name             | varchar |
 | experience_years | int     |
 +------------------+---------+
+
 employee_id is the primary key of this table. It's guaranteed that experience_years is not NULL.
 Each row of this table contains information about one employee.
 
@@ -1367,7 +1519,9 @@ The query result format is in the following example.
 Example 1:
 
 Input: 
+
 Project table:
+
 +-------------+-------------+
 | project_id  | employee_id |
 +-------------+-------------+
@@ -1377,7 +1531,9 @@ Project table:
 | 2           | 1           |
 | 2           | 4           |
 +-------------+-------------+
+
 Employee table:
+
 +-------------+--------+------------------+
 | employee_id | name   | experience_years |
 +-------------+--------+------------------+
@@ -1386,13 +1542,16 @@ Employee table:
 | 3           | John   | 1                |
 | 4           | Doe    | 2                |
 +-------------+--------+------------------+
+
 Output: 
+
 +-------------+---------------+
 | project_id  | average_years |
 +-------------+---------------+
 | 1           | 2.00          |
 | 2           | 2.50          |
 +-------------+---------------+
+
 Explanation: The average experience years for the first project is (3 + 2 + 1) / 3 = 2.00 and for the second project is (3 + 2) / 2 = 2.50
 
 **Solution:**
@@ -1405,6 +1564,7 @@ GROUP BY p.project_id;
 ```
 
 **Explanation:**
+
 - This query calculates the average years of experience for employees working on each project.
 - It uses a LEFT JOIN between Project and Employee tables on the employee_id column.
 - The AVG function computes the average experience_years for each project group.
@@ -1418,6 +1578,7 @@ GROUP BY p.project_id;
 
 #### 1633. Percentage of Users Attended a Concert
 **Description:**
+
 Table: Users
 
 +-------------+---------+
@@ -1426,6 +1587,7 @@ Table: Users
 | user_id     | int     |
 | user_name   | varchar |
 +-------------+---------+
+
 user_id is the primary key (column with unique values) for this table.
 Each row of this table contains the name and the id of a user.
 
@@ -1439,6 +1601,7 @@ Table: Register
 | contest_id  | int     |
 | user_id     | int     |
 +-------------+---------+
+
 (contest_id, user_id) is the primary key (combination of columns with unique values) for this table.
 Each row of this table contains the id of a user and the contest they registered into.
 
@@ -1455,7 +1618,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Users table:
+
 +---------+-----------+
 | user_id | user_name |
 +---------+-----------+
@@ -1463,7 +1628,9 @@ Users table:
 | 2       | Bob       |
 | 7       | Alex      |
 +---------+-----------+
+
 Register table:
+
 +------------+---------+
 | contest_id | user_id |
 +------------+---------+
@@ -1480,7 +1647,9 @@ Register table:
 | 207        | 2       |
 | 210        | 7       |
 +------------+---------+
+
 Output: 
+
 +------------+------------+
 | contest_id | percentage |
 +------------+------------+
@@ -1490,6 +1659,7 @@ Output:
 | 215        | 66.67      |
 | 207        | 33.33      |
 +------------+------------+
+
 Explanation: 
 All the users registered in contests 208, 209, and 210. The percentage is 100% and we sort them in the answer table by contest_id in ascending order.
 Alice and Alex registered in contest 215 and the percentage is ((2/3) * 100) = 66.67%
@@ -1505,6 +1675,7 @@ ORDER BY percentage DESC, r.contest_id ASC
 ```
 
 **Explanation:**
+
 - This query calculates the percentage of users registered for each contest.
 - The calculation divides the count of users in each contest by the total number of users, then multiplies by 100.
 - The subquery `(SELECT COUNT(user_id) FROM users)` determines the total user count.
@@ -1518,6 +1689,7 @@ ORDER BY percentage DESC, r.contest_id ASC
 
 #### 1211. Queries Quality and Percentage
 **Description:**
+
 Table: Queries
 
 +-------------+---------+
@@ -1556,7 +1728,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Queries table:
+
 +------------+-------------------+----------+--------+
 | query_name | result            | position | rating |
 +------------+-------------------+----------+--------+
@@ -1567,13 +1741,16 @@ Queries table:
 | Cat        | Siamese           | 3        | 3      |
 | Cat        | Sphynx            | 7        | 4      |
 +------------+-------------------+----------+--------+
+
 Output: 
+
 +------------+---------+-----------------------+
 | query_name | quality | poor_query_percentage |
 +------------+---------+-----------------------+
 | Dog        | 2.50    | 33.33                 |
 | Cat        | 0.66    | 33.33                 |
 +------------+---------+-----------------------+
+
 Explanation: 
 Dog queries quality is ((5 / 1) + (5 / 2) + (1 / 200)) / 3 = 2.50
 Dog queries poor_ query_percentage is (1 / 3) * 100 = 33.33
@@ -1591,6 +1768,7 @@ GROUP BY query_name
 ```
 
 **Explanation:**
+
 - This query calculates two metrics for each query_name:
   1. Quality: The average ratio of rating to position
   2. Poor query percentage: The percentage of queries with a rating less than 3
@@ -1606,6 +1784,7 @@ GROUP BY query_name
 
 #### 1293. Monthly Transactions I
 **Description:**
+
 Table: Transactions
 
 +---------------+---------+
@@ -1617,6 +1796,7 @@ Table: Transactions
 | amount        | int     |
 | trans_date    | date    |
 +---------------+---------+
+
 id is the primary key of this table.
 The table has information about incoming transactions.
 The state column is an enum of type ["approved", "declined"].
@@ -1634,7 +1814,9 @@ The query result format is in the following example.
 Example 1:
 
 Input: 
+
 Transactions table:
+
 +------+---------+----------+--------+------------+
 | id   | country | state    | amount | trans_date |
 +------+---------+----------+--------+------------+
@@ -1643,7 +1825,9 @@ Transactions table:
 | 123  | US      | approved | 2000   | 2019-01-01 |
 | 124  | DE      | approved | 2000   | 2019-01-07 |
 +------+---------+----------+--------+------------+
+
 Output: 
+
 +----------+---------+-------------+----------------+--------------------+-----------------------+
 | month    | country | trans_count | approved_count | trans_total_amount | approved_total_amount |
 +----------+---------+-------------+----------------+--------------------+-----------------------+
@@ -1665,6 +1849,7 @@ GROUP BY month, country
 ```
 
 **Explanation:**
+
 - This query provides a monthly summary of transactions by country, including:
   - Total transaction count
   - Approved transaction count
@@ -1682,6 +1867,7 @@ GROUP BY month, country
 
 #### 1174. Food Delivery II
 **Description:**
+
 Table: Delivery
 
 +-----------------------------+---------+
@@ -1692,6 +1878,7 @@ Table: Delivery
 | order_date                  | date    |
 | customer_pref_delivery_date | date    |
 +-----------------------------+---------+
+
 delivery_id is the column of unique values of this table.
 The table holds information about food delivery to customers that make orders at some date and specify a preferred delivery date (on the same order date or after it).
 
@@ -1710,7 +1897,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Delivery table:
+
 +-------------+-------------+------------+-----------------------------+
 | delivery_id | customer_id | order_date | customer_pref_delivery_date |
 +-------------+-------------+------------+-----------------------------+
@@ -1722,12 +1911,15 @@ Delivery table:
 | 6           | 2           | 2019-08-11 | 2019-08-13                  |
 | 7           | 4           | 2019-08-09 | 2019-08-09                  |
 +-------------+-------------+------------+-----------------------------+
+
 Output: 
+
 +----------------------+
 | immediate_percentage |
 +----------------------+
 | 50.00                |
 +----------------------+
+
 Explanation: 
 The customer id 1 has a first order with delivery id 1 and it is scheduled.
 The customer id 2 has a first order with delivery id 2 and it is immediate.
@@ -1748,6 +1940,7 @@ WHERE (customer_id, order_date) IN (
 ```
 
 **Explanation:**
+
 - This query calculates the percentage of immediate orders among first-time orders for each customer.
 - An immediate order is defined as one where the preferred delivery date equals the order date.
 - The query first identifies first orders using a subquery: `(customer_id, order_date) IN (SELECT customer_id, MIN(order_date)...)`.
@@ -1762,6 +1955,7 @@ WHERE (customer_id, order_date) IN (
 
 #### 550. Gameplay Analysis IV
 **Description:**
+
 Table: Activity
 
 +--------------+---------+
@@ -1772,6 +1966,7 @@ Table: Activity
 | event_date   | date    |
 | games_played | int     |
 +--------------+---------+
+
 (player_id, event_date) is the primary key (combination of columns with unique values) of this table.
 This table shows the activity of players of some games.
 Each row is a record of a player who logged in and played a number of games (possibly 0) before logging out on someday using some device.
@@ -1787,7 +1982,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Activity table:
+
 +-----------+-----------+------------+--------------+
 | player_id | device_id | event_date | games_played |
 +-----------+-----------+------------+--------------+
@@ -1797,12 +1994,15 @@ Activity table:
 | 3         | 1         | 2016-03-02 | 0            |
 | 3         | 4         | 2018-07-03 | 5            |
 +-----------+-----------+------------+--------------+
+
 Output: 
+
 +-----------+
 | fraction  |
 +-----------+
 | 0.33      |
 +-----------+
+
 Explanation: 
 Only the player with id 1 logged back in after the first day he had logged in so the answer is 1/3 = 0.33
 
@@ -1841,6 +2041,7 @@ FROM
 ```
 
 **Explanation:**
+
 - This query solves the problem by breaking it down into three steps using Common Table Expressions (CTEs).
 - The first CTE `FirstLogins` identifies each player's first login date using `MIN(event_date)` grouped by player_id.
 - The second CTE `ConsecutiveLogins` counts players who logged in again exactly one day after their first login by joining the Activity table with FirstLogins where the event_date matches first_login + 1 day.
@@ -1855,6 +2056,7 @@ FROM
 
 #### 2356. Number of Unique Subjects Taught by Each Teacher
 **Description:**
+
 Table: Teacher
 
 +-------------+------+
@@ -1864,6 +2066,7 @@ Table: Teacher
 | subject_id  | int  |
 | dept_id     | int  |
 +-------------+------+
+
 (subject_id, dept_id) is the primary key (combinations of columns with unique values) of this table.
 Each row in this table indicates that the teacher with teacher_id teaches the subject subject_id in the department dept_id.
 
@@ -1880,7 +2083,9 @@ The result format is shown in the following example.
 Example 1:
 
 Input: 
+
 Teacher table:
+
 +------------+------------+---------+
 | teacher_id | subject_id | dept_id |
 +------------+------------+---------+
@@ -1892,13 +2097,16 @@ Teacher table:
 | 2          | 3          | 1       |
 | 2          | 4          | 1       |
 +------------+------------+---------+
+
 Output:  
+
 +------------+-----+
 | teacher_id | cnt |
 +------------+-----+
 | 1          | 2   |
 | 2          | 4   |
 +------------+-----+
+
 Explanation: 
 Teacher 1:
   - They teach subject 2 in departments 3 and 4.
@@ -1918,6 +2126,7 @@ GROUP BY teacher_id
 ```
 
 **Explanation:**
+
 - This query identifies the number of unique subjects taught by each teacher.
 - `COUNT(DISTINCT subject_id)` is crucial here as it ensures each subject is counted only once per teacher, regardless of how many departments the subject is taught in.
 - We use `GROUP BY teacher_id` to aggregate the data at the teacher level.
@@ -1931,6 +2140,7 @@ GROUP BY teacher_id
 
 #### 1141. User Activity For The Past 30 Days I
 **Description:**
+
 Table: Activity
 
 +---------------+---------+
@@ -1941,6 +2151,7 @@ Table: Activity
 | activity_date | date    |
 | activity_type | enum    |
 +---------------+---------+
+
 This table may have duplicate rows.
 The activity_type column is an ENUM (category) of type ('open_session', 'end_session', 'scroll_down', 'send_message').
 The table shows the user activities for a social media website. 
@@ -1959,7 +2170,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Activity table:
+
 +---------+------------+---------------+---------------+
 | user_id | session_id | activity_date | activity_type |
 +---------+------------+---------------+---------------+
@@ -1975,13 +2188,16 @@ Activity table:
 | 4       | 3          | 2019-06-25    | open_session  |
 | 4       | 3          | 2019-06-25    | end_session   |
 +---------+------------+---------------+---------------+
+
 Output: 
+
 +------------+--------------+ 
 | day        | active_users |
 +------------+--------------+ 
 | 2019-07-20 | 2            |
 | 2019-07-21 | 2            |
 +------------+--------------+ 
+
 Explanation: Note that we do not care about days with zero active users.
 
 **Solution:**
@@ -2001,6 +2217,7 @@ ORDER BY
 ```
 
 **Explanation:**
+
 - This query finds the count of active users for each day within a specified 30-day period.
 - The WHERE clause `activity_date BETWEEN '2019-06-28' AND '2019-07-27'` filters for activities in the 30-day window ending on 2019-07-27.
 - `COUNT(DISTINCT user_id)` counts unique users per day, as a user might perform multiple activities on the same day but should only be counted once.
@@ -2014,6 +2231,7 @@ ORDER BY
 
 #### 1070. Product Sales Analysis III
 **Description:**
+
 Table: Sales
 
 +-------------+-------+
@@ -2025,6 +2243,7 @@ Table: Sales
 | quantity    | int   |
 | price       | int   |
 +-------------+-------+
+
 (sale_id, year) is the primary key (combination of columns with unique values) of this table.
 product_id is a foreign key (reference column) to Product table.
 Each row of this table shows a sale on the product product_id in a certain year.
@@ -2040,6 +2259,7 @@ Table: Product
 | product_id   | int     |
 | product_name | varchar |
 +--------------+---------+
+
 product_id is the primary key (column with unique values) of this table.
 Each row of this table indicates the product name of each product.
 
@@ -2056,7 +2276,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Sales table:
+
 +---------+------------+------+----------+-------+
 | sale_id | product_id | year | quantity | price |
 +---------+------------+------+----------+-------+ 
@@ -2064,7 +2286,9 @@ Sales table:
 | 2       | 100        | 2009 | 12       | 5000  |
 | 7       | 200        | 2011 | 15       | 9000  |
 +---------+------------+------+----------+-------+
+
 Product table:
+
 +------------+--------------+
 | product_id | product_name |
 +------------+--------------+
@@ -2072,7 +2296,9 @@ Product table:
 | 200        | Apple        |
 | 300        | Samsung      |
 +------------+--------------+
+
 Output: 
+
 +------------+------------+----------+-------+
 | product_id | first_year | quantity | price |
 +------------+------------+----------+-------+ 
@@ -2093,6 +2319,7 @@ WHERE (product_id, year) IN (
 ```
 
 **Explanation:**
+
 - This query finds the first year's sales data (quantity and price) for each product.
 - The solution uses a Common Table Expression (CTE) named `FirstYears` to identify the earliest year in which each product was sold.
 - `MIN(year)` grouped by product_id identifies the first year for each product.
@@ -2106,6 +2333,7 @@ WHERE (product_id, year) IN (
 
 #### 596. Classes More Than 5 Students
 **Description:**
+
 Table: Courses
 
 +-------------+---------+
@@ -2114,6 +2342,7 @@ Table: Courses
 | student     | varchar |
 | class       | varchar |
 +-------------+---------+
+
 (student, class) is the primary key (combination of columns with unique values) for this table.
 Each row of this table indicates the name of a student and the class in which they are enrolled.
 
@@ -2130,7 +2359,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Courses table:
+
 +---------+----------+
 | student | class    |
 +---------+----------+
@@ -2144,12 +2375,15 @@ Courses table:
 | H       | Math     |
 | I       | Math     |
 +---------+----------+
+
 Output: 
+
 +---------+
 | class   |
 +---------+
 | Math    |
 +---------+
+
 Explanation: 
 - Math has 6 students, so we include it.
 - English has 1 student, so we do not include it.
@@ -2166,6 +2400,7 @@ HAVING COUNT(DISTINCT student) >= 5;
 ```
 
 **Explanation:**
+
 - This query identifies classes that have at least five students enrolled.
 - The data is grouped by class using `GROUP BY class` to consolidate records for each class.
 - `COUNT(DISTINCT student)` counts the number of unique students in each class.
@@ -2179,6 +2414,7 @@ HAVING COUNT(DISTINCT student) >= 5;
 
 #### 1729. Find Followers Count
 **Description:**
+
 Table: Followers
 
 +-------------+------+
@@ -2187,6 +2423,7 @@ Table: Followers
 | user_id     | int  |
 | follower_id | int  |
 +-------------+------+
+
 (user_id, follower_id) is the primary key (combination of columns with unique values) for this table.
 This table contains the IDs of a user and a follower in a social media app where the follower follows the user.
 
@@ -2203,7 +2440,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Followers table:
+
 +---------+-------------+
 | user_id | follower_id |
 +---------+-------------+
@@ -2212,7 +2451,9 @@ Followers table:
 | 2       | 0           |
 | 2       | 1           |
 +---------+-------------+
+
 Output: 
+
 +---------+----------------+
 | user_id | followers_count|
 +---------+----------------+
@@ -2220,6 +2461,7 @@ Output:
 | 1       | 1              |
 | 2       | 2              |
 +---------+----------------+
+
 Explanation: 
 The followers of 0 are {1}
 The followers of 1 are {0}
@@ -2240,6 +2482,7 @@ ORDER BY
 ```
 
 **Explanation:**
+
 - This query counts the number of followers for each user in the social media app.
 - Records are grouped by user_id using `GROUP BY user_id` to aggregate follower counts per user.
 - `COUNT(follower_id)` counts the number of follower records for each user_id group.
@@ -2253,6 +2496,7 @@ ORDER BY
 
 #### 619. Biggest Single Number
 **Description:**
+
 Table: MyNumbers
 
 +-------------+------+
@@ -2260,6 +2504,7 @@ Table: MyNumbers
 +-------------+------+
 | num         | int  |
 +-------------+------+
+
 This table may contain duplicates (In other words, there is no primary key for this table in SQL).
 Each row of this table contains an integer.
 
@@ -2276,7 +2521,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 MyNumbers table:
+
 +-----+
 | num |
 +-----+
@@ -2289,19 +2536,24 @@ MyNumbers table:
 | 5   |
 | 6   |
 +-----+
+
 Output: 
+
 +-----+
 | num |
 +-----+
 | 6   |
 +-----+
+
 Explanation: The single numbers are 1, 4, 5, and 6.
 Since 6 is the largest single number, we return it.
 
 Example 2:
 
 Input: 
+
 MyNumbers table:
+
 +-----+
 | num |
 +-----+
@@ -2313,12 +2565,15 @@ MyNumbers table:
 | 3   |
 | 3   |
 +-----+
+
 Output: 
+
 +------+
 | num  |
 +------+
 | null |
 +------+
+
 Explanation: There are no single numbers in the input table so we return null.
 
 **Solution:**
@@ -2330,6 +2585,7 @@ WHERE "cnt" = 1
 ```
 
 **Explanation:**
+
 - This query finds the largest single number, where a single number is defined as one that appears exactly once in the table.
 - The solution uses a Common Table Expression (CTE) called `SingleNumbers` to first identify all the single numbers.
 - Within the CTE, we group records by `num` and use `HAVING COUNT(*) = 1` to filter for numbers that appear exactly once.
@@ -2344,6 +2600,7 @@ WHERE "cnt" = 1
 
 #### 1045. Customers Who Bought All Products
 **Description:**
+
 Table: Customer
 
 +-------------+---------+
@@ -2352,6 +2609,7 @@ Table: Customer
 | customer_id | int     |
 | product_key | int     |
 +-------------+---------+
+
 This table may contain duplicates rows. 
 customer_id is not NULL.
 product_key is a foreign key (reference column) to Product table.
@@ -2365,6 +2623,7 @@ Table: Product
 +-------------+---------+
 | product_key | int     |
 +-------------+---------+
+
 product_key is the primary key (column with unique values) for this table.
 
  
@@ -2380,7 +2639,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Customer table:
+
 +-------------+-------------+
 | customer_id | product_key |
 +-------------+-------------+
@@ -2390,20 +2651,25 @@ Customer table:
 | 3           | 6           |
 | 1           | 6           |
 +-------------+-------------+
+
 Product table:
+
 +-------------+
 | product_key |
 +-------------+
 | 5           |
 | 6           |
 +-------------+
+
 Output: 
+
 +-------------+
 | customer_id |
 +-------------+
 | 1           |
 | 3           |
 +-------------+
+
 Explanation: 
 The customers who bought all the products (5 and 6) are customers with IDs 1 and 3.
 
@@ -2417,6 +2683,7 @@ HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(*) FROM Product);
 ```
 
 **Explanation:**
+
 - This query identifies customers who have purchased every product available in the Product table.
 - The records are grouped by customer_id to analyze each customer's purchase history.
 - `COUNT(DISTINCT product_key)` counts the unique products each customer has purchased, handling potential duplicate purchases.
@@ -2432,6 +2699,7 @@ HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(*) FROM Product);
 
 #### 1731. The Number of Employees Which Report to Each Employee
 **Description:**
+
 Table: Employees
 
 +-------------+----------+
@@ -2442,6 +2710,7 @@ Table: Employees
 | reports_to  | int      |
 | age         | int      |
 +-------------+----------+
+
 employee_id is the column with unique values for this table.
 This table contains information about the employees and the id of the manager they report to. Some employees do not report to anyone (reports_to is null). 
 
@@ -2461,6 +2730,7 @@ Example 1:
 
 Input: 
 Employees table:
+
 +-------------+---------+------------+-----+
 | employee_id | name    | reports_to | age |
 +-------------+---------+------------+-----+
@@ -2469,18 +2739,23 @@ Employees table:
 | 4           | Bob     | 9          | 36  |
 | 2           | Winston | null       | 37  |
 +-------------+---------+------------+-----+
+
 Output: 
+
 +-------------+-------+---------------+-------------+
 | employee_id | name  | reports_count | average_age |
 +-------------+-------+---------------+-------------+
 | 9           | Hercy | 2             | 39          |
 +-------------+-------+---------------+-------------+
+
 Explanation: Hercy has 2 people report directly to him, Alice and Bob. Their average age is (41+36)/2 = 38.5, which is 39 after rounding it to the nearest integer.
 
 Example 2:
 
 Input: 
+
 Employees table:
+
 +-------------+---------+------------+-----+ 
 | employee_id | name    | reports_to | age |
 |-------------|---------|------------|-----|
@@ -2493,7 +2768,9 @@ Employees table:
 | 7           | Frank   | null       | 50  |
 | 8           | Grace   | null       | 48  |
 +-------------+---------+------------+-----+ 
+
 Output: 
+
 +-------------+---------+---------------+-------------+
 | employee_id | name    | reports_count | average_age |
 | ----------- | ------- | ------------- | ----------- |
@@ -2521,6 +2798,7 @@ ORDER BY
 ```
 
 **Explanation:**
+
 - This query finds managers (employees with at least one direct report) and calculates statistics about their reports.
 - It uses a self-join on the Employees table where `e1.employee_id = e2.reports_to` links managers (e1) with their direct reports (e2).
 - `COUNT(e2.employee_id)` counts the number of employees reporting to each manager.
@@ -2536,6 +2814,7 @@ ORDER BY
 
 #### 1789. Primary Department For Each Employee
 **Description:**
+
 Table: Employee
 
 +---------------+---------+
@@ -2545,6 +2824,7 @@ Table: Employee
 | department_id | int     |
 | primary_flag  | varchar |
 +---------------+---------+
+
 (employee_id, department_id) is the primary key (combination of columns with unique values) for this table.
 employee_id is the id of the employee.
 department_id is the id of the department to which the employee belongs.
@@ -2565,7 +2845,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Employee table:
+
 +-------------+---------------+--------------+
 | employee_id | department_id | primary_flag |
 +-------------+---------------+--------------+
@@ -2577,7 +2859,9 @@ Employee table:
 | 4           | 3             | Y            |
 | 4           | 4             | N            |
 +-------------+---------------+--------------+
+
 Output: 
+
 +-------------+---------------+
 | employee_id | department_id |
 +-------------+---------------+
@@ -2586,6 +2870,7 @@ Output:
 | 3           | 3             |
 | 4           | 3             |
 +-------------+---------------+
+
 Explanation: 
 - The Primary department for employee 1 is 1.
 - The Primary department for employee 2 is 1.
@@ -2618,6 +2903,7 @@ WHERE
 ```
 
 **Explanation:**
+
 - This query finds each employee's primary department, handling two distinct cases:
   1. Employees with a designated primary department (primary_flag = 'Y')
   2. Employees who belong to only one department (where primary_flag would be 'N' by problem definition)
@@ -2633,6 +2919,7 @@ WHERE
 
 #### 610. Triangle Judgement
 **Description:**
+
 Table: Triangle
 
 +-------------+------+
@@ -2642,6 +2929,7 @@ Table: Triangle
 | y           | int  |
 | z           | int  |
 +-------------+------+
+
 In SQL, (x, y, z) is the primary key column for this table.
 Each row of this table contains the lengths of three line segments.
 
@@ -2658,14 +2946,18 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Triangle table:
+
 +----+----+----+
 | x  | y  | z  |
 +----+----+----+
 | 13 | 15 | 30 |
 | 10 | 20 | 15 |
 +----+----+----+
+
 Output: 
+
 +----+----+----+----------+
 | x  | y  | z  | triangle |
 +----+----+----+----------+
@@ -2682,6 +2974,7 @@ FROM Triangle
 ```
 
 **Explanation:**
+
 - This query determines whether each set of three line segments can form a triangle.
 - In geometry, three segments can form a triangle if the sum of the lengths of any two sides is greater than the length of the remaining side.
 - The CASE expression implements this triangle inequality theorem, checking all three combinations:
@@ -2698,6 +2991,7 @@ FROM Triangle
 
 #### 180. Consecutive Numbers
 **Description:**
+
 Table: Logs
 
 +-------------+---------+
@@ -2706,6 +3000,7 @@ Table: Logs
 | id          | int     |
 | num         | varchar |
 +-------------+---------+
+
 In SQL, id is the primary key for this table.
 id is an autoincrement column starting from 1.
 
@@ -2723,6 +3018,7 @@ Example 1:
 
 Input: 
 Logs table:
+
 +----+-----+
 | id | num |
 +----+-----+
@@ -2734,12 +3030,15 @@ Logs table:
 | 6  | 2   |
 | 7  | 2   |
 +----+-----+
+
 Output: 
+
 +-----------------+
 | ConsecutiveNums |
 +-----------------+
 | 1               |
 +-----------------+
+
 Explanation: 1 is the only number that appears consecutively for at least three times.
 
 **Solution:**
@@ -2757,6 +3056,7 @@ WHERE num = lag AND num = lead
 ```
 
 **Explanation:**
+
 - This query identifies numbers that appear at least three times consecutively in the Logs table.
 - The solution uses a Common Table Expression (CTE) with window functions to look ahead at subsequent rows.
 - `LEAD(num, 1) OVER (ORDER BY id)` retrieves the value from the next row, while `LEAD(num, 2)` gets the value from two rows ahead.
@@ -2771,6 +3071,7 @@ WHERE num = lag AND num = lead
 
 #### 1164. Product Price at a Given Date
 **Description:**
+
 Table: Products
 
 +---------------+---------+
@@ -2780,6 +3081,7 @@ Table: Products
 | new_price     | int     |
 | change_date   | date    |
 +---------------+---------+
+
 (product_id, change_date) is the primary key (combination of columns with unique values) of this table.
 Each row of this table indicates that the price of some product was changed to a new price at some date.
 
@@ -2796,7 +3098,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Products table:
+
 +------------+-----------+-------------+
 | product_id | new_price | change_date |
 +------------+-----------+-------------+
@@ -2807,7 +3111,9 @@ Products table:
 | 2          | 65        | 2019-08-17  |
 | 3          | 20        | 2019-08-18  |
 +------------+-----------+-------------+
+
 Output: 
+
 +------------+-------+
 | product_id | price |
 +------------+-------+
@@ -2839,6 +3145,7 @@ LEFT JOIN
 ```
 
 **Explanation:**
+
 - This query finds the price of each product on a specific date (2019-08-16), with a default price of 10 for products without any price changes before that date.
 - The solution uses a Common Table Expression (CTE) to identify the most recent price change for each product before or on the target date.
 - Within the CTE, `ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY change_date DESC)` assigns row numbers to price changes for each product, with the most recent change getting row number 1.
@@ -2855,6 +3162,7 @@ LEFT JOIN
 
 #### 1204. Last Person to Fit in the Bus
 **Description:**
+
 Table: Queue
 
 +-------------+---------+
@@ -2865,6 +3173,7 @@ Table: Queue
 | weight      | int     |
 | turn        | int     |
 +-------------+---------+
+
 person_id column contains unique values.
 This table has the information about all people waiting for a bus.
 The person_id and turn columns will contain all numbers from 1 to n, where n is the number of rows in the table.
@@ -2886,7 +3195,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Queue table:
+
 +-----------+-------------+--------+------+
 | person_id | person_name | weight | turn |
 +-----------+-------------+--------+------+
@@ -2897,13 +3208,17 @@ Queue table:
 | 1         | Winston     | 500    | 6    |
 | 2         | Marie       | 200    | 4    |
 +-----------+-------------+--------+------+
+
 Output: 
+
 +-------------+
 | person_name |
 +-------------+
 | John Cena   |
 +-------------+
+
 Explanation: The folowing table is ordered by the turn for simplicity.
+
 +------+----+-----------+--------+--------------+
 | Turn | ID | Name      | Weight | Total Weight |
 +------+----+-----------+--------+--------------+
@@ -2940,6 +3255,7 @@ FROM winner
 ```
 
 **Explanation:**
+
 - This query identifies the last person who can board the bus without exceeding the 1000 kg weight limit using a three-step approach with CTEs.
 - The first CTE (`running`) calculates a running sum of weights as people board in order using `SUM(weight) OVER (ORDER BY turn)`.
 - The second CTE (`person`) applies the `LEAD` function to look ahead at the next person's cumulative weight, which helps identify the threshold where the weight limit is exceeded.
@@ -2956,6 +3272,7 @@ FROM winner
 
 #### 1907. Count Salary Categories
 **Description:**
+
 Table: Accounts
 
 +-------------+------+
@@ -2986,7 +3303,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Accounts table:
+
 +------------+--------+
 | account_id | income |
 +------------+--------+
@@ -2995,7 +3314,9 @@ Accounts table:
 | 8          | 87709  |
 | 6          | 91796  |
 +------------+--------+
+
 Output: 
+
 +----------------+----------------+
 | category       | accounts_count |
 +----------------+----------------+
@@ -3003,6 +3324,7 @@ Output:
 | Average Salary | 0              |
 | High Salary    | 3              |
 +----------------+----------------+
+
 Explanation: 
 Low Salary: Account 2.
 Average Salary: No accounts.
@@ -3025,6 +3347,7 @@ WHERE 50000 < income
 ```
 
 **Explanation:**
+
 - This query calculates the number of bank accounts in each of three salary categories: Low, Average, and High.
 - The solution uses UNION ALL to combine the results of three separate COUNT queries, one for each salary category.
 - For "Low Salary," it counts accounts with income strictly less than $20,000.
@@ -3050,6 +3373,7 @@ Table: Employees
 | manager_id  | int      |
 | salary      | int      |
 +-------------+----------+
+
 In SQL, employee_id is the primary key for this table.
 This table contains information about the employees, their salary, and the ID of their manager. Some employees do not have a manager (manager_id is null). 
 
@@ -3066,7 +3390,9 @@ The result format is in the following example.
 Example 1:
 
 Input:  
+
 Employees table:
+
 +-------------+-----------+------------+--------+
 | employee_id | name      | manager_id | salary |
 +-------------+-----------+------------+--------+
@@ -3077,7 +3403,9 @@ Employees table:
 | 9           | Mikaela   | null       | 50937  |
 | 11          | Joziah    | 6          | 28485  |
 +-------------+-----------+------------+--------+
+
 Output: 
+
 +-------------+
 | employee_id |
 +-------------+
@@ -3101,6 +3429,7 @@ ORDER BY employee_id
 ```
 
 **Explanation:**
+
 - This query identifies employees who meet three conditions:
   1. Their salary is strictly less than $30,000
   2. Their manager has left the company (manager_id doesn't exist in the employee_id column)
@@ -3115,6 +3444,7 @@ ORDER BY employee_id
 
 #### 626. Exchange Seats
 **Description:**
+
 Table: Seat
 
 +-------------+---------+
@@ -3123,6 +3453,7 @@ Table: Seat
 | id          | int     |
 | student     | varchar |
 +-------------+---------+
+
 id is the primary key (unique value) column for this table.
 Each row of this table indicates the name and the ID of a student.
 The ID sequence always starts from 1 and increments continuously.
@@ -3140,7 +3471,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Seat table:
+
 +----+---------+
 | id | student |
 +----+---------+
@@ -3150,7 +3483,9 @@ Seat table:
 | 4  | Green   |
 | 5  | Jeames  |
 +----+---------+
+
 Output: 
+
 +----+---------+
 | id | student |
 +----+---------+
@@ -3160,7 +3495,9 @@ Output:
 | 4  | Emerson |
 | 5  | Jeames  |
 +----+---------+
+
 Explanation: 
+
 Note that if the number of students is odd, there is no need to change the last one's seat.
 
 **Solution:**
@@ -3174,6 +3511,7 @@ ORDER BY id ASC
 ```
 
 **Explanation:**
+
 - This query swaps the ID of every two consecutive students using a CASE expression to determine the new ID for each student.
 - The CASE expression handles three scenarios:
   1. Odd-numbered IDs: Changes to ID+1 (moving the student to the next seat)
@@ -3190,6 +3528,7 @@ ORDER BY id ASC
 
 #### 1341. Movie Rating
 **Description:**
+
 Table: Movies
 
 +---------------+---------+
@@ -3198,6 +3537,7 @@ Table: Movies
 | movie_id      | int     |
 | title         | varchar |
 +---------------+---------+
+
 movie_id is the primary key (column with unique values) for this table.
 title is the name of the movie.
 
@@ -3211,6 +3551,7 @@ Table: Users
 | user_id       | int     |
 | name          | varchar |
 +---------------+---------+
+
 user_id is the primary key (column with unique values) for this table.
 The column 'name' has unique values.
 
@@ -3224,6 +3565,7 @@ Table: MovieRating
 | rating        | int     |
 | created_at    | date    |
 +---------------+---------+
+
 (movie_id, user_id) is the primary key (column with unique values) for this table.
 This table contains the rating of a movie by a user in their review.
 created_at is the user's review date. 
@@ -3242,7 +3584,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Movies table:
+
 +-------------+--------------+
 | movie_id    |  title       |
 +-------------+--------------+
@@ -3250,7 +3594,9 @@ Movies table:
 | 2           | Frozen 2     |
 | 3           | Joker        |
 +-------------+--------------+
+
 Users table:
+
 +-------------+--------------+
 | user_id     |  name        |
 +-------------+--------------+
@@ -3259,7 +3605,9 @@ Users table:
 | 3           | Maria        |
 | 4           | James        |
 +-------------+--------------+
+
 MovieRating table:
+
 +-------------+--------------+--------------+-------------+
 | movie_id    | user_id      | rating       | created_at  |
 +-------------+--------------+--------------+-------------+
@@ -3273,13 +3621,16 @@ MovieRating table:
 | 3           | 1            | 3            | 2020-02-22  | 
 | 3           | 2            | 4            | 2020-02-25  | 
 +-------------+--------------+--------------+-------------+
+
 Output: 
+
 +--------------+
 | results      |
 +--------------+
 | Daniel       |
 | Frozen 2     |
 +--------------+
+
 Explanation: 
 Daniel and Monica have rated 3 movies ("Avengers", "Frozen 2" and "Joker") but Daniel is smaller lexicographically.
 Frozen 2 and Joker have a rating average of 3.5 in February but Frozen 2 is smaller lexicographically.
@@ -3304,6 +3655,7 @@ LIMIT 1)
 ```
 
 **Explanation:**
+
 - This query solves two separate problems and combines their results using UNION ALL:
   1. Finding the user who has rated the most movies (with lexicographic tie-breaking)
   2. Finding the movie with the highest average rating in February 2020 (with lexicographic tie-breaking)
@@ -3325,6 +3677,7 @@ LIMIT 1)
 
 #### 1321. Restaurant Growth
 **Description:**
+
 Table: Customer
 
 +---------------+---------+
@@ -3335,6 +3688,7 @@ Table: Customer
 | visited_on    | date    |
 | amount        | int     |
 +---------------+---------+
+
 In SQL,(customer_id, visited_on) is the primary key for this table.
 This table contains data about customer transactions in a restaurant.
 visited_on is the date on which the customer with ID (customer_id) has visited the restaurant.
@@ -3356,6 +3710,7 @@ Example 1:
 
 Input: 
 Customer table:
+
 +-------------+--------------+--------------+-------------+
 | customer_id | name         | visited_on   | amount      |
 +-------------+--------------+--------------+-------------+
@@ -3371,7 +3726,9 @@ Customer table:
 | 1           | Jhon         | 2019-01-10   | 130         | 
 | 3           | Jade         | 2019-01-10   | 150         | 
 +-------------+--------------+--------------+-------------+
+
 Output: 
+
 +--------------+--------------+----------------+
 | visited_on   | amount       | average_amount |
 +--------------+--------------+----------------+
@@ -3380,6 +3737,7 @@ Output:
 | 2019-01-09   | 840          | 120            |
 | 2019-01-10   | 1000         | 142.86         |
 +--------------+--------------+----------------+
+
 Explanation: 
 1st moving average from 2019-01-01 to 2019-01-07 has an average_amount of (100 + 110 + 120 + 130 + 110 + 140 + 150)/7 = 122.86
 2nd moving average from 2019-01-02 to 2019-01-08 has an average_amount of (110 + 120 + 130 + 110 + 140 + 150 + 80)/7 = 120
@@ -3400,6 +3758,7 @@ OFFSET 6;
 ```
 
 **Explanation:**
+
 - This query calculates a 7-day moving sum and average of restaurant revenue using window functions.
 - The inner subquery first calculates the total daily revenue by grouping the Customer table by visited_on.
 - The main query then applies window functions to implement the 7-day moving window with `ROWS BETWEEN 6 PRECEDING AND CURRENT ROW`.
@@ -3417,7 +3776,8 @@ OFFSET 6;
 
 #### 602. Friend Requests II: Who Has The Most Friends
 **Description:**
-able: RequestAccepted
+
+Table: RequestAccepted
 
 +----------------+---------+
 | Column Name    | Type    |
@@ -3426,6 +3786,7 @@ able: RequestAccepted
 | accepter_id    | int     |
 | accept_date    | date    |
 +----------------+---------+
+
 (requester_id, accepter_id) is the primary key (combination of columns with unique values) for this table.
 This table contains the ID of the user who sent the request, the ID of the user who received the request, and the date when the request was accepted.
 
@@ -3443,6 +3804,7 @@ Example 1:
 
 Input: 
 RequestAccepted table:
+
 +--------------+-------------+-------------+
 | requester_id | accepter_id | accept_date |
 +--------------+-------------+-------------+
@@ -3451,12 +3813,15 @@ RequestAccepted table:
 | 2            | 3           | 2016/06/08  |
 | 3            | 4           | 2016/06/09  |
 +--------------+-------------+-------------+
+
 Output: 
+
 +----+-----+
 | id | num |
 +----+-----+
 | 3  | 3   |
 +----+-----+
+
 Explanation: 
 The person with id 3 is a friend of people 1, 2, and 4, so he has three friends in total, which is the most number than any others.
 
@@ -3483,6 +3848,7 @@ LIMIT 1;
 ```
 
 **Explanation:**
+
 - This query identifies the person with the most friends in the system.
 - The solution uses a Common Table Expression (CTE) called `full_count` that combines both requesters/counts and accepters/counts with UNION ALL.
 - This approach counts each person once for each friendship they're involved in, whether as a requester or accepter.
@@ -3497,6 +3863,7 @@ LIMIT 1;
 
 #### 585. Investments in 2016
 **Description:**
+
 Table: Insurance
 
 +-------------+-------+
@@ -3508,6 +3875,7 @@ Table: Insurance
 | lat         | float |
 | lon         | float |
 +-------------+-------+
+
 pid is the primary key (column with unique values) for this table.
 Each row of this table contains information about one policy where:
 pid is the policyholder's policy ID.
@@ -3531,7 +3899,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Insurance table:
+
 +-----+----------+----------+-----+-----+
 | pid | tiv_2015 | tiv_2016 | lat | lon |
 +-----+----------+----------+-----+-----+
@@ -3540,12 +3910,15 @@ Insurance table:
 | 3   | 10       | 30       | 20  | 20  |
 | 4   | 10       | 40       | 40  | 40  |
 +-----+----------+----------+-----+-----+
+
 Output: 
+
 +----------+
 | tiv_2016 |
 +----------+
 | 45.00    |
 +----------+
+
 Explanation: 
 The first record in the table, like the last record, meets both of the two criteria.
 The tiv_2015 value 10 is the same as the third and fourth records, and its location is unique.
@@ -3568,6 +3941,7 @@ AND loc_cnt = 1
 ```
 
 **Explanation:**
+
 - This query calculates the sum of insurance investments in 2016 for policyholders who meet two specific criteria.
 - The solution uses one subquery with two window functions to generate the condition test cases:
   1. `tiv_2015_cnt` gets the count of the tiv_2015 values for policyholders.
@@ -3583,6 +3957,7 @@ AND loc_cnt = 1
 
 #### 185. Department Top Three Salaries
 **Description:**
+
 Table: Employee
 
 +--------------+---------+
@@ -3593,6 +3968,7 @@ Table: Employee
 | salary       | int     |
 | departmentId | int     |
 +--------------+---------+
+
 id is the primary key (column with unique values) for this table.
 departmentId is a foreign key (reference column) of the ID from the Department table.
 Each row of this table indicates the ID, name, and salary of an employee. It also contains the ID of their department.
@@ -3607,6 +3983,7 @@ Table: Department
 | id          | int     |
 | name        | varchar |
 +-------------+---------+
+
 id is the primary key (column with unique values) for this table.
 Each row of this table indicates the ID of a department and its name.
 
@@ -3626,6 +4003,7 @@ Example 1:
 
 Input: 
 Employee table:
+
 +----+-------+--------+--------------+
 | id | name  | salary | departmentId |
 +----+-------+--------+--------------+
@@ -3637,14 +4015,18 @@ Employee table:
 | 6  | Randy | 85000  | 1            |
 | 7  | Will  | 70000  | 1            |
 +----+-------+--------+--------------+
+
 Department table:
+
 +----+-------+
 | id | name  |
 +----+-------+
 | 1  | IT    |
 | 2  | Sales |
 +----+-------+
+
 Output: 
+
 +------------+----------+--------+
 | Department | Employee | Salary |
 +------------+----------+--------+
@@ -3655,13 +4037,17 @@ Output:
 | Sales      | Henry    | 80000  |
 | Sales      | Sam      | 60000  |
 +------------+----------+--------+
+
 Explanation: 
+
 In the IT department:
+
 - Max earns the highest unique salary
 - Both Randy and Joe earn the second-highest unique salary
 - Will earns the third-highest unique salary
 
 In the Sales department:
+
 - Henry earns the highest salary
 - Sam earns the second-highest salary
 - There is no third-highest salary as there are only two employees
@@ -3686,6 +4072,7 @@ WHERE rank <= 3;
 ```
 
 **Explanation:**
+
 - This query identifies the highest-paid employees in each department, specifically those with salaries in the top three within their department.
 - The solution uses a Common Table Expression (CTE) with a window function to rank employees within each department based on salary.
 - `DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC)` assigns a rank to each employee's salary within their department, with 1 being the highest.
@@ -3709,6 +4096,7 @@ Table: Users
 | user_id        | int     |
 | name           | varchar |
 +----------------+---------+
+
 user_id is the primary key (column with unique values) for this table.
 This table contains the ID and the name of the user. The name consists of only lowercase and uppercase characters.
 
@@ -3725,14 +4113,18 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Users table:
+
 +---------+-------+
 | user_id | name  |
 +---------+-------+
 | 1       | aLice |
 | 2       | bOB   |
 +---------+-------+
+
 Output: 
+
 +---------+-------+
 | user_id | name  |
 +---------+-------+
@@ -3749,6 +4141,7 @@ ORDER BY user_id
 ```
 
 **Explanation:**
+
 - This query modifies each name to have only the first character uppercase and the rest lowercase.
 - The solution uses several string manipulation functions to achieve this:
   - `SUBSTRING(name, 1, 1)` extracts the first character of the name
@@ -3767,6 +4160,7 @@ ORDER BY user_id
 
 #### 1527. Patients With a Condition
 **Description:**
+
 Table: Patients
 
 +--------------+---------+
@@ -3776,6 +4170,7 @@ Table: Patients
 | patient_name | varchar |
 | conditions   | varchar |
 +--------------+---------+
+
 patient_id is the primary key (column with unique values) for this table.
 'conditions' contains 0 or more code separated by spaces. 
 This table contains information of the patients in the hospital.
@@ -3793,7 +4188,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Patients table:
+
 +------------+--------------+--------------+
 | patient_id | patient_name | conditions   |
 +------------+--------------+--------------+
@@ -3803,13 +4200,16 @@ Patients table:
 | 4          | George       | ACNE DIAB100 |
 | 5          | Alain        | DIAB201      |
 +------------+--------------+--------------+
+
 Output: 
+
 +------------+--------------+--------------+
 | patient_id | patient_name | conditions   |
 +------------+--------------+--------------+
 | 3          | Bob          | DIAB100 MYOP |
 | 4          | George       | ACNE DIAB100 | 
 +------------+--------------+--------------+
+
 Explanation: Bob and George both have a condition that starts with DIAB1.
 
 **Solution:**
@@ -3821,6 +4221,7 @@ WHERE conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%'
 ```
 
 **Explanation:**
+
 - This query identifies patients who have Type I Diabetes, which is indicated by the 'DIAB1' prefix in their conditions.
 - The solution uses the LIKE operator with pattern matching to find the 'DIAB1' prefix in two possible positions:
   1. `conditions LIKE 'DIAB1%'` checks if 'DIAB1' appears at the start of the conditions string
@@ -3843,6 +4244,7 @@ Table: Person
 | id          | int     |
 | email       | varchar |
 +-------------+---------+
+
 id is the primary key (column with unique values) for this table.
 Each row of this table contains an email. The emails will not contain uppercase letters.
 
@@ -3864,6 +4266,7 @@ Example 1:
 
 Input: 
 Person table:
+
 +----+------------------+
 | id | email            |
 +----+------------------+
@@ -3871,13 +4274,16 @@ Person table:
 | 2  | bob@example.com  |
 | 3  | john@example.com |
 +----+------------------+
+
 Output: 
+
 +----+------------------+
 | id | email            |
 +----+------------------+
 | 1  | john@example.com |
 | 2  | bob@example.com  |
 +----+------------------+
+
 Explanation: john@example.com is repeated two times. We keep the row with the smallest Id = 1.
 
 **Solution:**
@@ -3892,6 +4298,7 @@ WHERE id IN (
 ```
 
 **Explanation:**
+
 - This query deletes duplicate emails from the Person table, keeping only the one with the smallest id for each email.
 - The solution uses a self-join to identify pairs of rows with the same email.
 - The condition `p1.id > p2.id` ensures we're only selecting the rows with higher IDs for each email (the duplicates we want to delete).
@@ -3906,6 +4313,7 @@ WHERE id IN (
 
 #### 176. Second Highest Salary
 **Description:**
+
 Table: Employee
 
 +-------------+------+
@@ -3914,6 +4322,7 @@ Table: Employee
 | id          | int  |
 | salary      | int  |
 +-------------+------+
+
 id is the primary key (column with unique values) for this table.
 Each row of this table contains information about the salary of an employee.
 
@@ -3928,7 +4337,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Employee table:
+
 +----+--------+
 | id | salary |
 +----+--------+
@@ -3936,7 +4347,9 @@ Employee table:
 | 2  | 200    |
 | 3  | 300    |
 +----+--------+
+
 Output: 
+
 +---------------------+
 | SecondHighestSalary |
 +---------------------+
@@ -3946,13 +4359,17 @@ Output:
 Example 2:
 
 Input: 
+
 Employee table:
+
 +----+--------+
 | id | salary |
 +----+--------+
 | 1  | 100    |
 +----+--------+
+
 Output: 
+
 +---------------------+
 | SecondHighestSalary |
 +---------------------+
@@ -3970,6 +4387,7 @@ SELECT
 ```
 
 **Explanation:**
+
 - This query finds the second highest distinct salary from the Employee table, returning NULL if no second highest exists.
 - The solution uses a subquery with DISTINCT to eliminate duplicate salaries.
 - The ORDER BY clause sorts salaries in descending order (highest first).
@@ -3985,6 +4403,7 @@ SELECT
 
 #### 1484. Group Products Sold by The Date
 **Description:**
+
 Table Activities:
 
 +-------------+---------+
@@ -3993,6 +4412,7 @@ Table Activities:
 | sell_date   | date    |
 | product     | varchar |
 +-------------+---------+
+
 There is no primary key (column with unique values) for this table. It may contain duplicates.
 Each row of this table contains the product name and the date it was sold in a market.
 
@@ -4011,7 +4431,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Activities table:
+
 +------------+------------+
 | sell_date  | product     |
 +------------+------------+
@@ -4023,7 +4445,9 @@ Activities table:
 | 2020-06-02 | Mask       |
 | 2020-05-30 | T-Shirt    |
 +------------+------------+
+
 Output: 
+
 +------------+----------+------------------------------+
 | sell_date  | num_sold | products                     |
 +------------+----------+------------------------------+
@@ -4031,7 +4455,9 @@ Output:
 | 2020-06-01 | 2        | Bible,Pencil                 |
 | 2020-06-02 | 1        | Mask                         |
 +------------+----------+------------------------------+
+
 Explanation: 
+
 For 2020-05-30, Sold items were (Headphone, Basketball, T-shirt), we sort them lexicographically and separate them by a comma.
 For 2020-06-01, Sold items were (Pencil, Bible), we sort them lexicographically and separate them by a comma.
 For 2020-06-02, the Sold item is (Mask), we just return it.
@@ -4046,6 +4472,7 @@ ORDER BY sell_date ASC
 ```
 
 **Explanation:**
+
 - This query groups products sold by date and formats the output as required.
 - For each date, it calculates:
   - The number of unique products sold using `COUNT(DISTINCT product)`
@@ -4061,6 +4488,7 @@ ORDER BY sell_date ASC
 
 #### 1327. List The Products Ordered in a Period
 **Description:**
+
 Table: Products
 
 +------------------+---------+
@@ -4070,6 +4498,7 @@ Table: Products
 | product_name     | varchar |
 | product_category | varchar |
 +------------------+---------+
+
 product_id is the primary key (column with unique values) for this table.
 This table contains data about the company's products.
 
@@ -4084,6 +4513,7 @@ Table: Orders
 | order_date    | date    |
 | unit          | int     |
 +---------------+---------+
+
 This table may have duplicate rows.
 product_id is a foreign key (reference column) to the Products table.
 unit is the number of products ordered in order_date.
@@ -4101,7 +4531,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Products table:
+
 +-------------+-----------------------+------------------+
 | product_id  | product_name          | product_category |
 +-------------+-----------------------+------------------+
@@ -4111,7 +4543,9 @@ Products table:
 | 4           | Lenovo                | Laptop           |
 | 5           | Leetcode Kit          | T-shirt          |
 +-------------+-----------------------+------------------+
+
 Orders table:
+
 +--------------+--------------+----------+
 | product_id   | order_date   | unit     |
 +--------------+--------------+----------+
@@ -4128,13 +4562,16 @@ Orders table:
 | 5            | 2020-02-27   | 50       |
 | 5            | 2020-03-01   | 50       |
 +--------------+--------------+----------+
+
 Output: 
+
 +--------------------+---------+
 | product_name       | unit    |
 +--------------------+---------+
 | Leetcode Solutions | 130     |
 | Leetcode Kit       | 100     |
 +--------------------+---------+
+
 Explanation: 
 Products with product_id = 1 is ordered in February a total of (60 + 70) = 130.
 Products with product_id = 2 is ordered in February a total of 80.
@@ -4155,6 +4592,7 @@ ORDER BY SUM(o.unit) DESC
 ```
 
 **Explanation:**
+
 - This query identifies products with at least 100 units ordered in February 2020.
 - It joins the Products and Orders tables to connect order information with product names.
 - The WHERE clause filters for orders placed within February 2020 using the BETWEEN operator.
@@ -4170,6 +4608,7 @@ ORDER BY SUM(o.unit) DESC
 
 #### 1527. Find Users With Valid E-Mails
 **Description:**
+
 Table: Users
 
 +---------------+---------+
@@ -4179,6 +4618,7 @@ Table: Users
 | name          | varchar |
 | mail          | varchar |
 +---------------+---------+
+
 user_id is the primary key (column with unique values) for this table.
 This table contains information of the users signed up in a website. Some e-mails are invalid.
 
@@ -4200,7 +4640,9 @@ The result format is in the following example.
 Example 1:
 
 Input: 
+
 Users table:
+
 +---------+-----------+-------------------------+
 | user_id | name      | mail                    |
 +---------+-----------+-------------------------+
@@ -4212,7 +4654,9 @@ Users table:
 | 6       | David     | david69@gmail.com       |
 | 7       | Shapiro   | .shapo@leetcode.com     |
 +---------+-----------+-------------------------+
+
 Output: 
+
 +---------+-----------+-------------------------+
 | user_id | name      | mail                    |
 +---------+-----------+-------------------------+
@@ -4220,6 +4664,7 @@ Output:
 | 3       | Annabelle | bella-@leetcode.com     |
 | 4       | Sally     | sally.come@leetcode.com |
 +---------+-----------+-------------------------+
+
 Explanation: 
 The mail of user 2 does not have a domain.
 The mail of user 5 has the # sign which is not allowed.
@@ -4235,6 +4680,7 @@ WHERE mail ~ '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\.com$';
 ```
 
 **Explanation:**
+
 - This query identifies users with valid email addresses according to the specified rules.
 - It uses PostgreSQL's `~` operator for regular expression matching to validate email addresses.
 - The regular expression pattern has several components:
