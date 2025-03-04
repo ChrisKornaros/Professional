@@ -1,0 +1,314 @@
+# Study Guide for Python Technical Interviews
+## HackerRank
+### Easy
+#### Template
+
+**Description:** 
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Say "Hello, World" with Python
+
+**Description:** Print "Hello, world"
+
+**Solution:**
+```python
+if __name__ == '__main__':
+    print("Hello, World")
+```
+
+**Explanation:**
+
+- This is a simple solution that prints "Hello, World" using Python's basic `print()` function
+
+#### Python If-Else
+
+**Description:** 
+Task
+Given an integer, *n*, perform the following conditional actions:
+
+If *n* is odd, print Weird
+If *n* is even and in the inclusive range of 2 to 5, print Not Weird
+If *n* is even and in the inclusive range of 6 to 20, print Weird
+If *n* is even and greater than 20, print Not Weird
+
+Input Format:
+
+A single line containing a positive integer, *n*.
+
+**Solution:** 
+```python
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+if __name__ == '__main__':
+    n = int(input().strip())
+    
+    if n % 2 != 0:
+        print("Weird")
+    elif n % 2 == 0 and 2 <= n <= 5:
+        print("Not Weird")
+    elif n % 2 == 0 and 6 <= n <= 20:
+        print("Weird")
+    else:
+        print("Not Weird")
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Arithmetic Operators
+
+**Description:** 
+The provided code stub reads two integers from STDIN, *a* and *b*. Add code to print three lines where:
+
+1. The first line contains the sum of the two numbers.
+2. The second line contains the difference of the two numbers (first - second).
+3. The third line contains the product of the two numbers.
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    a = int(input())
+    b = int(input())
+    
+    print(a + b)
+    print(a - b)
+    print(a * b)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Python: Division
+
+**Description:** 
+The provided code stub reads two integers, *a* and *b*, from STDIN.
+
+Add logic to print two lines. The first line should contain the result of integer division,
+*a* // *b*. The second line should contain the result of float division, *a* / *b*.
+
+No rounding or formatting is necessary.
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    a = int(input())
+    b = int(input())
+    
+    print(a // b)
+    print(a / b)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Loops
+
+**Description:** 
+The provided code stub reads an integer, *n*, from STDIN. For all non-negative integers *i* < *n*, print *i^2^*. 
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    n = int(input())
+    
+    for i in range(0, n):
+        print(i * i)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+
+#### Print Function
+
+**Description:** 
+The included code stub will read an integer, *n*, from STDIN.
+
+Without using any string methods, try to print the following:
+
+123 *** *n*
+
+Note that "***" represents the consecutive values in between.
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    n = int(input())
+    
+    for i in range(1, n+1):
+        print(i, end="")
+```
+
+
+**Explanation:**
+
+- Need to add explanation
+
+
+#### List Comprehensions
+
+**Description:** 
+Let's learn about list comprehensions! You are given three integers *x*, *y*, and *z* representing the dimensions of a cuboid along with an integer *n*. Print a list of all possible coordinates given by (*i*,*j*,*k*) on a 3D grid where the sum of *i*+*j*+*k* is not equal to *n*. Here, `0 <= *i* <= *x*; 0 <= *j* <= *y*; 0 <= *k* <= *z`*. Please use list comprehensions rather than multiple loops, as a learning exercise. 
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    x = int(input())
+    y = int(input())
+    z = int(input())
+    n = int(input())
+    
+    print ([[a,b,c] for a in range(0, x+1) for b in range(0,y+1) for c in range(0,z+1) if a + b + c != n ])
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+
+#### Find the Runner Up Score
+
+**Description:** 
+Given the participants' score sheet for your University Sports Day, you are required to find the runner-up score. You are given scores. Store them in a list and find the score of the runner-up. 
+
+The first line contains *n*. The second line contains an array *A*[] of *n* integers each separated by a space. 
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    n = int(input())
+    arr = map(int, input().split())
+    
+    srr = set(arr)
+    sor = sorted(srr)
+    
+    print(sor[-2])
+```
+
+
+**Explanation:**
+
+- Need to add explanation
+
+
+#### Nested Lists
+
+**Description:** 
+Given the names and grades for each student in a class of *N* students, store them in a nested list and print the name(s) of any student(s) having the second lowest grade. ***Note:*** If there are multiple students with the second lowest grade, order their names alphabetically and print each name on a new line.
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    raw = []
+    
+    for _ in range(int(input())):
+        name = input()
+        score = float(input())
+        raw.append([name, score])
+    
+    raw_sort = sorted(raw, key=lambda x: x[1])
+    
+    low_score = raw_sort[0][1]
+    
+    second_low = None
+    for n, s in raw_sort:
+        if s > low_score:
+            second_low = s
+            break
+    
+    answer = sorted([name for name, score in raw if score == second_low])
+
+    for n in answer:
+        print(n)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+
+#### What's Your Name?
+
+**Description:** 
+You are given the firstname and lastname of a person on two different lines. Your task is to read them and print the following:
+
+Hello `firstname` `lastname`! You just delved into python.
+
+*Function Description*
+
+Complete the print_full_name function in the editor below.
+
+`print_full_name()` has the following parameters:
+
+`string first: the first name`
+`string last: the last name`
+
+
+**Solution:** 
+```python
+def print_full_name(first, last):
+    # Write your code here
+    print(f"Hello {first} {last}! You just delved into python.")
+
+if __name__ == '__main__':
+    first_name = input()
+    last_name = input()
+    print_full_name(first_name, last_name)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+
+#### re.start() & re.end()
+
+**Description:** 
+
+You are given a string *S*.
+Your task is to find the indices of the start and end of string *k* in *S*.
+
+Input Format
+
+The first line contains the string *S*.
+The second line contains the string *k*.
+
+**Solution:** 
+```python
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import re
+
+S = input()
+k = input()
+
+pattern = re.compile(k)
+r = pattern.search(S)
+if not r: print("(-1, -1)")
+while r:
+    print("({0}, {1})".format(r.start(), r.end() - 1))
+    r = pattern.search(S,r.start() + 1)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+
