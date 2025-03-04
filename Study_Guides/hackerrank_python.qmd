@@ -311,4 +311,205 @@ while r:
 
 - Need to add explanation
 
+#### Finding the percentage
 
+**Description:** 
+
+The provided code stub will read in a dictionary containing key/value pairs of name:[marks] for a list of students. Print the average of the marks array for the student name provided, showing 2 places after the decimal. 
+
+The first line contains the integer *n*, the number of students' records. The next *n* lines contain the names and marks obtained by a student, each value separated by a space. The final line contains ***query_name***, the name of a student to query.
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Lists
+
+**Description:** 
+
+Consider a list (list = []). You can perform the following commands:
+
+1. `insert i e`: Insert integer *e* at position *i*.
+2. `print`: Print the list.
+3. `remove e`: Delete the first occurrence of integer *e*.
+4. `append e`: Insert integer *e* at the end of the list.
+5. `sort`: Sort the list.
+6. `pop`: Pop the last element from the list.
+7. `reverse`: Reverse the list.
+
+Initialize your list and read in the value of *n* followed by *n* lines of commands where each command will be of the types listed above. Iterate through each command in order and perform the corresponding operation on your list. 
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Tuples
+
+**Description:** 
+
+Given an integer, *n*, and *n* space-separated integers as input, create a tuple, *t*, of those integers. Then compute and print the result of `hash(t)`. ***Note:*** hash() is one of the functions in the __builtins__ module, so it need not be imported.
+
+Input Format
+
+The first line contains an integer, *n*, denoting the number of elements in the tuple.
+The second line contains space-separated integers describing the elements in tuple *t*. 
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    n = int(input())
+    integer_list = map(int, input().split())
+    
+    t = tuple(integer_list)
+    
+    print(hash(t))
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### sWAP cASE
+
+**Description:** 
+
+You are given a string and your task is to swap cases. In other words, convert all lowercase letters to uppercase letters and vice versa.
+
+**Solution:** 
+```python
+def swap_case(s):
+    return s.swapcase()
+
+if __name__ == '__main__':
+    s = input()
+    result = swap_case(s)
+    print(result)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### String Split and Join
+
+**Description:** 
+
+You are given a string. Split the string on a " " (space) delimiter and join using a - hyphen. 
+
+**Solution:** 
+```python
+def split_and_join(line):
+    # write your code here
+    out = line.split(" ")
+    out = "-".join(out)
+    return out
+
+if __name__ == '__main__':
+    line = input()
+    result = split_and_join(line)
+    print(result)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Mutations
+
+**Description:** 
+
+We have seen that lists are mutable (they can be changed), and tuples are immutable (they cannot be changed).
+
+You are given an immutable string, and you want to make changes to it. 
+
+Read a given string, change the character at a given index and then print the modified string.
+
+Function Description
+
+Complete the mutate_string function in the editor below.
+
+mutate_string has the following parameters:
+
+`string string`: the string to change
+`int position`: the index to insert the character at
+`string character`: the character to insert
+
+
+**Solution:** 
+```python
+def mutate_string(string, position, character):
+    string = string[:position] + character + string[position+1:]
+    return string
+
+if __name__ == '__main__':
+    s = input()
+    i, c = input().split()
+    s_new = mutate_string(s, int(i), c)
+    print(s_new)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Find a String
+
+**Description:** 
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Template
+
+**Description:** 
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Template
+
+**Description:** 
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Template
+
+**Description:** 
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
