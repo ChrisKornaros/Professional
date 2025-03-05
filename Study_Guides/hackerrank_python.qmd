@@ -627,6 +627,53 @@ def solve(s):
 - `s.title()` would capitalize the first occuring letter of each word
 - Need to add explanation
 
+#### Introduction to Sets
+**Description:** 
+
+A set is an unordered collection of elements without duplicate entries. When printed, iterated or converted into a sequence, its elements will appear in an arbitrary order.
+
+Ms. Gabriel Williams is a botany professor at District College. One day, she asked her student Mickey to compute the average of all the plants with distinct heights in her greenhouse.
+
+**Solution:** 
+```python
+def average(array):
+    # your code goes here
+    a = set(array)
+    
+    return (sum(a)/len(a))
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Symmetric Difference
+**Description:** 
+
+Given sets of integers, *M* and *N*, print their symmetric difference in ascending order. The term symmetric difference indicates those values that exist in either *M* or *N* but do not exist in both.
+
+**Solution:** 
+```python
+if __name__ == '__main__':
+    M = int(input())
+    a = set(input().split())
+    N = int(input())
+    b = set(input().split())
+
+    c = set()
+    c.update(a.difference(b))
+    c.update(b.difference(a))
+    
+    d = sorted(c, key=int)
+    
+    for i in d:
+        print(i)
+```
+
+**Explanation:**
+
+- Need to add explanation
+
 #### Template
 **Description:** 
 
