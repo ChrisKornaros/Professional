@@ -2,8 +2,8 @@
 ## HackerRank
 ### Easy
 #### Template
-
 **Description:** 
+
 
 **Solution:** 
 ```python
@@ -466,44 +466,170 @@ if __name__ == '__main__':
 
 **Description:** 
 
+In this challenge, the user enters a string and a substring. You have to print the number of times that the substring occurs in the given string. String traversal will take place from left to right, not from right to left.
+
+NOTE: String letters are case-sensitive.
+
 **Solution:** 
 ```python
+def count_substring(string, sub_string):
+    sub_len = len(sub_string)
+    cnt = 0
+    
+    for i in range(len(string) - sub_len + 1):
+        if string[i:i + sub_len] == sub_string:
+            cnt += 1
+        
+    return cnt
 
+if __name__ == '__main__':
+    string = input().strip()
+    sub_string = input().strip()
+    
+    count = count_substring(string, sub_string)
+    print(count)
 ```
 
 **Explanation:**
 
 - Need to add explanation
 
-#### Template
+#### String Validators
 
 **Description:** 
 
+You are given a string *S*.
+
+Your task is to find out if the string *S* contains: alphanumeric characters, alphabetical characters, digits, lowercase and uppercase characters. 
+
 **Solution:** 
 ```python
+if __name__ == '__main__':
+    s = input()
+    a = False
+    b = False
+    c = False
+    d = False
+    e = False
+    
+    for i in s:
+        if i.isalnum():
+            a = True
+        if i.isalpha():
+            b = True
+        if i.isdigit():
+            c = True
+        if i.islower():
+            d = True
+        if i.isupper():
+            e = True
+    
+    print(f"{a}\n{b}\n{c}\n{d}\n{e}\n")
+```
 
+**Explanation:**
+
+- Inelegant, but it works
+- Need to add explanation
+
+#### Text Alignment
+
+**Description:** 
+
+You are given a partial code that is used for generating the HackerRank Logo of variable thickness.
+Your task is to replace the blank (______) with rjust, ljust or center.
+
+**Solution:** 
+```python
+#Replace all ______ with rjust, ljust or center. 
+
+thickness = int(input()) #This must be an odd number
+c = 'H'
+
+#Top Cone
+for i in range(thickness):
+    print((c*i).rjust(thickness-1)+c+(c*i).ljust(thickness-1))
+
+#Top Pillars
+for i in range(thickness+1):
+    print((c*thickness).center(thickness*2)+(c*thickness).center(thickness*6))
+
+#Middle Belt
+for i in range((thickness+1)//2):
+    print((c*thickness*5).center(thickness*6))    
+
+#Bottom Pillars
+for i in range(thickness+1):
+    print((c*thickness).center(thickness*2)+(c*thickness).center(thickness*6))    
+
+#Bottom Cone
+for i in range(thickness):
+    print(((c*(thickness-i-1)).rjust(thickness)+c+(c*(thickness-i-1)).ljust(thickness)).rjust(thickness*6))
 ```
 
 **Explanation:**
 
 - Need to add explanation
 
-#### Template
+#### Text Wrap
 
 **Description:** 
 
+You are given a string *S* and width *w*.
+Your task is to wrap the string *S* into a paragraph of width *w*.
+
+Function Description
+
+Complete the wrap function in the editor below.
+
+wrap has the following parameters:
+
+`string string`: a long string
+`int max_width`: the width to wrap to
+
+Returns
+
+`string`: a single string with newline characters ('\n') where the breaks should be
+
+
 **Solution:** 
 ```python
+import textwrap
 
+def wrap(string, max_width):
+    out = textwrap.fill(string, width=max_width)
+    return out
 ```
 
 **Explanation:**
 
 - Need to add explanation
 
-#### Template
-
+#### Capitalize!
 **Description:** 
+
+You are asked to ensure that the first and last names of people begin with a capital letter in their passports. For example, alison heck should be capitalised correctly as Alison Heck.
+
+Given a full name, your task is to capitalize the name appropriately.
+
+**Solution:** 
+```python
+# Complete the solve function below.
+def solve(s):
+    for x in s[:].split():
+        s = s.replace(x, x.capitalize())
+    return s
+```
+
+**Explanation:**
+
+- We just want to capitalise first letter of each word, not the first occuring letter of a word. 
+- `s.title()` would capitalize the first occuring letter of each word
+- Need to add explanation
+
+#### Template
+**Description:** 
+
 
 **Solution:** 
 ```python
