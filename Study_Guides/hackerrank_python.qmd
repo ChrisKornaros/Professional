@@ -674,6 +674,160 @@ if __name__ == '__main__':
 
 - Need to add explanation
 
+#### Set .add()
+**Description:** 
+
+If we want to add a single element to an existing set, we can use the .add() operation. It adds the element to the set and returns 'None'.
+
+Apply your knowledge of the .add() operation to help your friend Rupal.
+
+Rupal has a huge collection of country stamps. She decided to count the total number of distinct country stamps in her collection. She asked for your help. You pick the stamps one by one from a stack of country stamps.
+
+Find the total number of distinct country stamps.
+
+**Solution:** 
+```python
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+N = int(input())
+
+countries = [input() for _ in range(N)]
+
+answer = set(countries)
+
+print(len(answer))
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Set .discard(), .remove(), & .pop()
+**Description:** 
+
+The `remove()` operation removes element from the set. If element does not exist, it raises a KeyError. The .remove(x) operation returns None.
+
+The `discard()` operation also removes element from the set. If element does not exist, it does not raise a KeyError. The .discard(x) operation returns None.
+
+The `pop()` operation removes and return an arbitrary element from the set. If there are no elements to remove, it raises a KeyError.
+
+You have a non-empty set *s*, and you have to execute *N* commands given in *N* lines. The commands will be pop, remove and discard. 
+
+The first line contains integer *n*, the number of elements in the set *s*. The second line contains *n* space separated elements of set *s*. All of the elements are non-negative integers, less than or equal to 9. The third line contains integer *N*, the number of commands. The next *N* lines contains either pop, remove and/or discard commands followed by their associated value.
+Print the sum of the elements of set on a single line.
+
+**Solution:** 
+```python
+
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Set .union() Operations
+**Description:** 
+
+The .union() operator returns the union of a set and the set of elements in an iterable. Sometimes, the | operator is used in place of .union() operator, but it operates only on the set of elements in set. Set is immutable to the .union() operation (or | operation).
+
+The students of District College have subscriptions to English and French newspapers. Some students have subscribed only to English, some have subscribed to only French and some have subscribed to both newspapers.
+
+You are given two sets of student roll numbers. One set has subscribed to the English newspaper, and the other set is subscribed to the French newspaper. The same student could be in both sets. Your task is to find the total number of students who have subscribed to at least one newspaper.
+
+
+**Solution:** 
+```python
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+n = int(input())
+e = set(map(int, input().split()))
+b = int(input())
+f = set(map(int, input().split()))
+
+ans = e.union(f)
+
+print(len(ans))
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Set .intersection() Operation
+**Description:** 
+
+The students of District College have subscriptions to English and French newspapers. Some students have subscribed only to English, some have subscribed only to French, and some have subscribed to both newspapers. You are given two sets of student roll numbers. One set has subscribed to the English newspaper, one set has subscribed to the French newspaper. Your task is to find the total number of students who have subscribed to both newspapers.
+
+***Note:*** Same input format as above, just using intersection instead of union.
+
+**Solution:** 
+```python
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+n = int(input())
+e = set(map(int, input().split()))
+b = int(input())
+f = set(map(int, input().split()))
+
+ans = e.intersection(f)
+
+print(len(ans))
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Set .difference() Operation
+**Description:** 
+
+Students of District College have a subscription to English and French newspapers. Some students have subscribed to only the English newspaper, some have subscribed to only the French newspaper, and some have subscribed to both newspapers.
+
+You are given two sets of student roll numbers. One set has subscribed to the English newspaper, and one set has subscribed to the French newspaper. Your task is to find the total number of students who have subscribed to only English newspapers.
+
+***Note:*** Same input format as above, just using difference instead of union or intersection.
+
+
+**Solution:** 
+```python
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+n = int(input())
+e = set(map(int, input().split()))
+b = int(input())
+f = set(map(int, input().split()))
+
+ans = e.difference(f)
+
+print(len(ans))
+```
+
+**Explanation:**
+
+- Need to add explanation
+
+#### Set .symmetric_difference() Operations
+**Description:** 
+
+Students of District College have subscriptions to English and French newspapers. Some students have subscribed to English only, some have subscribed to French only, and some have subscribed to both newspapers.
+
+You are given two sets of student roll numbers. One set has subscribed to the English newspaper, and one set has subscribed to the French newspaper. Your task is to find the total number of students who have subscribed to either the English or the French newspaper but not both.
+
+***Note:*** Same input format as above, just using symmetric difference instead of union, intersection, or difference.
+
+**Solution:** 
+```python
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+n = int(input())
+e = set(map(int, input().split()))
+b = int(input())
+f = set(map(int, input().split()))
+
+ans = e.symmetric_difference(f)
+
+print(len(ans))
+```
+
+**Explanation:**
+
+- Need to add explanation
+
 #### Template
 **Description:** 
 
