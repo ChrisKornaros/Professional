@@ -4829,8 +4829,6 @@ WHERE
 
 **Explanation:**
 
-# Company Median Salary Finder
-
 - This query identifies rows containing the median salary for each company, breaking ties by employee ID when sorting salaries.
 - It uses a two-stage approach with Common Table Expressions (CTEs) to first count employees and then assign precise rankings.
 - The first CTE calculates the total number of employees for each company, which is crucial for determining median positions.
