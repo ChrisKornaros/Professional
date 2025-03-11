@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>pandas_hard</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="pandas_hard_files/libs/clipboard/clipboard.min.js"></script>
+<script src="pandas_hard_files/libs/quarto-html/quarto.js"></script>
+<script src="pandas_hard_files/libs/quarto-html/popper.min.js"></script>
+<script src="pandas_hard_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="pandas_hard_files/libs/quarto-html/anchor.min.js"></script>
+<link href="pandas_hard_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="pandas_hard_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="pandas_hard_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="pandas_hard_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="pandas_hard_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="sql-hard-problems-with-pandas-solutions" class="level1">
+<h1>SQL Hard Problems with Pandas Solutions</h1>
+<section id="table-of-contents" class="level2">
+<h2 class="anchored" data-anchor-id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#185-department-top-three-salaries">185. Department Top Three Salaries</a></li>
+<li><a href="#262-trips-and-users">262. Trips and Users</a></li>
+<li><a href="#569-median-employee-salary">569. Median Employee Salary</a></li>
+<li><a href="#571-find-median-given-frequency-of-numbers">571. Find Median Given Frequency of Numbers</a></li>
+<li><a href="#579-find-cumulative-salary-of-an-employee">579. Find Cumulative Salary of an Employee</a></li>
+<li><a href="#601-human-traffic-of-stadium">601. Human Traffic of Stadium</a></li>
+<li><a href="#615-average-salary-departments-vs-company">615. Average Salary: Departments VS Company</a></li>
+<li><a href="#618-students-report-by-geography">618. Students Report By Geography</a></li>
+<li><a href="#1097-gameplay-analysis-v">1097. Gameplay Analysis V</a></li>
+<li><a href="#1127-user-purchase-platform">1127. User Purchase Platform</a></li>
+<li><a href="#1159-market-analysis-ii">1159. Market Analysis II</a></li>
+<li><a href="#1194-tournament-winners">1194. Tournament Winners</a></li>
+<li><a href="#1225-report-contiguous-dates">1225. Report Contiguous Dates</a></li>
+<li><a href="#1336-number-of-transactions-per-visit">1336. Number of Transactions per Visit</a></li>
+<li><a href="#1369-get-the-second-most-recent-activity">1369. Get the Second Most Recent Activity</a></li>
+<li><a href="#1384-total-sales-amount-by-year">1384. Total Sales Amount by Year</a></li>
+<li><a href="#1412-find-the-quiet-students-in-all-exams">1412. Find the Quiet Students in All Exams</a></li>
+<li><a href="#1479-sales-by-day-of-the-week">1479. Sales by Day of the Week</a></li>
+<li><a href="#1635-hopper-company-queries-i">1635. Hopper Company Queries I</a></li>
+<li><a href="#1645-hopper-company-queries-ii">1645. Hopper Company Queries II</a></li>
+<li><a href="#1651-hopper-company-queries-iii">1651. Hopper Company Queries III</a></li>
+<li><a href="#1767-find-the-subtasks-that-did-not-execute">1767. Find the Subtasks That Did Not Execute</a></li>
+<li><a href="#1892-page-recommendations-ii">1892. Page Recommendations II</a></li>
+<li><a href="#1917-leetcodify-friends-recommendations">1917. Leetcodify Friends Recommendations</a></li>
+<li><a href="#1919-leetcodify-similar-friends">1919. Leetcodify Similar Friends</a></li>
+<li><a href="#1972-first-and-last-call-on-the-same-day">1972. First and Last Call On the Same Day</a></li>
+<li><a href="#2004-the-number-of-seniors-and-juniors-to-join-the-company">2004. The Number of Seniors and Juniors to Join the Company</a></li>
+<li><a href="#2010-the-number-of-seniors-and-juniors-to-join-the-company-ii">2010. The Number of Seniors and Juniors to Join the Company II</a></li>
+<li><a href="#2118-build-the-equation">2118. Build the Equation</a></li>
+<li><a href="#2153-the-number-of-passengers-in-each-bus-ii">2153. The Number of Passengers in Each Bus II</a></li>
+<li><a href="#2173-longest-winning-streak">2173. Longest Winning Streak</a></li>
+<li><a href="#2199-finding-the-topic-of-each-post">2199. Finding the Topic of Each Post</a></li>
+<li><a href="#2252-dynamic-pivoting-of-a-table">2252. Dynamic Pivoting of a Table</a></li>
+<li><a href="#2253-dynamic-unpivoting-of-a-table">2253. Dynamic Unpivoting of a Table</a></li>
+<li><a href="#2362-generate-the-invoice">2362. Generate the Invoice</a></li>
+<li><a href="#2474-customers-with-strictly-increasing-purchases">2474. Customers With Strictly Increasing Purchases</a></li>
+<li><a href="#2494-merge-overlapping-events-in-the-same-hall">2494. Merge Overlapping Events in the Same Hall</a></li>
+<li><a href="#2701-consecutive-transactions-with-increasing-amounts">2701. Consecutive Transactions with Increasing Amounts</a></li>
+<li><a href="#2720-popularity-percentage">2720. Popularity Percentage</a></li>
+<li><a href="#2752-customers-with-maximum-number-of-transactions-on-consecutive-days">2752. Customers with Maximum Number of Transactions on Consecutive Days</a></li>
+<li><a href="#2793-status-of-flight-tickets">2793. Status of Flight Tickets</a></li>
+<li><a href="#2991-top-three-wineries">2991. Top Three Wineries</a></li>
+<li><a href="#3057-employees-project-allocation">3057. Employees Project Allocation</a></li>
+<li><a href="#3060-user-activities-within-time-bounds">3060. User Activities within Time Bounds</a></li>
+<li><a href="#3061-calculate-trapping-rain-water">3061. Calculate Trapping Rain Water</a></li>
+<li><a href="#3103-find-trending-hashtags-ii">3103. Find Trending Hashtags II</a></li>
+<li><a href="#3156-employee-task-duration-and-concurrent-tasks">3156. Employee Task Duration and Concurrent Tasks</a></li>
+<li><a href="#3188-find-top-scoring-students-ii">3188. Find Top Scoring Students II</a></li>
+<li><a href="#3214-year-on-year-growth-rate">3214. Year on Year Growth Rate</a></li>
+<li><a href="#3236-ceo-subordinate-hierarchy">3236. CEO Subordinate Hierarchy</a></li>
+<li><a href="#3268-find-overlapping-shifts-ii">3268. Find Overlapping Shifts II</a></li>
+<li><a href="#3384-team-dominance-by-pass-success">3384. Team Dominance by Pass Success</a></li>
+<li><a href="#3401-find-circular-gift-exchange-chains">3401. Find Circular Gift Exchange Chains</a></li>
+<li><a href="#3451-find-invalid-ip-addresses">3451. Find Invalid IP Addresses</a></li>
+</ul>
+<section id="department-top-three-salaries" class="level3">
+<h3 class="anchored" data-anchor-id="department-top-three-salaries">185. Department Top Three Salaries</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Employee</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 13%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>id name salary departmentId</td>
+<td>int varchar int int</td>
+</tr>
+</tbody>
+</table>
+<p>id is the primary key (column with unique values) for this table. departmentId is a foreign key (reference column) of the ID from the Department table. Each row of this table indicates the ID, name, and salary of an employee. It also contains the ID of their department.</p>
+<table class="caption-top table">
+<caption>Department</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 13%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>id name</td>
+<td>int varchar</td>
+</tr>
+</tbody>
+</table>
+<p>id is the primary key (column with unique values) for this table. Each row of this table indicates the ID of a department and its name.</p>
+<p>A company’s executives are interested in seeing who earns the most money in each of the company’s departments. A high earner in a department is an employee who has a salary in the top three unique salaries for that department.</p>
+<p>Write a solution to find the employees who are high earners in each of the departments.</p>
+<p>Return the result table in any order.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> top_three_salaries(employee: pd.DataFrame, department: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Merge the employee and department dataframes</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    merged_df <span class="op">=</span> employee.merge(department, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                              left_on<span class="op">=</span><span class="st">'departmentId'</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                              right_on<span class="op">=</span><span class="st">'id'</span>, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                              suffixes<span class="op">=</span>(<span class="st">'_employee'</span>, <span class="st">'_department'</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Group by department and calculate dense rank of salaries in each department</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    merged_df[<span class="st">'salary_rank'</span>] <span class="op">=</span> merged_df.groupby(<span class="st">'departmentId'</span>)[<span class="st">'salary'</span>].rank(method<span class="op">=</span><span class="st">'dense'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Filter for employees with salary rank in top 3</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> merged_df[merged_df[<span class="st">'salary_rank'</span>] <span class="op">&lt;=</span> <span class="dv">3</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 4: Select and rename the required columns</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> result[[<span class="st">'name_department'</span>, <span class="st">'name_employee'</span>, <span class="st">'salary'</span>]]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    result.columns <span class="op">=</span> [<span class="st">'Department'</span>, <span class="st">'Employee'</span>, <span class="st">'Salary'</span>]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This solution identifies the highest-paid employees in each department, specifically those with salaries in the top three within their department.</li>
+<li>The approach uses the following steps:
+<ol type="1">
+<li>Merge the Employee and Department tables to get department names along with employee details.</li>
+<li>Use Pandas’ <code>rank()</code> method with <code>dense</code> parameter to assign ranks to salaries within each department.</li>
+<li>Filter for employees with a salary rank of 3 or less, capturing the top three salary tiers in each department.</li>
+<li>Format the result by selecting and renaming the required columns.</li>
+</ol></li>
+<li>The <code>dense</code> ranking method ensures that if multiple employees have the same salary, they get the same rank and all count toward the top three.</li>
+<li>For example, if two employees have the highest salary in a department, both get rank 1, and the employee with the next highest salary gets rank 2.</li>
+<li>Time complexity: O(n log n) where n is the number of employees, due to the sorting operations in the ranking function.</li>
+<li>Space complexity: O(n) for the merged dataframe and result set.</li>
+<li>This approach handles departments of different sizes efficiently without requiring complex subqueries.</li>
+<li>For large datasets, we could improve performance by:
+<ul>
+<li>Pre-filtering the employee dataframe to include only relevant columns before the merge</li>
+<li>Using a more memory-efficient approach if the dataframes are very large</li>
+<li>Potentially using a more performant merge strategy if needed</li>
+</ul></li>
+</ul>
+</section>
+<section id="trips-and-users" class="level3">
+<h3 class="anchored" data-anchor-id="trips-and-users">262. Trips and Users</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Trips</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 15%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>id client_id driver_id city_id status request_at</td>
+<td>int int int int enum varchar</td>
+</tr>
+</tbody>
+</table>
+<p>id is the primary key for this table. The table holds all taxi trips. Each trip has a unique id, while client_id and driver_id are foreign keys to the users_id at the Users table. Status is an ENUM (category) type of (‘completed’, ‘cancelled_by_driver’, ‘cancelled_by_client’).</p>
+<table class="caption-top table">
+<caption>Users</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 15%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>users_id banned role</td>
+<td>int enum enum</td>
+</tr>
+</tbody>
+</table>
+<p>users_id is the primary key for this table. The table holds all users. Each user has a unique users_id, and role is an ENUM type of (‘client’, ‘driver’, ‘partner’). banned is an ENUM (category) type of (‘Yes’, ‘No’).</p>
+<p>The cancellation rate is computed by dividing the number of canceled (by client or driver) requests with unbanned users by the total number of requests with unbanned users on that day.</p>
+<p>Write a solution to find the cancellation rate of requests with unbanned users (both client and driver must not be banned) each day between “2013-10-01” and “2013-10-03” with at least one trip. Round Cancellation Rate to two decimal points.</p>
+<p>Return the result table in any order.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> trips_and_users(trips: pd.DataFrame, users: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Filter unbanned users</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    unbanned_users <span class="op">=</span> users[users[<span class="st">'banned'</span>] <span class="op">==</span> <span class="st">'No'</span>][<span class="st">'users_id'</span>].tolist()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Filter trips with unbanned clients and drivers</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    filtered_trips <span class="op">=</span> trips[</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        (trips[<span class="st">'client_id'</span>].isin(unbanned_users)) <span class="op">&amp;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        (trips[<span class="st">'driver_id'</span>].isin(unbanned_users)) <span class="op">&amp;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        (trips[<span class="st">'request_at'</span>] <span class="op">&gt;=</span> <span class="st">'2013-10-01'</span>) <span class="op">&amp;</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        (trips[<span class="st">'request_at'</span>] <span class="op">&lt;=</span> <span class="st">'2013-10-03'</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Group by date and calculate cancellation rate</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Count total trips and cancelled trips per day</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    daily_stats <span class="op">=</span> filtered_trips.groupby(<span class="st">'request_at'</span>).agg(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        total_trips<span class="op">=</span>(<span class="st">'id'</span>, <span class="st">'count'</span>),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        cancelled_trips<span class="op">=</span>(<span class="st">'status'</span>, <span class="kw">lambda</span> x: <span class="bu">sum</span>(x.<span class="bu">str</span>.startswith(<span class="st">'cancelled'</span>)))</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    ).reset_index()</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 4: Calculate cancellation rate and round to 2 decimal places</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    daily_stats[<span class="st">'Cancellation Rate'</span>] <span class="op">=</span> (daily_stats[<span class="st">'cancelled_trips'</span>] <span class="op">/</span> daily_stats[<span class="st">'total_trips'</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 5: Format the result</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> daily_stats[[<span class="st">'request_at'</span>, <span class="st">'Cancellation Rate'</span>]]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    result.columns <span class="op">=</span> [<span class="st">'Day'</span>, <span class="st">'Cancellation Rate'</span>]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This query calculates the daily cancellation rate for taxi trips between Oct 1-3, 2013, where both client and driver are not banned.</li>
+<li>The solution uses a four-step approach:
+<ol type="1">
+<li>Identify unbanned users by filtering the Users table for banned = ‘No’.</li>
+<li>Filter the Trips table to include only rides where both driver and client are unbanned and within the date range.</li>
+<li>Group the filtered trips by date and calculate both the total trips and cancelled trips.</li>
+<li>Calculate the cancellation rate by dividing cancelled trips by total trips for each day.</li>
+</ol></li>
+<li>The cancellation rate is calculated by dividing cancelled trips count by total trips count and rounding to two decimal places.</li>
+<li>For cancellation detection, we use a lambda function that checks if the status starts with ‘cancelled’.</li>
+<li>Time complexity: O(n + m) where n is the number of trips and m is the number of users, due to the filtering and grouping operations.</li>
+<li>Space complexity: O(n) for the filtered trips and result dataframes.</li>
+<li>The approach efficiently handles the multiple filtering conditions in a clear, step-by-step manner.</li>
+<li>For large datasets, performance could be improved by:
+<ul>
+<li>Using dictionary-based lookups for unbanned users instead of lists</li>
+<li>Pre-filtering the trips dataframe by date before other conditions</li>
+<li>Using more efficient string matching for cancelled status detection</li>
+</ul></li>
+<li>This solution correctly handles the requirement to round the cancellation rate to two decimal places.</li>
+</ul>
+</section>
+<section id="median-employee-salary" class="level3">
+<h3 class="anchored" data-anchor-id="median-employee-salary">569. Median Employee Salary</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Employee</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 13%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>id company salary</td>
+<td>int varchar int</td>
+</tr>
+</tbody>
+</table>
+<p>id is the primary key (column with unique values) for this table. Each row of this table indicates the company and the salary of one employee.</p>
+<p>Write a solution to find the rows that contain the median salary of each company. While calculating the median, when you sort the salaries of the company, break the ties by id.</p>
+<p>Return the result table in any order.</p>
+<p>The result format is in the following example.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> median_employee_salary(employee: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Sort the data by company, salary, and id to break ties</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    employee_sorted <span class="op">=</span> employee.sort_values(by<span class="op">=</span>[<span class="st">'company'</span>, <span class="st">'salary'</span>, <span class="st">'id'</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Assign row numbers within each company</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    employee_sorted[<span class="st">'row_num'</span>] <span class="op">=</span> employee_sorted.groupby(<span class="st">'company'</span>).cumcount() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Calculate the total number of employees per company</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    company_sizes <span class="op">=</span> employee_sorted.groupby(<span class="st">'company'</span>).size().reset_index(name<span class="op">=</span><span class="st">'total_employees'</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 4: Merge the row numbers and company sizes</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    employee_with_stats <span class="op">=</span> employee_sorted.merge(company_sizes, on<span class="op">=</span><span class="st">'company'</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 5: Find the median positions</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For odd number of employees: (n+1)/2</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For even number of employees: n/2 and n/2+1</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    employee_with_stats[<span class="st">'is_median'</span>] <span class="op">=</span> employee_with_stats.<span class="bu">apply</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">lambda</span> row: (row[<span class="st">'total_employees'</span>] <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> row[<span class="st">'row_num'</span>] <span class="op">==</span> (row[<span class="st">'total_employees'</span>] <span class="op">+</span> <span class="dv">1</span>) <span class="op">//</span> <span class="dv">2</span>) <span class="kw">or</span> </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                    (row[<span class="st">'total_employees'</span>] <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> (row[<span class="st">'row_num'</span>] <span class="op">==</span> row[<span class="st">'total_employees'</span>] <span class="op">//</span> <span class="dv">2</span> <span class="kw">or</span> </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                                                          row[<span class="st">'row_num'</span>] <span class="op">==</span> row[<span class="st">'total_employees'</span>] <span class="op">//</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)),</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 6: Filter for median rows and select required columns</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> employee_with_stats[employee_with_stats[<span class="st">'is_median'</span>]][[<span class="st">'id'</span>, <span class="st">'company'</span>, <span class="st">'salary'</span>]]</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This solution identifies rows containing the median salary for each company, breaking ties by employee ID when sorting salaries.</li>
+<li>The approach follows these steps:
+<ol type="1">
+<li>Sort the employee data by company, salary, and ID to establish a precise ordering.</li>
+<li>Assign sequential row numbers to employees within each company group.</li>
+<li>Calculate the total number of employees in each company.</li>
+<li>Combine the row numbers with company sizes to determine median positions.</li>
+<li>Apply a formula to identify which rows correspond to median positions:
+<ul>
+<li>For companies with odd employee counts: the middle row ((n+1)/2)</li>
+<li>For companies with even employee counts: both middle rows (n/2 and n/2+1)</li>
+</ul></li>
+<li>Filter for only the rows identified as medians and return the required columns.</li>
+</ol></li>
+<li>Time complexity: O(n log n) due to the sorting operations required for proper row numbering.</li>
+<li>Space complexity: O(n) where n is the number of employees, as we need to store all employee records with additional information.</li>
+<li>The solution correctly handles both odd and even employee counts:
+<ul>
+<li>For 5 employees, the 3rd ranked employee (position (5+1)/2) is selected.</li>
+<li>For 6 employees, both the 3rd and 4th ranked employees (positions 6/2 and 6/2+1) are selected.</li>
+</ul></li>
+<li>The sort order by company, salary, and ID ensures that ties in salary are properly broken by ID.</li>
+<li>For large datasets, performance could be improved by:
+<ul>
+<li>Using more memory-efficient operations</li>
+<li>Potentially splitting the calculation by company for parallel processing</li>
+<li>Using specialized median calculation functions if available</li>
+</ul></li>
+<li>This approach maintains data integrity by working with the original ID, company, and salary values throughout the process.</li>
+</ul>
+</section>
+<section id="find-median-given-frequency-of-numbers" class="level3">
+<h3 class="anchored" data-anchor-id="find-median-given-frequency-of-numbers">571. Find Median Given Frequency of Numbers</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Numbers</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 9%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>num frequency</td>
+<td>int int</td>
+</tr>
+</tbody>
+</table>
+<p>num is the primary key for this table. Each row of this table shows the frequency of a number in the database.</p>
+<p>The median is the value separating the higher half from the lower half of a data set.</p>
+<p>Write an SQL query to report the median of all the numbers in the database after decompressing the Numbers table. Round the median to one decimal place.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_median_given_frequency(numbers: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Decompress the numbers table</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    expanded_numbers <span class="op">=</span> []</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> numbers.iterrows():</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        expanded_numbers.extend([row[<span class="st">'num'</span>]] <span class="op">*</span> row[<span class="st">'frequency'</span>])</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Calculate the median</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    median <span class="op">=</span> np.median(expanded_numbers)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Round to one decimal place</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    rounded_median <span class="op">=</span> <span class="bu">round</span>(<span class="bu">float</span>(median), <span class="dv">1</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 4: Create result DataFrame</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> pd.DataFrame({<span class="st">'median'</span>: [rounded_median]})</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This solution calculates the median of a set of numbers where each number appears with a specific frequency.</li>
+<li>The approach consists of four main steps:
+<ol type="1">
+<li>“Decompress” the Numbers table by creating an expanded list where each number is repeated according to its frequency.</li>
+<li>Calculate the median of the expanded list using NumPy’s median function.</li>
+<li>Round the result to one decimal place as required.</li>
+<li>Format the result as a DataFrame with a single column and value.</li>
+</ol></li>
+<li>For example, if the row is (3, 5), the number 3 will appear 5 times in the expanded dataset.</li>
+<li>Time complexity: O(n), where n is the total count of numbers after expansion (sum of all frequencies).</li>
+<li>Space complexity: O(n) for the expanded list of numbers.</li>
+<li>For large datasets with high frequencies, this approach could be memory-intensive as it materializes all repeated instances.</li>
+<li>An alternative approach for very large datasets would be to:
+<ol type="1">
+<li>Sort the numbers</li>
+<li>Calculate cumulative frequencies</li>
+<li>Find the position that represents the median</li>
+<li>Perform linear interpolation if needed</li>
+</ol></li>
+<li>The NumPy median function automatically handles both odd and even counts, performing linear interpolation for even-count datasets.</li>
+<li>The solution works for any valid input within the constraints of the problem.</li>
+</ul>
+</section>
+<section id="find-cumulative-salary-of-an-employee" class="level3">
+<h3 class="anchored" data-anchor-id="find-cumulative-salary-of-an-employee">579. Find Cumulative Salary of an Employee</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Employee</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 9%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>id month salary</td>
+<td>int int int</td>
+</tr>
+</tbody>
+</table>
+<p>(id, month) is the primary key for this table. Each row in the table indicates the salary of an employee in one month. If the employee did not receive any salary for a month, there will not be an entry with id and month.</p>
+<p>Write an SQL query to calculate the cumulative salary summary for every employee.</p>
+<p>The cumulative salary summary for an employee can be calculated as follows:</p>
+<ul>
+<li>For each month that the employee worked, sum up the salaries in that month and the previous two months. This is their 3-month sum for that month. If an employee didn’t work for some month, exclude that month from the calculation.</li>
+<li>Do not include the 3-month sum for the most recent month that the employee worked for in the result table.</li>
+<li>Do not include the 3-month sum for any month the employee didn’t get any salary.</li>
+</ul>
+<p>Return the result table ordered by id in ascending order. In case of a tie, order it by month in descending order.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cumulative_salary(employee: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Sort the data by id and month</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    employee_sorted <span class="op">=</span> employee.sort_values(by<span class="op">=</span>[<span class="st">'id'</span>, <span class="st">'month'</span>])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: For each employee, calculate the rolling 3-month sum of salaries</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calculate_3month_sum(group):</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sort by month for each employee</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        group <span class="op">=</span> group.sort_values(<span class="st">'month'</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate rolling 3-month sum</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        group[<span class="st">'3month_sum'</span>] <span class="op">=</span> group[<span class="st">'salary'</span>].rolling(window<span class="op">=</span><span class="dv">3</span>, min_periods<span class="op">=</span><span class="dv">1</span>).<span class="bu">sum</span>()</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find the most recent month for each employee</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        max_month <span class="op">=</span> group[<span class="st">'month'</span>].<span class="bu">max</span>()</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Exclude the most recent month</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        group <span class="op">=</span> group[group[<span class="st">'month'</span>] <span class="op">!=</span> max_month]</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> group</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply the function to each employee group</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> employee_sorted.groupby(<span class="st">'id'</span>).<span class="bu">apply</span>(calculate_3month_sum).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Select and rename required columns, sort as specified</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> result[[<span class="st">'id'</span>, <span class="st">'month'</span>, <span class="st">'3month_sum'</span>]]</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    result.columns <span class="op">=</span> [<span class="st">'id'</span>, <span class="st">'month'</span>, <span class="st">'Salary'</span>]</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> result.sort_values(by<span class="op">=</span>[<span class="st">'id'</span>, <span class="st">'month'</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>])</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This solution calculates a rolling 3-month salary sum for each employee, excluding the most recent month.</li>
+<li>The approach uses the following steps:
+<ol type="1">
+<li>Sort the employee data by ID and month to establish chronological order.</li>
+<li>Define a function to process each employee’s data:
+<ul>
+<li>Calculate a rolling 3-month sum using Pandas’ <code>rolling()</code> window function</li>
+<li>Identify and exclude the most recent month for each employee</li>
+</ul></li>
+<li>Format the result with the required columns and sort order.</li>
+</ol></li>
+<li>The <code>min_periods=1</code> parameter in <code>rolling()</code> ensures that the first month has just its own salary, the second month has the sum of two months, and subsequent months have the full 3-month sum.</li>
+<li>Time complexity: O(n log n) where n is the number of employee-month records, due to the sorting operations.</li>
+<li>Space complexity: O(n) for the processed dataframe.</li>
+<li>This solution handles edge cases elegantly:
+<ul>
+<li>For the first month of employment, only that month’s salary is counted.</li>
+<li>For the second month, only the first two months’ salaries are counted.</li>
+<li>Non-consecutive months are handled correctly, as missing months simply don’t appear in the calculation.</li>
+</ul></li>
+<li>The approach efficiently uses Pandas’ groupby and apply functions to process each employee’s data separately.</li>
+<li>For large datasets, performance could be improved by:
+<ul>
+<li>Using a vectorized approach instead of apply() if possible</li>
+<li>Optimizing the sorting operations</li>
+<li>Using a more memory-efficient implementation for very large datasets</li>
+</ul></li>
+<li>The solution correctly follows the requirements to exclude the most recent month and sort by ID ascending, then month descending.</li>
+</ul>
+</section>
+<section id="human-traffic-of-stadium" class="level3">
+<h3 class="anchored" data-anchor-id="human-traffic-of-stadium">601. Human Traffic of Stadium</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Stadium</caption>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 13%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>id visit_date people</td>
+<td>int date int</td>
+</tr>
+</tbody>
+</table>
+<p>id is the primary key for this table. Each row of this table contains the visit date and visit id to the stadium with the number of people during the visit. No two rows will have the same visit_date. The date of a visit is unique.</p>
+<p>Write an SQL query to display the records with three or more consecutive rows where the number of people is greater than or equal to 100.</p>
+<p>Return the result table ordered by visit_date in ascending order.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> human_traffic(stadium: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Filter for visits with 100 or more people</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    high_traffic <span class="op">=</span> stadium[stadium[<span class="st">'people'</span>] <span class="op">&gt;=</span> <span class="dv">100</span>].copy()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Sort by ID to ensure chronological order</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    high_traffic <span class="op">=</span> high_traffic.sort_values(<span class="st">'id'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Create a group identifier for consecutive IDs</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    high_traffic[<span class="st">'diff'</span>] <span class="op">=</span> high_traffic[<span class="st">'id'</span>] <span class="op">-</span> high_traffic.index</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    high_traffic[<span class="st">'group'</span>] <span class="op">=</span> high_traffic[<span class="st">'diff'</span>].factorize()[<span class="dv">0</span>]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 4: Count rows in each group</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    group_counts <span class="op">=</span> high_traffic.groupby(<span class="st">'group'</span>).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 5: Filter for groups with at least 3 consecutive days</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    valid_groups <span class="op">=</span> group_counts[group_counts[<span class="st">'count'</span>] <span class="op">&gt;=</span> <span class="dv">3</span>][<span class="st">'group'</span>].tolist()</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 6: Filter rows that belong to valid groups</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> high_traffic[high_traffic[<span class="st">'group'</span>].isin(valid_groups)][[<span class="st">'id'</span>, <span class="st">'visit_date'</span>, <span class="st">'people'</span>]]</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 7: Sort by visit_date</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> result.sort_values(<span class="st">'visit_date'</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This solution identifies consecutive days with stadium attendance of 100 or more people.</li>
+<li>The approach uses a “gaps and islands” technique to identify consecutive sequences in the data:
+<ol type="1">
+<li>Filter for days with 100+ visitors to focus only on high-traffic days.</li>
+<li>Sort by ID to ensure chronological order.</li>
+<li>Create a group identifier for consecutive sequences by subtracting the row index from the ID.
+<ul>
+<li>When IDs are consecutive, this difference remains constant, creating a “group ID” for consecutive records.</li>
+<li>For example, if IDs 3, 4, 5 have indices 0, 1, 2, then (3-0), (4-1), (5-2) all equal 3, identifying them as part of the same group.</li>
+</ul></li>
+<li>Count the number of rows in each group to find sequences of consecutive days.</li>
+<li>Filter for groups with at least 3 consecutive days.</li>
+<li>Select only the rows that belong to these valid groups.</li>
+<li>Sort the result by visit_date as required.</li>
+</ol></li>
+<li>Time complexity: O(n log n) where n is the number of stadium visits, due to the sorting operations.</li>
+<li>Space complexity: O(n) for the high traffic dataframe and result set.</li>
+<li>This solution efficiently handles the “consecutive” requirement without complex joins or window function chains.</li>
+<li>The technique works correctly even with gaps in the ID sequence, as long as the IDs are still in chronological order.</li>
+<li>For large datasets, performance could be improved by:
+<ul>
+<li>Using more vectorized operations</li>
+<li>Potentially using a different approach for identifying consecutive sequences</li>
+<li>Pre-filtering the data if possible</li>
+</ul></li>
+<li>The factorize() function efficiently converts the diff column into group identifiers, handling potential non-integer differences.</li>
+</ul>
+</section>
+<section id="average-salary-departments-vs-company" class="level3">
+<h3 class="anchored" data-anchor-id="average-salary-departments-vs-company">615. Average Salary: Departments VS Company</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Salary</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 9%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>id employee_id amount pay_date</td>
+<td>int int int date</td>
+</tr>
+</tbody>
+</table>
+<p>id is the primary key column for this table. Each row of this table indicates the salary of an employee in one month. employee_id is a foreign key from the Employee table.</p>
+<table class="caption-top table">
+<caption>Employee</caption>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 9%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>employee_id department_id</td>
+<td>int int</td>
+</tr>
+</tbody>
+</table>
+<p>employee_id is the primary key column for this table. Each row of this table indicates the department of an employee.</p>
+<p>Write an SQL query to report the comparison result (higher/lower/same) of the average salary of employees in a department to the company’s average salary.</p>
+<p>Return the result table in any order.</p>
+<p>The comparison result is: - ‘higher’ when the average salary of the department is higher than the company’s average salary. - ‘lower’ when the average salary of the department is lower than the company’s average salary. - ‘same’ when the average salary of the department is the same as the company’s average salary.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> department_salary_comparison(salary: pd.DataFrame, employee: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Extract month from pay_date</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    salary[<span class="st">'pay_month'</span>] <span class="op">=</span> pd.to_datetime(salary[<span class="st">'pay_date'</span>]).dt.strftime(<span class="st">'%Y-%m'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Calculate the company average salary per month</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    company_avg <span class="op">=</span> salary.groupby(<span class="st">'pay_month'</span>)[<span class="st">'amount'</span>].mean().reset_index(name<span class="op">=</span><span class="st">'company_avg'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Merge employee and salary data</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    merged_data <span class="op">=</span> salary.merge(employee, on<span class="op">=</span><span class="st">'employee_id'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 4: Calculate department average salary per month</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    dept_avg <span class="op">=</span> merged_data.groupby([<span class="st">'pay_month'</span>, <span class="st">'department_id'</span>])[<span class="st">'amount'</span>].mean().reset_index(name<span class="op">=</span><span class="st">'dept_avg'</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 5: Merge department averages with company averages</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    comparison <span class="op">=</span> dept_avg.merge(company_avg, on<span class="op">=</span><span class="st">'pay_month'</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 6: Determine comparison result</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    comparison[<span class="st">'comparison'</span>] <span class="op">=</span> comparison.<span class="bu">apply</span>(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">lambda</span> row: <span class="st">'higher'</span> <span class="cf">if</span> row[<span class="st">'dept_avg'</span>] <span class="op">&gt;</span> row[<span class="st">'company_avg'</span>] </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span> <span class="st">'lower'</span> <span class="cf">if</span> row[<span class="st">'dept_avg'</span>] <span class="op">&lt;</span> row[<span class="st">'company_avg'</span>] </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span> <span class="st">'same'</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 7: Format the result</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> comparison[[<span class="st">'pay_month'</span>, <span class="st">'department_id'</span>, <span class="st">'comparison'</span>]]</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This solution compares each department’s average monthly salary against the company-wide average for the same month.</li>
+<li>The approach follows these steps:
+<ol type="1">
+<li>Extract the month from the pay_date to group by month.</li>
+<li>Calculate the company-wide average salary for each month.</li>
+<li>Merge the Employee and Salary tables to associate departments with salaries.</li>
+<li>Calculate the average salary for each department in each month.</li>
+<li>Merge the department averages with company averages to enable comparison.</li>
+<li>Apply a formula to determine if each department’s average is higher, lower, or the same as the company average.</li>
+<li>Format the result with the required columns.</li>
+</ol></li>
+<li>The comparison logic uses a simple lambda function that compares the department average against the company average for the same month.</li>
+<li>Time complexity: O(n log n) where n is the number of salary records, due to the merging and grouping operations.</li>
+<li>Space complexity: O(d × m) where d is the number of departments and m is the number of months.</li>
+<li>This solution handles edge cases appropriately:
+<ul>
+<li>Departments that exactly match the company average are labeled as ‘same’.</li>
+<li>The comparison is done month-by-month, so a department could be higher in one month and lower in another.</li>
+</ul></li>
+<li>For large datasets, performance could be improved by:
+<ul>
+<li>Using more efficient merge strategies</li>
+<li>Pre-filtering the data if possible</li>
+<li>Using more vectorized operations instead of apply()</li>
+</ul></li>
+<li>The use of strftime(‘%Y-%m’) ensures proper month-level grouping regardless of the specific days when salaries were paid.</li>
+</ul>
+</section>
+<section id="students-report-by-geography" class="level3">
+<h3 class="anchored" data-anchor-id="students-report-by-geography">618. Students Report By Geography</h3>
+<p><strong>Description:</strong></p>
+<table class="caption-top table">
+<caption>Student</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 13%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Column Name</td>
+<td>Type</td>
+</tr>
+<tr class="even">
+<td>name continent</td>
+<td>varchar varchar</td>
+</tr>
+</tbody>
+</table>
+<p>There is no primary key for this table. It may contain duplicate rows. Each row of this table indicates the name of a student and the continent they came from.</p>
+<p>A school has students from Asia, Europe, and America.</p>
+<p>Write an SQL query to pivot the continent column in the Student table so that each name is sorted alphabetically and displayed underneath its corresponding continent. The output headers should be America, Asia, and Europe, respectively.</p>
+<p>The test cases are generated so that the student number from America is not less than either Asia or Europe.</p>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> students_report_by_geography(student: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Sort names within each continent</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    america_students <span class="op">=</span> student[student[<span class="st">'continent'</span>] <span class="op">==</span> <span class="st">'America'</span>].sort_values(<span class="st">'name'</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    asia_students <span class="op">=</span> student[student[<span class="st">'continent'</span>] <span class="op">==</span> <span class="st">'Asia'</span>].sort_values(<span class="st">'name'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    europe_students <span class="op">=</span> student[student[<span class="st">'continent'</span>] <span class="op">==</span> <span class="st">'Europe'</span>].sort_values(<span class="st">'name'</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Assign row numbers to create alignment</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    america_students.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    asia_students.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    europe_students.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Select only the name column from each continent</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    america_names <span class="op">=</span> america_students[[<span class="st">'name'</span>]].rename(columns<span class="op">=</span>{<span class="st">'name'</span>: <span class="st">'America'</span>})</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    asia_names <span class="op">=</span> asia_students[[<span class="st">'name'</span>]].rename(columns<span class="op">=</span>{<span class="st">'name'</span>: <span class="st">'Asia'</span>})</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    europe_names <span class="op">=</span> europe_students[[<span class="st">'name'</span>]].rename(columns<span class="op">=</span>{<span class="st">'name'</span>: <span class="st">'Europe'</span>})</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 4: Concatenate horizontally to create pivot</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start with America (largest by problem statement)</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> america_names.copy()</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Join with Asia</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> asia_names.empty:</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> result.join(asia_names, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        result[<span class="st">'Asia'</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Join with Europe</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> europe_names.empty:</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> result.join(europe_names, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>        result[<span class="st">'Europe'</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>This solution creates a pivot table that reorganizes student data from rows (grouped by continent) into columns (one for each continent).</li>
+<li>The approach follows these steps:
+<ol type="1">
+<li>Filter and sort students from each continent separately.</li>
+<li>Reset indices to create aligned positions across the continents.</li>
+<li>Extract and rename the name columns for each continent.</li>
+<li>Combine the continent dataframes horizontally using join operations.</li>
+</ol></li>
+<li>The problem specifies that America has at least as many students as Asia or Europe, so we start with America and join the others to it.</li>
+<li>Time complexity: O(n log n) where n is the number of students, due to the sorting operations.</li>
+<li>Space complexity: O(n) for the filtered datasets and result set.</li>
+<li>This solution handles cases where continents have different numbers of students:
+<ul>
+<li>When joining, the ‘left’ join ensures all rows from America are preserved.</li>
+<li>For any missing positions in Asia or Europe, NULL values will appear in the result.</li>
+</ul></li>
+<li>For large datasets, performance could be improved by:
+<ul>
+<li>Using more vectorized operations</li>
+<li>Potentially using a more efficient pivoting approach if available</li>
+</ul></li>
+<li>The explicit handling of empty continent dataframes ensures the solution works even if a continent has no students.</li>
+<li>This approach is straightforward and doesn’t require complex reshaping operations, making it easier to understand and maintain.</li>
+<li>An alternative approach would be to use pandas’ built-in pivot functions, but this direct approach gives more control over the sorting and alignment.</li>
+</ul>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
