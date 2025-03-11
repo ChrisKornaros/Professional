@@ -1,0 +1,261 @@
+---
+format:
+    html:
+        toc: true
+---
+
+# Study Guide for the Meta Data Engineer Screening Interview
+## L1. Hello World
+
+**Notes:**
+
+- A
+
+## L2. Big O
+
+- Big O is not about a specific example, but a problem at scale
+  - When things get really, really big how long do they take?
+  - O means Order, such as the order of magnitude (input doubles, output doubles, etc.)
+  - It's also the ***upper bound*** of the time
+- At a basic level, for time complexity
+  - **Constant time:** `O(1)` where *1* is a fixed amount of time
+  - **Linear time:** `O(n)` where *n* is the number of something
+    - Think washing dishes, where time increases as the *n* number of dishes increases 
+    - ***Rule: Drop constants:*** If it takes a constant *C* *times* an input *n* you would just write `O(n)`
+  - **Exponential time:** `O(n^2)` where *n^2* is the size of a something
+    - Think nested loops, for each array length *n*, you would iterate through *n* values *n* times
+    - If you're only printing half of something, think `O(n^2 / 2)` then time complexity is just `O(n^2)`
+    - Another example, if there is a nested loop such that you do something *n* times in *a* array, and then do something *k* times every *n*, then Big O is `O(n * k)`
+  - **Logarithmic time:**
+    - Binary search algorithms, think finding all values in two arrays that are the same, take `O(a log b)`
+      - Efficiently finds a target value within a sorted array by repeatedly dividing the search space in half
+      - Compares the target to the middle element, then narrows the search to the lower or upper half based on the result
+      - Divide an conquer approach
+  - **To summarize the basics:**
+    - ***Drop Constants:*** `O(2n)` **=>** `O(N)`
+    - ***Variables have meaning:*** Define them, don't just drop *n* everywhere
+    - Big O can be used for space complexity, time complexity, and more!
+    - Big O is foundational, it's how we assess our optimizations
+  - **More tips:**
+    - Inlcude all the things!
+    - Use logical variable names, don't use n everywhere, be specific!
+      - *a* is the size of an array, *t* is the number of teachers, etc.
+    - Define the variables you need
+      - `O(a*p)` is the complexity for finding the largest prime within an array
+        - *a* is the size of the array and *p* is the size of the largest prime number
+    - ***Be thoughtful about when you add and when you multiply***
+      - Add runtimes together when one step is done, then another step
+    - ***Drop constants***
+    - Use Big O for space complexity, remember the call stack
+      - Often, space complexity is less obvious and depends on what's called in a function, such as recursive functions
+      - It isn't just what you see, but how an operation is handled under the hood
+    - ***Drop nondominant items***
+      - If you have space or time complexity like the following `O(a + a^2)` you would drop `a`
+        - In this case, *a* is similar to a constant because it's the same variable, but not the dominant complexity driver
+        - Remember, Big O is also an *upper bound*
+      - In the event it's mixed, such as `O(d + a^2)` you would keep both, because you can't compare the different variables
+      - Similarly, drop the smaller exponent, if there are multiple `O(a^5 + a^2)` **=>** `O(a^5)`
+
+**Remember:** Big O doesn't mean a faster runtime, or smaller memory usage, it just means that at ***scale***
+
+## L3. Problem Solving
+
+**Seven steps:**
+
+1. Listen for clues.
+2. Draw an example: large and generic.
+3. Brute force.
+4. Optimize.
+5. Walk through algo.
+   1. Write pseudocode, know what you are going to do before implementing code
+6. Code.
+7. Verification.
+
+### Optimizing with BUD
+
+- **Bottlenecks**
+  - The example to think about here is finding `the number of common elements between two arrays, *a* and *b*`.
+  - The bottleneck is the *b* element because the brute force solution requires *b* loops through an array of length *a*
+- **Unnecessary work**
+  - The example to think about here is finding `all solutions to a^3 * b^3 = c^3 * d^3`
+  - The unnecessary work here is iterating through all values of *d* last, because there's only one possible value
+  - Sometimes getting rid of unnecessary work doesn't make a big difference alone, but does in conjunction with something else
+- **Duplicate work**
+  - Continuing with the same example
+  - Find a way to avoid doing the same work over and over, in this case the *a* and *b* pairs are the same as *c* and *d*
+    - Instead of comparing each value over and over, generate a list of pairs and then look for matches within the list
+    - Have a target value and then generate a list of all pairs adding to that value
+
+### Optimizing with Space and Time
+
+- There are trade offs, we can sacrifice space for time and vice versa
+  - Hash tables, a data structure that stores data as key-value pairs, where a "hash function" is used to quickly calculate an index (or "hash") from the key
+    - Efficiently maps keys to their values within an array like structure
+    - Searching is much faster compared to a linear array
+  - Pre-computation, precomputing and storing some values takes space, but can reduce time
+  - Tries, attempting something early that saves you more work down the road
+- Consider the **best conceivable runtime**
+  - It's about the problem, not a specific algorithm
+  - Not the best/worst case runtime
+  - It's not necessarilly achievable, but it is **not** beatable
+
+### Optimizing with DIY
+
+Stands for **Do It Yourself**
+
+- For this example, given two strings *S* and *B* find all permutations of *S* within *B*
+- Come up with a good, generic example, think about the **seven steps**
+  - You could check the first *S* characters, then the next *S* characters, and so on
+    - Basic algorithm
+- In your head, you could get lost or stuck, but think about how to intuitively/manually solve it, then map that to code or an algo
+- Pay attention to shortcuts you take, for example, if the first character in *S* is not the next in *B*, then skip it
+
+## L4. Coding
+### Expectations
+
+- Perfect candidates are awesome, but rare
+- Interviewer just wants to make sure you're a good coder
+- Talk out loud, share your thought process
+- Don't have to be perfect, just show progress and work towards a good solution
+  - Work towards your code being as great as possible
+- Interviewer is looking at your code based on the signal
+  - Some syntax errors can be very worrisome, think confusing `=` and `==`
+  - Some syntax errors, like using `avg()` instead of `mean()` or you forget a specific method are not the end of the world
+- **Good code:**
+  - Readable
+  - Correct
+  - Performance
+  - Maintainable
+- Wait until you're ready to code
+  - If you get confused, don't push through, go back to your example/pseudocode
+  - Also, make sure your interviewer is ready, "Ok, code when you're ready"
+  - Only code when your interviewer explicitly wants to see code
+
+### Tips and Tricks
+
+- Don't just dive in, make sure you have your details/algorithm settled **and** that your interviewer is ready to see you code that piece
+- Demonstrate that you're a great coder
+  - Correctness
+  - Readability
+  - Maintainability
+  - Performance
+- Use your languages features
+  - If there is any ambiguity then ask your interviewer, generally speaking this is okay
+  - You can often assume the language has the feature if it's reasonable to include
+- Use good style
+  - Have consistent spacing
+  - Follow best practices for the language
+- Think about error cases and boundary checks
+  - If it's too time consuming to include them, then at least discuss them with the interviewer
+
+### Structured Code
+
+- Structuring code makes it more readable, maintainable, etc. *and* makes your life easier
+- Modularize code top down, filling in the next most interesting piece of code
+  - Always harder for you and worse in general to write it all as one giant function
+  - Don't worry about stuff that doesn't show a lot of good signal
+    - You're writing some algorithm that needs the biggest and smallest element of an array
+    - You don't need to write a custom MAX or MIN function, just pretend you have that already
+
+## L5. Verification
+### Tips and Tricks
+
+- In an interview you won't hit the run button and see if it works
+- You'll use your problem solving skills to walk through your code
+  - Remember the seven steps
+- Instead of using your example, large and generic, use a smaller, more specific one
+- An efficient verification process
+  1. Conceptual walkthrough
+  2. Look at hotspots (place in code likely to cause errors)
+    - Math
+    - Moving indices
+    - Parameters when calling recursion
+    - Base cases
+  3. Test cases
+    - Start small, a 2 or 3 element array instead of a 6 element array
+      - Most bugs appear on a small example too
+    - Edge cases
+      - Nulls
+      - Empties
+      - All punctuation, all lowercase, etc.
+      - Boring and interesting
+
+
+### Common Mistakes
+
+- Verifying the algorithm, not the code
+  - Make sure to run through each line of code
+- Don't just blindly test, without thinking about what's happening
+  - Are things happening as you expect them to
+- Quick, sloppy fixes
+  - For example, you're just off by 1 and you decided to just add 1 to your result
+  - Don't panic, think about the *right* fix
+
+## L6. Communication
+
+- Drive through the problem, fight to get a great answer
+- Show your thought process, this is the important part
+  - How you are thinking about the problem *and* the solution
+- Ask questions, don't get 5 minutes into a problem and realize you're solving the wrong issue
+  - Ask questions about data structure, format, etc.
+- Propose an initial solution, but also think about its issues
+  - State the brute force, state the space/time complexity
+- Talk while coding if possible
+- Use examples to talk through and explain your thought process, but don't use code as an example
+- Be open about mistakes, it's okay to stumble along the way
+- Admit if you've heard the question before
+- Keep trying, giving up is worse, especially when the question is hard
+- Listen to your interviewer
+  - If they chip in with suggestions, they are trying to point something out to you
+  - You want to capture their guidance, it demonstrates collaboration skills
+  - If you hear them make the same point *more than once*, that should be a redflag that you missed something
+- Follow your interviewer's path
+  - If they are giving you a specific example, go with that
+- It's okay the first thing you come up with isn't perfectly optimal
+  - Improve performance
+  - Improve style
+  - Improve correctness
+  - Look for improvements!
+
+## L7. SQL
+
+### Filter
+
+```sql
+ -- What percent of all products in the grocery chain's catalog
+ -- are both low fat and recyclable?
+
+SELECT CAST(SUM(CASE WHEN is_low_fat_flg + is_recyclable_flg = 2 THEN 1 ELSE 0 END) AS float)*100 / COUNT(product_id) AS pct_low_fat_and_recyclable
+FROM products
+```
+
+### Rank
+
+```sql
+ -- What are the top five (ranked in decreasing order)
+ -- single-channel media types that correspond to the most money
+ -- the grocery chain had spent on its promotional campaigns?
+
+SELECT media_type AS single_channel_media_type, CAST(SUM(cost) AS decimal) AS total_cost
+FROM promotions
+WHERE media_type NOT LIKE '%,%'
+GROUP BY "single_channel_media_type"
+ORDER BY "total_cost" DESC
+LIMIT 5;
+```
+
+### Case
+
+```sql
+ -- Of sales that had a valid promotion, the VP of marketing
+ -- wants to know what % of transactions occur on either
+ -- the very first day or the very last day of a promotion campaign.
+SELECT CAST(SUM(CASE WHEN p.start_date = transaction_date OR p.end_date = transaction_date THEN 1 ELSE 0 END) AS float)*100 / COUNT(s.transaction_date) AS pct_of_transactions_on_first_or_last_day_of_valid_promotion
+FROM sales s JOIN promotions p
+  ON s.promotion_id = p.promotion_id
+```
+
+### Join 1
+
+### Join 2
+

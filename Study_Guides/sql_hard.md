@@ -816,50 +816,32 @@ Write an SQL query to find the winner in each group.
 ```sql
 WITH player_scores AS (
     -- Calculate scores from first_player perspective
-    SELECT 
-        first_player AS player_id,
-        first_score AS score
-    FROM 
-        Matches
-    
+    SELECT first_player AS player_id, first_score AS score
+    FROM Matches
+
     UNION ALL
-    
     -- Calculate scores from second_player perspective
-    SELECT 
-        second_player AS player_id,
-        second_score AS score
-    FROM 
-        Matches
+    SELECT second_player AS player_id, second_score AS score
+    FROM Matches
 ),
+
 total_scores AS (
-    SELECT 
-        p.player_id,
-        p.group_id,
-        COALESCE(SUM(ps.score), 0) AS total_score
-    FROM 
-        Players p
-    LEFT JOIN 
-        player_scores ps ON p.player_id = ps.player_id
-    GROUP BY 
-        p.player_id, p.group_id
+    SELECT p.player_id, p.group_id
+        , COALESCE(SUM(ps.score), 0) AS total_score
+    FROM Players p
+    LEFT JOIN player_scores ps ON p.player_id = ps.player_id
+    GROUP BY p.player_id, p.group_id
 ),
+
 ranked_scores AS (
-    SELECT 
-        player_id,
-        group_id,
-        total_score,
-        RANK() OVER (PARTITION BY group_id ORDER BY total_score DESC, player_id) AS player_rank
-    FROM 
-        total_scores
+    SELECT player_id, group_id, total_score
+        , RANK() OVER (PARTITION BY group_id ORDER BY total_score DESC, player_id) AS player_rank
+    FROM total_scores
 )
 
-SELECT 
-    group_id,
-    player_id
-FROM 
-    ranked_scores
-WHERE 
-    player_rank = 1;
+SELECT group_id, player_id
+FROM ranked_scores
+WHERE player_rank = 1;
 ```
 
 **Explanation:**
@@ -913,46 +895,27 @@ Return the result table ordered by start_date.
 
 **Solution:**
 ```sql
-WITH all_dates AS (
-    -- Combine all dates and mark their state
-    SELECT 
-        fail_date AS date,
-        'failed' AS state
-    FROM 
-        Failed
-    WHERE 
-        fail_date BETWEEN '2019-01-01' AND '2019-12-31'
-    
-    UNION ALL
-    
-    SELECT 
-        success_date AS date,
-        'succeeded' AS state
-    FROM 
-        Succeeded
-    WHERE 
-        success_date BETWEEN '2019-01-01' AND '2019-12-31'
+-- Write your PostgreSQL query statement below
+WITH base AS (
+    SELECT fail_date AS "dates", 'failed' AS "outcome"
+    FROM Failed
+    WHERE fail_date BETWEEN '2019-01-01' AND '2019-12-31'
+    UNION
+    SELECT success_date AS "dates", 'succeeded' AS "outcome"
+    FROM Succeeded
+    WHERE success_date BETWEEN '2019-01-01' AND '2019-12-31'
+    ORDER BY "dates"
 ),
-ranked_dates AS (
-    -- Rank dates within each state
-    SELECT 
-        date,
-        state,
-        date - ROW_NUMBER() OVER (PARTITION BY state ORDER BY date) AS group_id
-    FROM 
-        all_dates
+
+periods AS (
+    SELECT dates, outcome, ROW_NUMBER() OVER (ORDER BY dates) - ROW_NUMBER() OVER (PARTITION BY outcome ORDER BY dates) AS group_id
+    FROM base
 )
 
-SELECT 
-    state AS period_state,
-    MIN(date) AS start_date,
-    MAX(date) AS end_date
-FROM 
-    ranked_dates
-GROUP BY 
-    state, group_id
-ORDER BY 
-    start_date;
+SELECT outcome AS period_state, MIN(dates) AS "start_date", MAX(dates) AS "end_date"
+FROM periods
+GROUP BY "period_state", group_id
+ORDER BY "start_date"
 ```
 
 **Explanation:**
@@ -1011,49 +974,34 @@ Return the result table ordered by transactions_count.
 
 **Solution:** 
 ```sql
+-- Write your PostgreSQL query statement below
 WITH transactions_per_visit AS (
-    SELECT
-        v.user_id,
-        v.visit_date,
-        COUNT(t.transaction_date) AS transactions_count
-    FROM
-        Visits v
-    LEFT JOIN
-        Transactions t ON v.user_id = t.user_id AND v.visit_date = t.transaction_date
-    GROUP BY
-        v.user_id, v.visit_date
+    SELECT v.user_id, v.visit_date, COUNT(t.transaction_date) AS t_count
+    FROM Visits v LEFT JOIN Transactions t
+        ON v.user_id = t.user_id AND v.visit_date = t.transaction_date
+    GROUP BY v.user_id, v.visit_date
 ),
+
 max_transactions AS (
-    SELECT
-        COALESCE(MAX(transactions_count), 0) AS max_count
-    FROM
-        transactions_per_visit
+    SELECT MAX(t_count) AS max_t
+    FROM transactions_per_visit
 ),
-transaction_counts AS (
-    SELECT 
-        transactions_count,
-        COUNT(*) AS visits_count
-    FROM 
-        transactions_per_visit
-    GROUP BY 
-        transactions_count
+
+t_counts AS (
+    SELECT t_count, COUNT(*) AS v_count
+    FROM transactions_per_visit
+    GROUP BY t_count
 ),
+
 all_counts AS (
-    SELECT 
-        generate_series(0, max_count) AS transactions_count
-    FROM 
-        max_transactions
+    SELECT GENERATE_SERIES(0, max_t) AS transactions_count
+    FROM max_transactions
 )
 
-SELECT 
-    a.transactions_count,
-    COALESCE(tc.visits_count, 0) AS visits_count
-FROM 
-    all_counts a
-LEFT JOIN 
-    transaction_counts tc ON a.transactions_count = tc.transactions_count
-ORDER BY 
-    a.transactions_count;
+SELECT a.transactions_count, COALESCE(tc.v_count, 0) AS visits_count
+FROM all_counts a LEFT JOIN t_counts tc 
+    ON a.transactions_count = tc.t_count
+ORDER BY a.transactions_count
 ```
 
 **Explanation:**
@@ -1103,28 +1051,19 @@ Return the result table in any order.
 
 **Solution:** 
 ```sql
-WITH ranked_activities AS (
-    SELECT
-        username,
-        activity,
-        startDate,
-        endDate,
-        ROW_NUMBER() OVER (PARTITION BY username ORDER BY startDate DESC) AS activity_rank,
-        COUNT(*) OVER (PARTITION BY username) AS activity_count
-    FROM
-        UserActivity
+-- Write your PostgreSQL query statement below
+WITH base AS (
+    SELECT *, RANK() OVER (PARTITION BY username ORDER BY startDate DESC) AS act_rank
+        , COUNT(*) OVER (PARTITION BY username) AS act_count
+    FROM UserActivity
+    GROUP BY username, activity, startDate, endDate
 )
 
-SELECT
-    username,
-    activity,
-    startDate,
-    endDate
-FROM
-    ranked_activities
-WHERE
-    (activity_count = 1 AND activity_rank = 1) OR
-    (activity_count > 1 AND activity_rank = 2);
+SELECT username, activity, startdate AS "startDate", enddate AS "endDate"
+FROM base
+WHERE act_rank = 2 OR act_count = 1
+ORDER BY username
+
 ```
 
 **Explanation:**
@@ -1134,8 +1073,8 @@ WHERE
   - `ROW_NUMBER() OVER (PARTITION BY username ORDER BY startDate DESC)` assigns a rank to each activity based on recency.
   - `COUNT(*) OVER (PARTITION BY username)` counts the total number of activities for each user.
 - The main query then filters the results with two conditions:
-  - For users with only one activity (activity_count = 1), return that activity (activity_rank = 1).
-  - For users with multiple activities (activity_count > 1), return the second most recent (activity_rank = 2).
+  - For users with only one activity (activity_count = 1), return that activity.
+  - For users with multiple activities, return the second most recent (activity_rank = 2).
 - Time complexity: O(n log n) where n is the number of activities, due to the sorting operations.
 - Space complexity: O(n) for the CTE and result set.
 - The problem statement guarantees that users cannot perform more than one activity at the same time, which simplifies the solution.

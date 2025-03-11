@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>meta_screening</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="meta_screening_files/libs/clipboard/clipboard.min.js"></script>
+<script src="meta_screening_files/libs/quarto-html/quarto.js"></script>
+<script src="meta_screening_files/libs/quarto-html/popper.min.js"></script>
+<script src="meta_screening_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="meta_screening_files/libs/quarto-html/anchor.min.js"></script>
+<link href="meta_screening_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="meta_screening_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="meta_screening_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="meta_screening_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="meta_screening_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#study-guide-for-the-meta-data-engineer-screening-interview" id="toc-study-guide-for-the-meta-data-engineer-screening-interview" class="nav-link active" data-scroll-target="#study-guide-for-the-meta-data-engineer-screening-interview">Study Guide for the Meta Data Engineer Screening Interview</a>
+  <ul class="collapse">
+  <li><a href="#l1.-hello-world" id="toc-l1.-hello-world" class="nav-link" data-scroll-target="#l1.-hello-world">L1. Hello World</a></li>
+  <li><a href="#l2.-big-o" id="toc-l2.-big-o" class="nav-link" data-scroll-target="#l2.-big-o">L2. Big O</a></li>
+  <li><a href="#l3.-problem-solving" id="toc-l3.-problem-solving" class="nav-link" data-scroll-target="#l3.-problem-solving">L3. Problem Solving</a>
+  <ul class="collapse">
+  <li><a href="#optimizing-with-bud" id="toc-optimizing-with-bud" class="nav-link" data-scroll-target="#optimizing-with-bud">Optimizing with BUD</a></li>
+  <li><a href="#optimizing-with-space-and-time" id="toc-optimizing-with-space-and-time" class="nav-link" data-scroll-target="#optimizing-with-space-and-time">Optimizing with Space and Time</a></li>
+  <li><a href="#optimizing-with-diy" id="toc-optimizing-with-diy" class="nav-link" data-scroll-target="#optimizing-with-diy">Optimizing with DIY</a></li>
+  </ul></li>
+  <li><a href="#l4.-coding" id="toc-l4.-coding" class="nav-link" data-scroll-target="#l4.-coding">L4. Coding</a>
+  <ul class="collapse">
+  <li><a href="#expectations" id="toc-expectations" class="nav-link" data-scroll-target="#expectations">Expectations</a></li>
+  <li><a href="#tips-and-tricks" id="toc-tips-and-tricks" class="nav-link" data-scroll-target="#tips-and-tricks">Tips and Tricks</a></li>
+  <li><a href="#structured-code" id="toc-structured-code" class="nav-link" data-scroll-target="#structured-code">Structured Code</a></li>
+  </ul></li>
+  <li><a href="#l5.-verification" id="toc-l5.-verification" class="nav-link" data-scroll-target="#l5.-verification">L5. Verification</a>
+  <ul class="collapse">
+  <li><a href="#tips-and-tricks-1" id="toc-tips-and-tricks-1" class="nav-link" data-scroll-target="#tips-and-tricks-1">Tips and Tricks</a></li>
+  <li><a href="#common-mistakes" id="toc-common-mistakes" class="nav-link" data-scroll-target="#common-mistakes">Common Mistakes</a></li>
+  </ul></li>
+  <li><a href="#l6.-communication" id="toc-l6.-communication" class="nav-link" data-scroll-target="#l6.-communication">L6. Communication</a></li>
+  <li><a href="#l7.-sql" id="toc-l7.-sql" class="nav-link" data-scroll-target="#l7.-sql">L7. SQL</a>
+  <ul class="collapse">
+  <li><a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter">Filter</a></li>
+  <li><a href="#rank" id="toc-rank" class="nav-link" data-scroll-target="#rank">Rank</a></li>
+  <li><a href="#case" id="toc-case" class="nav-link" data-scroll-target="#case">Case</a></li>
+  <li><a href="#join-1" id="toc-join-1" class="nav-link" data-scroll-target="#join-1">Join 1</a></li>
+  <li><a href="#join-2" id="toc-join-2" class="nav-link" data-scroll-target="#join-2">Join 2</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="study-guide-for-the-meta-data-engineer-screening-interview" class="level1">
+<h1>Study Guide for the Meta Data Engineer Screening Interview</h1>
+<section id="l1.-hello-world" class="level2">
+<h2 class="anchored" data-anchor-id="l1.-hello-world">L1. Hello World</h2>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>A</li>
+</ul>
+</section>
+<section id="l2.-big-o" class="level2">
+<h2 class="anchored" data-anchor-id="l2.-big-o">L2. Big O</h2>
+<ul>
+<li>Big O is not about a specific example, but a problem at scale
+<ul>
+<li>When things get really, really big how long do they take?</li>
+<li>O means Order, such as the order of magnitude (input doubles, output doubles, etc.)</li>
+<li>It’s also the <strong><em>upper bound</em></strong> of the time</li>
+</ul></li>
+<li>At a basic level, for time complexity
+<ul>
+<li><strong>Constant time:</strong> <code>O(1)</code> where <em>1</em> is a fixed amount of time</li>
+<li><strong>Linear time:</strong> <code>O(n)</code> where <em>n</em> is the number of something
+<ul>
+<li>Think washing dishes, where time increases as the <em>n</em> number of dishes increases</li>
+<li><strong><em>Rule: Drop constants:</em></strong> If it takes a constant <em>C</em> <em>times</em> an input <em>n</em> you would just write <code>O(n)</code></li>
+</ul></li>
+<li><strong>Exponential time:</strong> <code>O(n^2)</code> where <em>n^2</em> is the size of a something
+<ul>
+<li>Think nested loops, for each array length <em>n</em>, you would iterate through <em>n</em> values <em>n</em> times</li>
+<li>If you’re only printing half of something, think <code>O(n^2 / 2)</code> then time complexity is just <code>O(n^2)</code></li>
+<li>Another example, if there is a nested loop such that you do something <em>n</em> times in <em>a</em> array, and then do something <em>k</em> times every <em>n</em>, then Big O is <code>O(n * k)</code></li>
+</ul></li>
+<li><strong>Logarithmic time:</strong>
+<ul>
+<li>Binary search algorithms, think finding all values in two arrays that are the same, take <code>O(a log b)</code>
+<ul>
+<li>Efficiently finds a target value within a sorted array by repeatedly dividing the search space in half</li>
+<li>Compares the target to the middle element, then narrows the search to the lower or upper half based on the result</li>
+<li>Divide an conquer approach</li>
+</ul></li>
+</ul></li>
+<li><strong>To summarize the basics:</strong>
+<ul>
+<li><strong><em>Drop Constants:</em></strong> <code>O(2n)</code> <strong>=&gt;</strong> <code>O(N)</code></li>
+<li><strong><em>Variables have meaning:</em></strong> Define them, don’t just drop <em>n</em> everywhere</li>
+<li>Big O can be used for space complexity, time complexity, and more!</li>
+<li>Big O is foundational, it’s how we assess our optimizations</li>
+</ul></li>
+<li><strong>More tips:</strong>
+<ul>
+<li>Inlcude all the things!</li>
+<li>Use logical variable names, don’t use n everywhere, be specific!
+<ul>
+<li><em>a</em> is the size of an array, <em>t</em> is the number of teachers, etc.</li>
+</ul></li>
+<li>Define the variables you need
+<ul>
+<li><code>O(a*p)</code> is the complexity for finding the largest prime within an array
+<ul>
+<li><em>a</em> is the size of the array and <em>p</em> is the size of the largest prime number</li>
+</ul></li>
+</ul></li>
+<li><strong><em>Be thoughtful about when you add and when you multiply</em></strong>
+<ul>
+<li>Add runtimes together when one step is done, then another step</li>
+</ul></li>
+<li><strong><em>Drop constants</em></strong></li>
+<li>Use Big O for space complexity, remember the call stack
+<ul>
+<li>Often, space complexity is less obvious and depends on what’s called in a function, such as recursive functions</li>
+<li>It isn’t just what you see, but how an operation is handled under the hood</li>
+</ul></li>
+<li><strong><em>Drop nondominant items</em></strong>
+<ul>
+<li>If you have space or time complexity like the following <code>O(a + a^2)</code> you would drop <code>a</code>
+<ul>
+<li>In this case, <em>a</em> is similar to a constant because it’s the same variable, but not the dominant complexity driver</li>
+<li>Remember, Big O is also an <em>upper bound</em></li>
+</ul></li>
+<li>In the event it’s mixed, such as <code>O(d + a^2)</code> you would keep both, because you can’t compare the different variables</li>
+<li>Similarly, drop the smaller exponent, if there are multiple <code>O(a^5 + a^2)</code> <strong>=&gt;</strong> <code>O(a^5)</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>Remember:</strong> Big O doesn’t mean a faster runtime, or smaller memory usage, it just means that at <strong><em>scale</em></strong></p>
+</section>
+<section id="l3.-problem-solving" class="level2">
+<h2 class="anchored" data-anchor-id="l3.-problem-solving">L3. Problem Solving</h2>
+<p><strong>Seven steps:</strong></p>
+<ol type="1">
+<li>Listen for clues.</li>
+<li>Draw an example: large and generic.</li>
+<li>Brute force.</li>
+<li>Optimize.</li>
+<li>Walk through algo.
+<ol type="1">
+<li>Write pseudocode, know what you are going to do before implementing code</li>
+</ol></li>
+<li>Code.</li>
+<li>Verification.</li>
+</ol>
+<section id="optimizing-with-bud" class="level3">
+<h3 class="anchored" data-anchor-id="optimizing-with-bud">Optimizing with BUD</h3>
+<ul>
+<li><strong>Bottlenecks</strong>
+<ul>
+<li>The example to think about here is finding <code>the number of common elements between two arrays, *a* and *b*</code>.</li>
+<li>The bottleneck is the <em>b</em> element because the brute force solution requires <em>b</em> loops through an array of length <em>a</em></li>
+</ul></li>
+<li><strong>Unnecessary work</strong>
+<ul>
+<li>The example to think about here is finding <code>all solutions to a^3 * b^3 = c^3 * d^3</code></li>
+<li>The unnecessary work here is iterating through all values of <em>d</em> last, because there’s only one possible value</li>
+<li>Sometimes getting rid of unnecessary work doesn’t make a big difference alone, but does in conjunction with something else</li>
+</ul></li>
+<li><strong>Duplicate work</strong>
+<ul>
+<li>Continuing with the same example</li>
+<li>Find a way to avoid doing the same work over and over, in this case the <em>a</em> and <em>b</em> pairs are the same as <em>c</em> and <em>d</em>
+<ul>
+<li>Instead of comparing each value over and over, generate a list of pairs and then look for matches within the list</li>
+<li>Have a target value and then generate a list of all pairs adding to that value</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="optimizing-with-space-and-time" class="level3">
+<h3 class="anchored" data-anchor-id="optimizing-with-space-and-time">Optimizing with Space and Time</h3>
+<ul>
+<li>There are trade offs, we can sacrifice space for time and vice versa
+<ul>
+<li>Hash tables, a data structure that stores data as key-value pairs, where a “hash function” is used to quickly calculate an index (or “hash”) from the key
+<ul>
+<li>Efficiently maps keys to their values within an array like structure</li>
+<li>Searching is much faster compared to a linear array</li>
+</ul></li>
+<li>Pre-computation, precomputing and storing some values takes space, but can reduce time</li>
+<li>Tries, attempting something early that saves you more work down the road</li>
+</ul></li>
+<li>Consider the <strong>best conceivable runtime</strong>
+<ul>
+<li>It’s about the problem, not a specific algorithm</li>
+<li>Not the best/worst case runtime</li>
+<li>It’s not necessarilly achievable, but it is <strong>not</strong> beatable</li>
+</ul></li>
+</ul>
+</section>
+<section id="optimizing-with-diy" class="level3">
+<h3 class="anchored" data-anchor-id="optimizing-with-diy">Optimizing with DIY</h3>
+<p>Stands for <strong>Do It Yourself</strong></p>
+<ul>
+<li>For this example, given two strings <em>S</em> and <em>B</em> find all permutations of <em>S</em> within <em>B</em></li>
+<li>Come up with a good, generic example, think about the <strong>seven steps</strong>
+<ul>
+<li>You could check the first <em>S</em> characters, then the next <em>S</em> characters, and so on
+<ul>
+<li>Basic algorithm</li>
+</ul></li>
+</ul></li>
+<li>In your head, you could get lost or stuck, but think about how to intuitively/manually solve it, then map that to code or an algo</li>
+<li>Pay attention to shortcuts you take, for example, if the first character in <em>S</em> is not the next in <em>B</em>, then skip it</li>
+</ul>
+</section>
+</section>
+<section id="l4.-coding" class="level2">
+<h2 class="anchored" data-anchor-id="l4.-coding">L4. Coding</h2>
+<section id="expectations" class="level3">
+<h3 class="anchored" data-anchor-id="expectations">Expectations</h3>
+<ul>
+<li>Perfect candidates are awesome, but rare</li>
+<li>Interviewer just wants to make sure you’re a good coder</li>
+<li>Talk out loud, share your thought process</li>
+<li>Don’t have to be perfect, just show progress and work towards a good solution
+<ul>
+<li>Work towards your code being as great as possible</li>
+</ul></li>
+<li>Interviewer is looking at your code based on the signal
+<ul>
+<li>Some syntax errors can be very worrisome, think confusing <code>=</code> and <code>==</code></li>
+<li>Some syntax errors, like using <code>avg()</code> instead of <code>mean()</code> or you forget a specific method are not the end of the world</li>
+</ul></li>
+<li><strong>Good code:</strong>
+<ul>
+<li>Readable</li>
+<li>Correct</li>
+<li>Performance</li>
+<li>Maintainable</li>
+</ul></li>
+<li>Wait until you’re ready to code
+<ul>
+<li>If you get confused, don’t push through, go back to your example/pseudocode</li>
+<li>Also, make sure your interviewer is ready, “Ok, code when you’re ready”</li>
+<li>Only code when your interviewer explicitly wants to see code</li>
+</ul></li>
+</ul>
+</section>
+<section id="tips-and-tricks" class="level3">
+<h3 class="anchored" data-anchor-id="tips-and-tricks">Tips and Tricks</h3>
+<ul>
+<li>Don’t just dive in, make sure you have your details/algorithm settled <strong>and</strong> that your interviewer is ready to see you code that piece</li>
+<li>Demonstrate that you’re a great coder
+<ul>
+<li>Correctness</li>
+<li>Readability</li>
+<li>Maintainability</li>
+<li>Performance</li>
+</ul></li>
+<li>Use your languages features
+<ul>
+<li>If there is any ambiguity then ask your interviewer, generally speaking this is okay</li>
+<li>You can often assume the language has the feature if it’s reasonable to include</li>
+</ul></li>
+<li>Use good style
+<ul>
+<li>Have consistent spacing</li>
+<li>Follow best practices for the language</li>
+</ul></li>
+<li>Think about error cases and boundary checks
+<ul>
+<li>If it’s too time consuming to include them, then at least discuss them with the interviewer</li>
+</ul></li>
+</ul>
+</section>
+<section id="structured-code" class="level3">
+<h3 class="anchored" data-anchor-id="structured-code">Structured Code</h3>
+<ul>
+<li>Structuring code makes it more readable, maintainable, etc. <em>and</em> makes your life easier</li>
+<li>Modularize code top down, filling in the next most interesting piece of code
+<ul>
+<li>Always harder for you and worse in general to write it all as one giant function</li>
+<li>Don’t worry about stuff that doesn’t show a lot of good signal
+<ul>
+<li>You’re writing some algorithm that needs the biggest and smallest element of an array</li>
+<li>You don’t need to write a custom MAX or MIN function, just pretend you have that already</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="l5.-verification" class="level2">
+<h2 class="anchored" data-anchor-id="l5.-verification">L5. Verification</h2>
+<section id="tips-and-tricks-1" class="level3">
+<h3 class="anchored" data-anchor-id="tips-and-tricks-1">Tips and Tricks</h3>
+<ul>
+<li>In an interview you won’t hit the run button and see if it works</li>
+<li>You’ll use your problem solving skills to walk through your code
+<ul>
+<li>Remember the seven steps</li>
+</ul></li>
+<li>Instead of using your example, large and generic, use a smaller, more specific one</li>
+<li>An efficient verification process
+<ol type="1">
+<li>Conceptual walkthrough</li>
+<li>Look at hotspots (place in code likely to cause errors)</li>
+</ol>
+<ul>
+<li>Math</li>
+<li>Moving indices</li>
+<li>Parameters when calling recursion</li>
+<li>Base cases</li>
+</ul>
+<ol start="3" type="1">
+<li>Test cases</li>
+</ol>
+<ul>
+<li>Start small, a 2 or 3 element array instead of a 6 element array
+<ul>
+<li>Most bugs appear on a small example too</li>
+</ul></li>
+<li>Edge cases
+<ul>
+<li>Nulls</li>
+<li>Empties</li>
+<li>All punctuation, all lowercase, etc.</li>
+<li>Boring and interesting</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="common-mistakes" class="level3">
+<h3 class="anchored" data-anchor-id="common-mistakes">Common Mistakes</h3>
+<ul>
+<li>Verifying the algorithm, not the code
+<ul>
+<li>Make sure to run through each line of code</li>
+</ul></li>
+<li>Don’t just blindly test, without thinking about what’s happening
+<ul>
+<li>Are things happening as you expect them to</li>
+</ul></li>
+<li>Quick, sloppy fixes
+<ul>
+<li>For example, you’re just off by 1 and you decided to just add 1 to your result</li>
+<li>Don’t panic, think about the <em>right</em> fix</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="l6.-communication" class="level2">
+<h2 class="anchored" data-anchor-id="l6.-communication">L6. Communication</h2>
+<ul>
+<li>Drive through the problem, fight to get a great answer</li>
+<li>Show your thought process, this is the important part
+<ul>
+<li>How you are thinking about the problem <em>and</em> the solution</li>
+</ul></li>
+<li>Ask questions, don’t get 5 minutes into a problem and realize you’re solving the wrong issue
+<ul>
+<li>Ask questions about data structure, format, etc.</li>
+</ul></li>
+<li>Propose an initial solution, but also think about its issues
+<ul>
+<li>State the brute force, state the space/time complexity</li>
+</ul></li>
+<li>Talk while coding if possible</li>
+<li>Use examples to talk through and explain your thought process, but don’t use code as an example</li>
+<li>Be open about mistakes, it’s okay to stumble along the way</li>
+<li>Admit if you’ve heard the question before</li>
+<li>Keep trying, giving up is worse, especially when the question is hard</li>
+<li>Listen to your interviewer
+<ul>
+<li>If they chip in with suggestions, they are trying to point something out to you</li>
+<li>You want to capture their guidance, it demonstrates collaboration skills</li>
+<li>If you hear them make the same point <em>more than once</em>, that should be a redflag that you missed something</li>
+</ul></li>
+<li>Follow your interviewer’s path
+<ul>
+<li>If they are giving you a specific example, go with that</li>
+</ul></li>
+<li>It’s okay the first thing you come up with isn’t perfectly optimal
+<ul>
+<li>Improve performance</li>
+<li>Improve style</li>
+<li>Improve correctness</li>
+<li>Look for improvements!</li>
+</ul></li>
+</ul>
+</section>
+<section id="l7.-sql" class="level2">
+<h2 class="anchored" data-anchor-id="l7.-sql">L7. SQL</h2>
+<section id="filter" class="level3">
+<h3 class="anchored" data-anchor-id="filter">Filter</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="co">-- What percent of all products in the grocery chain's catalog</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="co">-- are both low fat and recyclable?</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">CAST</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> is_low_fat_flg <span class="op">+</span> is_recyclable_flg <span class="op">=</span> <span class="dv">2</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="kw">AS</span> <span class="dt">float</span>)<span class="op">*</span><span class="dv">100</span> <span class="op">/</span> <span class="fu">COUNT</span>(product_id) <span class="kw">AS</span> pct_low_fat_and_recyclable</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> products</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="rank" class="level3">
+<h3 class="anchored" data-anchor-id="rank">Rank</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> <span class="co">-- What are the top five (ranked in decreasing order)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> <span class="co">-- single-channel media types that correspond to the most money</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> <span class="co">-- the grocery chain had spent on its promotional campaigns?</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> media_type <span class="kw">AS</span> single_channel_media_type, <span class="fu">CAST</span>(<span class="fu">SUM</span>(<span class="kw">cost</span>) <span class="kw">AS</span> <span class="dt">decimal</span>) <span class="kw">AS</span> total_cost</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> promotions</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> media_type <span class="kw">NOT</span> <span class="kw">LIKE</span> <span class="st">'%,%'</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="ot">"single_channel_media_type"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="ot">"total_cost"</span> <span class="kw">DESC</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="case" class="level3">
+<h3 class="anchored" data-anchor-id="case">Case</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a> <span class="co">-- Of sales that had a valid promotion, the VP of marketing</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a> <span class="co">-- wants to know what % of transactions occur on either</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> <span class="co">-- the very first day or the very last day of a promotion campaign.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">CAST</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> p.start_date <span class="op">=</span> transaction_date <span class="kw">OR</span> p.end_date <span class="op">=</span> transaction_date <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="kw">AS</span> <span class="dt">float</span>)<span class="op">*</span><span class="dv">100</span> <span class="op">/</span> <span class="fu">COUNT</span>(s.transaction_date) <span class="kw">AS</span> pct_of_transactions_on_first_or_last_day_of_valid_promotion</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> sales s <span class="kw">JOIN</span> promotions p</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> s.promotion_id <span class="op">=</span> p.promotion_id</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="join-1" class="level3">
+<h3 class="anchored" data-anchor-id="join-1">Join 1</h3>
+</section>
+<section id="join-2" class="level3">
+<h3 class="anchored" data-anchor-id="join-2">Join 2</h3>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

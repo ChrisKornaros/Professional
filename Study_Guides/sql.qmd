@@ -1,3 +1,9 @@
+---
+format:
+    html:
+        toc: true
+---
+
 # Study Guide for SQL Technical Interviews
 ## LeetCode Problems
 ### SQL 50 Study Plan
