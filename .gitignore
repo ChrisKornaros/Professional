@@ -1,2 +1,6 @@
 # Local Files 
 .DS_Store/
+
+# Unredacted resume PDFs — never publish (contact info); source lives in the private vault
+Chris_Kornaros_Resume.pdf
+Chris_Kornaros_Resume_new.pdf
